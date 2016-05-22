@@ -1,24 +1,26 @@
 package MineMineNoMi3.Lists;
 
-import MineMineNoMi3.Helper;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import WyPI.*;
 
 public class ListAchievements 
 {
 	public static AchievementPage MMnMAchievementPage;
-	public static Achievement firstDevilFruit;
+	public static Achievement firstDevilFruit, becomePirate, becomeMarine, becomeBountyHunter, becomeRevolutionary;
 	
 	public static void init()
 	{
-		firstDevilFruit = new Achievement("achievement.firstDevilFruit", "firstDevilFruit", 0, 0, ListDevilFruits.MeraMeraNoMi, (Achievement)null);
-		LanguageRegistry.instance().addStringLocalization("achievement.firstDevilFruit", "First Devil Fruit");
-		LanguageRegistry.instance().addStringLocalization("achievement.firstDevilFruit.desc", "Easter Egg !!");	
+		//WyPI.Registry.addACHIEVEMENT(firstDevilFruit, 0, 0, "First Devil Fruit", "Eat your first devil fruit.", ListDevilFruits.MeraMeraNoMi, null);
+		becomePirate = new Achievement("achievement.becomePirate", "becomePirate", 4, -6, ListDevilFruits.MeraMeraNoMi, null);
+		WyPI.Registry.addNAME("achievement.becomePirate", "Test1");
+		WyPI.Registry.addNAME("achievement.becomePirate.desc", "test11");
 		
-		MMnMAchievementPage = new AchievementPage("Mine Mine no Mi", new Achievement[] { firstDevilFruit });
+		becomeMarine = new Achievement("achievement.becomeMarine", "becomeMarine", 3, -6, ListDevilFruits.MeraMeraNoMi, null);
+		WyPI.Registry.addNAME("achievement.becomeMarine", "Test2");
+		WyPI.Registry.addNAME("achievement.becomeMarine.desc", "test22");
+		
+		MMnMAchievementPage = new AchievementPage("Mine Mine no Mi", new Achievement[] { becomePirate, becomeMarine} );
 		AchievementPage.registerAchievementPage(MMnMAchievementPage);
 	}
 	

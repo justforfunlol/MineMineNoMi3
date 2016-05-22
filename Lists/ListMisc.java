@@ -3,81 +3,72 @@ package MineMineNoMi3.Lists;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import MineMineNoMi3.Config;
-import MineMineNoMi3.MainBlock;
-import MineMineNoMi3.MainItem;
+import MineMineNoMi3.EnumToolMats;
+import MineMineNoMi3.Values;
 import MineMineNoMi3.Blocks.BlockDenDenMushi;
+import MineMineNoMi3.Blocks.BlockDial;
 import MineMineNoMi3.Blocks.BlockEnchantmentTable;
 import MineMineNoMi3.Blocks.BlockOpe;
 import MineMineNoMi3.Blocks.BlockOpeMid;
-import MineMineNoMi3.Blocks.TileEntities.TileEntityOpe;
+import MineMineNoMi3.Blocks.TileEntityOpe;
 import MineMineNoMi3.Items.CharacterCreator;
 import MineMineNoMi3.Items.Dial;
-import MineMineNoMi3.Items.Haki;
+import MineMineNoMi3.Items.Heart;
 import MineMineNoMi3.Items.ItemCoreArmor;
-import MineMineNoMi3.Items.ItemCoreSword;
-import MineMineNoMi3.Items.Rokushiki;
-import MineMineNoMi3.Utils.EnumToolMats;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import WyPI.WyPI;
 
 public class ListMisc 
 {	
 	public static Block Ope = new BlockOpe();
 	public static Block OpeMid = new BlockOpeMid();
-	public static Block KairosekiBlock = new MainBlock();
-	public static Block KairosekiOre = new MainBlock()
+	public static Block KairosekiBlock = new Block(Material.ROCK);
+	public static Block KairosekiOre = new Block(Material.ROCK)
 	{
-		public Item getItemDropped(int par1, Random par2Random, int par3)
-		{return ListMisc.Kairoseki;}
+		public int quantityDropped(Random random) {return 2 + random.nextInt(3);}
+		public Item getItemDropped(IBlockState state, Random rand, int fortune) {return Kairoseki;}
 	};
 	public static Block EnchantmentTable = new BlockEnchantmentTable();
 	public static Block DenDenMushi = new BlockDenDenMushi();
+	public static Block SkyBlock = new Block(Material.CLOTH);
+	public static Block Dial = new BlockDial();
 	
 	public static Item CharacterCreator = new CharacterCreator();
-	public static Item Kairoseki = new MainItem(); 
-	public static Item DenseKairoseki = new MainItem();
-	public static Item BlackMetal = new MainItem();
-	public static Item Shadow = new MainItem();
+	public static Item Kairoseki = new Item(); 
+	public static Item DenseKairoseki = new Item();
+	public static Item BlackMetal = new Item();
+	public static Item Shadow = new Item();
+	public static Item Heart = new Heart().setMaxStackSize(1);
 
-	public static Item DialDefault = new MainItem();
+	public static Item DialDefault = new Item();
 	public static Item DialFire = new Dial("fire", 2);
-	public static Item DialEisen = new MainItem();
-	public static Item DialImpact = new Dial("impact", 2);
+	public static Item DialEisen = new Item();
+	public static Item DialImpact = new Dial("impact", 1); 
 	public static Item DialMilky = new Dial("milky", 1);
 	public static Item DialAxe = new Dial("axe", 4);
 	public static Item DialBreath = new Dial("breath", 2);
 	public static Item DialReject = new Dial("reject", 1);
 	public static Item DialFlash = new Dial("flash", 3);
+
+	public static Item Bullets = new Item(); 
+	public static Item KairosekiBullets = new Item();
+	public static Item KujaArrow = new Item();
 	
-	public static Item Soru = new Rokushiki("soru");
-	public static Item Tekkai = new Rokushiki("tekkai");
- 	public static Item Geppo = new Rokushiki("geppo");
- 	public static Item Rankyaku = new Rokushiki("rankyaku");
- 	public static Item Shigan = new Rokushiki("shigan");
- 	public static Item Kamie = new Rokushiki("kamie");
+	public static Item MarineHelm = new ItemCoreArmor(EnumToolMats.marine_armor, EntityEquipmentSlot.HEAD);
+	public static Item MarineChestplate = new ItemCoreArmor(EnumToolMats.marine_armor, EntityEquipmentSlot.CHEST);
+	public static Item MarineLeggings = new ItemCoreArmor(EnumToolMats.marine_armor, EntityEquipmentSlot.LEGS);
+	public static Item MarineBoots = new ItemCoreArmor(EnumToolMats.marine_armor, EntityEquipmentSlot.FEET);
 	
- 	public static Item BusoshokuHaki = new Haki("busoshoku");
- 	public static Item KenbunshokuHaki = new Haki("kenbunshoku");
- 	public static Item HaoshokuHaki = new Haki("haoshoku");
- 	
-	public static Item Bullets = new MainItem(); 
-	public static Item KairosekiBullets = new MainItem();
-	public static Item KujaArrow = new MainItem();
+	public static Item PirateChestplate = new ItemCoreArmor(EnumToolMats.pirate_armor, EntityEquipmentSlot.CHEST);
+	public static Item PirateLeggings = new ItemCoreArmor(EnumToolMats.pirate_armor, EntityEquipmentSlot.LEGS);
+	public static Item PirateBoots = new ItemCoreArmor(EnumToolMats.pirate_armor, EntityEquipmentSlot.FEET);
 	
-	public static Item MarineHelm = new ItemCoreArmor(EnumToolMats.marine_armor, 0);
-	public static Item MarineChestplate = new ItemCoreArmor(EnumToolMats.marine_armor, 1);
-	public static Item MarineLeggings = new ItemCoreArmor(EnumToolMats.marine_armor, 2);
-	public static Item MarineBoots = new ItemCoreArmor(EnumToolMats.marine_armor, 3);
-	
-	public static Item PirateChestplate = new ItemCoreArmor(EnumToolMats.pirate_armor, 1);
-	public static Item PirateLeggings = new ItemCoreArmor(EnumToolMats.pirate_armor, 2);
-	public static Item PirateBoots = new ItemCoreArmor(EnumToolMats.pirate_armor, 3);
-	
-	public static Item MarineSword = new ItemCoreSword(5);
+	/*public static Item MarineSword = new ItemCoreSword(5);
 	public static Item PirateCutlass = new ItemCoreSword(5);
 	public static Item basicSword = new ItemCoreSword(7);
 	public static Item Pipe = new ItemCoreSword(8);
@@ -85,84 +76,90 @@ public class ListMisc
 	public static Item Kikoku = new ItemCoreSword(9);
 	public static Item Kiribachi = new ItemCoreSword(9);
 	public static Item CrocodilesHook = new ItemCoreSword(9);			
-	public static Item Yoru = new ItemCoreSword(14);
+	public static Item Yoru = new ItemCoreSword(14);*/
 	
 	public static void init()
 	{
-		addITEM(Kairoseki		, "Kairoseki"			, ListCreativeTabs.tab4);
-		addITEM(DenseKairoseki	, "Dense Kairoseki"		, ListCreativeTabs.tab4);
-		addITEM(BlackMetal		, "Black Metal"			, ListCreativeTabs.tab4);
-		addITEM(Shadow			, "Shadow"				, ListCreativeTabs.tab4);
+		addITEM(Kairoseki		, "Kairoseki"			, ListCreativeTabs.tabMisc);
+		addITEM(DenseKairoseki	, "Dense Kairoseki"		, ListCreativeTabs.tabMisc);
+		addITEM(BlackMetal		, "Black Metal"			, ListCreativeTabs.tabMisc);
+		addITEM(Shadow			, "Shadow"				, ListCreativeTabs.tabMisc);
+		addITEM(Heart			, "Heart"				, null);
 		
- 		addITEM(KujaArrow		, "Kuja Arrow"			, ListCreativeTabs.tab2);
- 		addITEM(Bullets			, "Bullets"				, ListCreativeTabs.tab2);
- 		addITEM(KairosekiBullets, "Kairoseki Bullets"	, ListCreativeTabs.tab2);
+ 		addITEM(KujaArrow		, "Kuja Arrow"			, ListCreativeTabs.tabWeapons);
+ 		addITEM(Bullets			, "Bullets"				, ListCreativeTabs.tabWeapons);
+ 		addITEM(KairosekiBullets, "Kairoseki Bullets"	, ListCreativeTabs.tabWeapons);
  		
- 		addITEM(MarineHelm		, "Marine Helmet"		, ListCreativeTabs.tab4);
- 		addITEM(MarineChestplate, "Marine Chestplate"	, ListCreativeTabs.tab4);
- 		addITEM(MarineLeggings	, "Marine Leggings"		, ListCreativeTabs.tab4);
- 		addITEM(MarineBoots		, "Marine Boots"		, ListCreativeTabs.tab4);
+ 		addITEM(MarineHelm		, "Marine Helmet"		, ListCreativeTabs.tabMisc);
+ 		addITEM(MarineChestplate, "Marine Chestplate"	, ListCreativeTabs.tabMisc);
+ 		addITEM(MarineLeggings	, "Marine Leggings"		, ListCreativeTabs.tabMisc);
+ 		addITEM(MarineBoots		, "Marine Boots"		, ListCreativeTabs.tabMisc);
  	
- 		addITEM(PirateChestplate, "Pirate Chestplate"	, ListCreativeTabs.tab4);
- 		addITEM(PirateLeggings	, "Pirate Leggings"		, ListCreativeTabs.tab4);
- 		addITEM(PirateBoots		, "Pirate Boots"		, ListCreativeTabs.tab4);
+ 		addITEM(PirateChestplate, "Pirate Chestplate"	, ListCreativeTabs.tabMisc);
+ 		addITEM(PirateLeggings	, "Pirate Leggings"		, ListCreativeTabs.tabMisc);
+ 		addITEM(PirateBoots		, "Pirate Boots"		, ListCreativeTabs.tabMisc);
  		
- 		addITEM(basicSword		, "Basic Sword"			, ListCreativeTabs.tab2); 	
- 		addITEM(MarineSword		, "Marine Sword"		, ListCreativeTabs.tab2); 	
- 		addITEM(PirateCutlass	, "Pirate Cutlass"		, ListCreativeTabs.tab2); 	
- 		addITEM(Pipe			, "Pipe"				, ListCreativeTabs.tab2); 	
- 		addITEM(Scissors		, "Scissors"			, ListCreativeTabs.tab2); 	
- 		addITEM(Kikoku			, "Kikoku"				, ListCreativeTabs.tab2); 	
- 		addITEM(Yoru			, "Yoru"				, ListCreativeTabs.tab2); 
- 		addITEM(CrocodilesHook	, "Crocodile's Hook"	, ListCreativeTabs.tab2); 		
+ 		/*addITEM(basicSword		, "Basic Sword"			, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(MarineSword		, "Marine Sword"		, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(PirateCutlass	, "Pirate Cutlass"		, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(Pipe			, "Pipe"				, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(Scissors		, "Scissors"			, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(Kikoku			, "Kikoku"				, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(Yoru			, "Yoru"				, ListCreativeTabs.tabWeapons); 
+ 		addITEM(CrocodilesHook	, "Crocodile's Hook"	, ListCreativeTabs.tabWeapons); */		
  		
- 		addITEM(CharacterCreator, "Character Creator"	, ListCreativeTabs.tab4);
+ 		addITEM(CharacterCreator, "Character Creator"	, ListCreativeTabs.tabMisc);  
  		
- 		addITEM(Soru			, "Soru"				, ListCreativeTabs.tab3); 	
-		addITEM(Tekkai			, "Tekkai"				, ListCreativeTabs.tab3); 
- 		addITEM(Geppo			, "Geppo"				, ListCreativeTabs.tab3); 	
-		addITEM(Rankyaku		, "Rankyaku"			, ListCreativeTabs.tab3);
- 		addITEM(Shigan			, "Shigan"				, ListCreativeTabs.tab3); 	
-		addITEM(Kamie			, "Kamie"				, ListCreativeTabs.tab3);	
+ 		addITEM(ListAbilities.SORU		, "Soru"				, ListCreativeTabs.tabHaki); 	
+		addITEM(ListAbilities.TEKKAI	, "Tekkai"				, ListCreativeTabs.tabHaki); 
+ 		addITEM(ListAbilities.GEPPO		, "Geppo"				, ListCreativeTabs.tabHaki); 	
+		addITEM(ListAbilities.RANKYAKU	, "Rankyaku"			, ListCreativeTabs.tabHaki);
+ 		addITEM(ListAbilities.SHIGAN	, "Shigan"				, ListCreativeTabs.tabHaki); 	
+		addITEM(ListAbilities.KAMIE		, "Kamie"				, ListCreativeTabs.tabHaki);	
 		
-		addITEM(BusoshokuHaki	, "Busoshoku Haki"		, ListCreativeTabs.tab3);
-		addITEM(KenbunshokuHaki	, "Kenbunshoku Haki"	, ListCreativeTabs.tab3);
-		addITEM(HaoshokuHaki	, "Haoshoku Haki"		, ListCreativeTabs.tab3);
+ 		addITEM(ListAbilities.UCHIMIZU				, "Uchimizu"				, ListCreativeTabs.tabHaki); 	
+		addITEM(ListAbilities.YARINAMI				, "Yarinami"				, ListCreativeTabs.tabHaki); 
+ 		addITEM(ListAbilities.SAMEHADASHOTEI		, "Samehada Shotei"			, ListCreativeTabs.tabHaki); 	
+		addITEM(ListAbilities.SOSHARK				, "Soshark"					, ListCreativeTabs.tabHaki);
+ 		addITEM(ListAbilities.MURASAME				, "Murasame"				, ListCreativeTabs.tabHaki); 	
+		addITEM(ListAbilities.KARAKUSAGAWARASEIKEN	, "Karakusagawara Seiken"	, ListCreativeTabs.tabHaki);
+
+		/*addITEM(BusoshokuHaki	, "Busoshoku Haki"		, ListCreativeTabs.tabHaki);
+		addITEM(KenbunshokuHaki	, "Kenbunshoku Haki"	, ListCreativeTabs.tabHaki);
+		addITEM(HaoshokuHaki	, "Haoshoku Haki"		, ListCreativeTabs.tabHaki);*/
 		
- 		addITEM(DialDefault		, "Default Dial"		, ListCreativeTabs.tab4);
- 		addITEM(DialFire		, "Fire Dial"			, ListCreativeTabs.tab4);
- 		addITEM(DialImpact		, "Impact Dial"			, ListCreativeTabs.tab4);
- 		addITEM(DialEisen		, "Eisen Dial"			, ListCreativeTabs.tab4);
- 		addITEM(DialMilky		, "Milky Dial"			, ListCreativeTabs.tab4);
- 		addITEM(DialAxe			, "Axe Dial"			, ListCreativeTabs.tab4);
- 		addITEM(DialBreath		, "Breath Dial"			, ListCreativeTabs.tab4);
- 		addITEM(DialReject		, "Reject Dial"			, ListCreativeTabs.tab4);		
- 		addITEM(DialFlash		, "Flash Dial"			, ListCreativeTabs.tab4);			
- 		
- 		addBLOCK(Ope				, "Ope"					, Float.POSITIVE_INFINITY		, null						, null);
- 		addBLOCK(OpeMid				, "Ope Mid"				, Float.POSITIVE_INFINITY		, TileEntityOpe.class		, null);
- 		addBLOCK(KairosekiOre		, "Kairoseki Ore"		, 3.5F							, null						, ListCreativeTabs.tab4);
- 		addBLOCK(KairosekiBlock		, "Kairoseki Block"		, 3.5F							, null						, ListCreativeTabs.tab4);
- 		addBLOCK(EnchantmentTable	, "Kairoseki Table"		, 3.5F							, null						, ListCreativeTabs.tab4);
- 		addBLOCK(DenDenMushi		, "Den Den Mushi"		, 3.5F							, null						, ListCreativeTabs.tab4);
+ 		addITEM(DialDefault		, "Default Dial"		, ListCreativeTabs.tabMisc);
+ 		addITEM(DialFire		, "Fire Dial"			, ListCreativeTabs.tabMisc);
+ 		addITEM(DialImpact		, "Impact Dial"			, ListCreativeTabs.tabMisc);
+ 		addITEM(DialEisen		, "Eisen Dial"			, ListCreativeTabs.tabMisc);
+ 		addITEM(DialMilky		, "Milky Dial"			, ListCreativeTabs.tabMisc);
+ 		addITEM(DialAxe			, "Axe Dial"			, ListCreativeTabs.tabMisc);
+ 		addITEM(DialBreath		, "Breath Dial"			, ListCreativeTabs.tabMisc);
+ 		addITEM(DialReject		, "Reject Dial"			, ListCreativeTabs.tabMisc);		
+ 		addITEM(DialFlash		, "Flash Dial"			, ListCreativeTabs.tabMisc);	
+ 		 
+ 		addBLOCK(Ope				, "Ope"					, Float.POSITIVE_INFINITY		, null						, ListCreativeTabs.tabMisc);
+ 		addBLOCK(OpeMid				, "Ope Mid"				, Float.POSITIVE_INFINITY		, TileEntityOpe.class		, ListCreativeTabs.tabMisc);
+ 		addBLOCK(KairosekiOre		, "Kairoseki Ore"		, 3.5F							, null						, ListCreativeTabs.tabMisc);
+ 		addBLOCK(KairosekiBlock		, "Kairoseki Block"		, 3.5F							, null						, ListCreativeTabs.tabMisc);
+ 		addBLOCK(EnchantmentTable	, "Kairoseki Table"		, 3.5F							, null						, ListCreativeTabs.tabMisc);
+ 		addBLOCK(DenDenMushi		, "Den Den Mushi"		, 3.5F							, null						, ListCreativeTabs.tabMisc);
+ 		addBLOCK(SkyBlock			, "Sky Block"			, 1.5F							, null						, null);
+ 		addBLOCK(Dial				, "Dial"				, 1.5F							, null						, ListCreativeTabs.tabMisc);
+	
 	}
 	
 	
 	private static void addITEM(Item item,String localizedName, CreativeTabs tab)
 	{	
-		String truename = localizedName.replaceAll("\\s+","").replaceAll("'", "").replaceAll("-", "").toLowerCase();
-		item.setUnlocalizedName(truename).setTextureName("mineminenomi:"+truename).setCreativeTab(tab);	
-		GameRegistry.registerItem(item, truename);
-		LanguageRegistry.addName(item, localizedName);
+		WyPI.Registry.addITEM(item, localizedName, tab);
+		Values.miscItems.add(item);
 	}
 	
-	private static void addBLOCK(Block item, String localizedName, float hard, Class<? extends TileEntity> tile, CreativeTabs tab)
+	private static void addBLOCK(Block block, String localizedName, float hard, Class<? extends TileEntity> tile, CreativeTabs tab)
 	{	
-		String truename = localizedName.replaceAll("\\s+","").replaceAll("'", "").replaceAll("-", "").toLowerCase();
-		item.setBlockName(truename).setBlockTextureName("mineminenomi:"+truename).setHardness(hard).setCreativeTab(tab);
-		GameRegistry.registerBlock(item, truename);
-		if(tile != null)
-			GameRegistry.registerTileEntity(tile, localizedName);
-		LanguageRegistry.addName(item, localizedName);
+		WyPI.Registry.addBLOCK(block, localizedName, hard, tab);
+		WyPI.Registry.addTILE(block, tile, localizedName);
+		Values.miscBlocks.add(block);
 	}
 }

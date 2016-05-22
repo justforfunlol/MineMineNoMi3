@@ -5,23 +5,22 @@ import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class CommonProxy 
 {
 	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap();
 	 
 	public static void storeEntityData(String name, NBTTagCompound compound)
-	{
-		extendedEntityData.put(name, compound);
-	}
+	{extendedEntityData.put(name, compound);}
 	
 	public static NBTTagCompound getEntityData(String name)
-	{
-		return extendedEntityData.remove(name);
-	}
+	{return extendedEntityData.remove(name);}
 	
-	public void tick(){}
-	public void render(){}
+	public EntityPlayer getPlayerEntity(MessageContext ctx) 
+	{return ctx.getServerHandler().playerEntity;}
+	
+	public void tick() {}
+	public void render() {}
 	
 }

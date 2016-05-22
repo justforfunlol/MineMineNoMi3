@@ -1,21 +1,20 @@
 package MineMineNoMi3.GUI;
 
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
-import MineMineNoMi3.Helper;
-import MineMineNoMi3.MainExtendedPlayer;
+import MineMineNoMi3.Values;
+import MineMineNoMi3.Capability.IPlayerCapability;
 import MineMineNoMi3.Items.AkumaNoMi;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import WyPI.WyPI;
 
 @SideOnly(Side.CLIENT)
 public class GUIAbilities extends GuiScreen
@@ -39,7 +38,7 @@ public class GUIAbilities extends GuiScreen
 		drawDefaultBackground();
     
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		MainExtendedPlayer props = MainExtendedPlayer.get(this.player);
+		IPlayerCapability props = player.getCapability(Values.CAPABILITIES_PLAYER, null);
     
 		Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
 		
@@ -63,7 +62,7 @@ public class GUIAbilities extends GuiScreen
 		for(int i = 0; i < this.akumaNoMi.abilities.length; i++)
 		{
 			this.buttonList.add(new GuiButton(i, posX + 70, posY + 60 + (25 * i), 100, 20, this.akumaNoMi.abilities[i].getItemStackDisplayName(new ItemStack(this.akumaNoMi.abilities[i]))));	
-			((GuiButton)this.buttonList.get(i)).packedFGColour = Helper.hexToInt("FF0000");
+			((GuiButton)this.buttonList.get(i)).packedFGColour = WyPI.Utils.hexToRGB("FF0000").getRGB();
 		}
 		
 		this.buttonList.add(new GuiButton(100, posX + 200, posY + 60, 40, 20, "Reset"));
@@ -72,7 +71,7 @@ public class GUIAbilities extends GuiScreen
 	
 	public void actionPerformed(GuiButton button)
 	{
-		MainExtendedPlayer props = MainExtendedPlayer.get(this.player);
+		IPlayerCapability props = player.getCapability(Values.CAPABILITIES_PLAYER, null);
 		
 		switch (button.id)
 		{
@@ -86,12 +85,12 @@ public class GUIAbilities extends GuiScreen
 			this.akumaNoMi.ability4 = null;
 			for(int i = 0; i < this.buttonList.size(); i++)
 				if(((GuiButton)this.buttonList.get(i)).id != 100 && ((GuiButton)this.buttonList.get(i)).id != 101)
-					((GuiButton)this.buttonList.get(i)).packedFGColour = Helper.hexToInt("FF0000");
+					((GuiButton)this.buttonList.get(i)).packedFGColour = WyPI.Utils.hexToRGB("FF0000").getRGB();
 			break;
 		case 0:
-			if(button.packedFGColour == Helper.hexToInt("FF0000") && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
+			if(button.packedFGColour == WyPI.Utils.hexToRGB("FF0000").getRGB() && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
 	 		{
-				button.packedFGColour = Helper.hexToInt("15FF00");
+				button.packedFGColour = WyPI.Utils.hexToRGB("15FF00").getRGB();
 				if(this.akumaNoMi.ability1 == null)
 					this.akumaNoMi.ability1 = this.akumaNoMi.abilities[0];
 				else if(this.akumaNoMi.ability2 == null)
@@ -103,7 +102,7 @@ public class GUIAbilities extends GuiScreen
 			}
 			else
 			{
-				button.packedFGColour = Helper.hexToInt("FF0000");
+				button.packedFGColour = WyPI.Utils.hexToRGB("FF0000").getRGB();
 				if(this.akumaNoMi.ability1 != null && this.akumaNoMi.ability1.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability1)).equals(button.displayString))
 					this.akumaNoMi.ability1 = null;
 				if(this.akumaNoMi.ability2 != null && this.akumaNoMi.ability2.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability2)).equals(button.displayString))
@@ -117,9 +116,9 @@ public class GUIAbilities extends GuiScreen
 			
 			
 		case 1:
-			if(button.packedFGColour == Helper.hexToInt("FF0000") && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
+			if(button.packedFGColour == WyPI.Utils.hexToRGB("FF0000").getRGB() && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
 	 		{
-				button.packedFGColour = Helper.hexToInt("15FF00");
+				button.packedFGColour = WyPI.Utils.hexToRGB("15FF00").getRGB();
 				if(this.akumaNoMi.ability1 == null)
 					this.akumaNoMi.ability1 = this.akumaNoMi.abilities[1];
 				else if(this.akumaNoMi.ability2 == null)
@@ -131,7 +130,7 @@ public class GUIAbilities extends GuiScreen
 			}
 			else
 			{
-				button.packedFGColour = Helper.hexToInt("FF0000");
+				button.packedFGColour = WyPI.Utils.hexToRGB("FF0000").getRGB();
 				if(this.akumaNoMi.ability1 != null && this.akumaNoMi.ability1.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability1)).equals(button.displayString))
 					this.akumaNoMi.ability1 = null;
 				if(this.akumaNoMi.ability2 != null && this.akumaNoMi.ability2.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability2)).equals(button.displayString))
@@ -144,9 +143,9 @@ public class GUIAbilities extends GuiScreen
 			break;
 			
 		case 2:
-			if(button.packedFGColour == Helper.hexToInt("FF0000") && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
+			if(button.packedFGColour == WyPI.Utils.hexToRGB("FF0000").getRGB() && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
 	 		{
-				button.packedFGColour = Helper.hexToInt("15FF00");
+				button.packedFGColour = WyPI.Utils.hexToRGB("15FF00").getRGB();
 				if(this.akumaNoMi.ability1 == null)
 					this.akumaNoMi.ability1 = this.akumaNoMi.abilities[2];
 				else if(this.akumaNoMi.ability2 == null)
@@ -158,7 +157,7 @@ public class GUIAbilities extends GuiScreen
 			}
 			else
 			{
-				button.packedFGColour = Helper.hexToInt("FF0000");
+				button.packedFGColour = WyPI.Utils.hexToRGB("FF0000").getRGB();
 				if(this.akumaNoMi.ability1 != null && this.akumaNoMi.ability1.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability1)).equals(button.displayString))
 					this.akumaNoMi.ability1 = null;
 				if(this.akumaNoMi.ability2 != null && this.akumaNoMi.ability2.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability2)).equals(button.displayString))
@@ -171,9 +170,9 @@ public class GUIAbilities extends GuiScreen
 			break;
 			
 		case 3:
-			if(button.packedFGColour == Helper.hexToInt("FF0000") && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
+			if(button.packedFGColour == WyPI.Utils.hexToRGB("FF0000").getRGB() && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
 	 		{
-				button.packedFGColour = Helper.hexToInt("15FF00");
+				button.packedFGColour = WyPI.Utils.hexToRGB("15FF00").getRGB();
 				if(this.akumaNoMi.ability1 == null)
 					this.akumaNoMi.ability1 = this.akumaNoMi.abilities[3];
 				else if(this.akumaNoMi.ability2 == null)
@@ -185,7 +184,7 @@ public class GUIAbilities extends GuiScreen
 			}
 			else
 			{
-				button.packedFGColour = Helper.hexToInt("FF0000");
+				button.packedFGColour = WyPI.Utils.hexToRGB("FF0000").getRGB();
 				if(this.akumaNoMi.ability1 != null && this.akumaNoMi.ability1.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability1)).equals(button.displayString))
 					this.akumaNoMi.ability1 = null;
 				if(this.akumaNoMi.ability2 != null && this.akumaNoMi.ability2.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability2)).equals(button.displayString))
@@ -198,9 +197,9 @@ public class GUIAbilities extends GuiScreen
 			break;
 			
 		case 4:
-			if(button.packedFGColour == Helper.hexToInt("FF0000") && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
+			if(button.packedFGColour == WyPI.Utils.hexToRGB("FF0000").getRGB() && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
 	 		{
-				button.packedFGColour = Helper.hexToInt("15FF00");
+				button.packedFGColour = WyPI.Utils.hexToRGB("15FF00").getRGB();
 				if(this.akumaNoMi.ability1 == null)
 					this.akumaNoMi.ability1 = this.akumaNoMi.abilities[4];
 				else if(this.akumaNoMi.ability2 == null)
@@ -212,7 +211,7 @@ public class GUIAbilities extends GuiScreen
 			}
 			else
 			{
-				button.packedFGColour = Helper.hexToInt("FF0000");
+				button.packedFGColour = WyPI.Utils.hexToRGB("FF0000").getRGB();
 				if(this.akumaNoMi.ability1 != null && this.akumaNoMi.ability1.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability1)).equals(button.displayString))
 					this.akumaNoMi.ability1 = null;
 				if(this.akumaNoMi.ability2 != null && this.akumaNoMi.ability2.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability2)).equals(button.displayString))
@@ -225,9 +224,9 @@ public class GUIAbilities extends GuiScreen
 			break;
 			
 		case 5:
-			if(button.packedFGColour == Helper.hexToInt("FF0000") && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
+			if(button.packedFGColour == WyPI.Utils.hexToRGB("FF0000").getRGB() && (this.akumaNoMi.ability1 == null || this.akumaNoMi.ability2 == null || this.akumaNoMi.ability3 == null || this.akumaNoMi.ability4 == null ))
 	 		{
-				button.packedFGColour = Helper.hexToInt("15FF00");
+				button.packedFGColour = WyPI.Utils.hexToRGB("15FF00").getRGB();
 				if(this.akumaNoMi.ability1 == null)
 					this.akumaNoMi.ability1 = this.akumaNoMi.abilities[5];
 				else if(this.akumaNoMi.ability2 == null)
@@ -239,7 +238,7 @@ public class GUIAbilities extends GuiScreen
 			}
 			else
 			{
-				button.packedFGColour = Helper.hexToInt("FF0000");
+				button.packedFGColour = WyPI.Utils.hexToRGB("FF0000").getRGB();
 				if(this.akumaNoMi.ability1 != null && this.akumaNoMi.ability1.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability1)).equals(button.displayString))
 					this.akumaNoMi.ability1 = null;
 				if(this.akumaNoMi.ability2 != null && this.akumaNoMi.ability2.getItemStackDisplayName(new ItemStack(this.akumaNoMi.ability2)).equals(button.displayString))

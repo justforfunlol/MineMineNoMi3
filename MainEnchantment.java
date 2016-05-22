@@ -1,23 +1,19 @@
 package MineMineNoMi3;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraftforge.common.util.EnumHelper;
+import net.minecraft.util.ResourceLocation;
 
 public class MainEnchantment extends Enchantment
 {
 	int max;
-
-	public MainEnchantment(int id, int i, String name, int max)
+	
+	protected MainEnchantment(Enchantment.Rarity rarityIn, EnumEnchantmentType typeIn, EntityEquipmentSlot[] slots) 
 	{
-		super(id, i, EnumHelper.addEnchantmentType(name.replaceAll("\\s+","").toLowerCase().replace("dial", "")));	
-		String unlocalizedName = name.replaceAll("\\s+","").toLowerCase().replace("dial", "");	
-		super.setName(unlocalizedName);
-		LanguageRegistry.instance().addStringLocalization("enchantment."+unlocalizedName, name);
-		this.max = max;
+		super(rarityIn, typeIn, slots);	
 	}
 
 	public int getMinEnchantability(int par1)

@@ -1,29 +1,38 @@
 package MineMineNoMi3.Lists;
 
-import net.minecraftforge.common.MinecraftForge;
 import MineMineNoMi3.MainKeys;
 import MineMineNoMi3.MainWorldGen;
-import MineMineNoMi3.Events.EventDevilFruits;
-import MineMineNoMi3.Events.EventDoriki;
-import MineMineNoMi3.Events.EventDrops;
-import MineMineNoMi3.Events.EventEnchantments;
-import MineMineNoMi3.Events.EventExtendedData;
-import MineMineNoMi3.Events.EventJobs;
+import MineMineNoMi3.Capability.INPCCapability;
+import MineMineNoMi3.Capability.IPlayerCapability;
+import MineMineNoMi3.Capability.NPCCapability;
+import MineMineNoMi3.Capability.PlayerCapability;
+import MineMineNoMi3.Capability.PlayerCapability.Storage;
 import MineMineNoMi3.Events.EventTicks;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
+import MineMineNoMi3.Events.EventsCapabilities;
+import MineMineNoMi3.Events.EventsDevilFruits;
+import MineMineNoMi3.Events.EventsDoriki;
+import MineMineNoMi3.Events.EventsDrops;
+import MineMineNoMi3.Events.EventsEnchantments;
+import MineMineNoMi3.Events.EventsJobs;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ListForge 
 {
 	public static void init()
-	{
+	{ 
 		
-		MinecraftForge.EVENT_BUS.register(new EventExtendedData());
-		MinecraftForge.EVENT_BUS.register(new EventDevilFruits());
-		MinecraftForge.EVENT_BUS.register(new EventEnchantments());
-		MinecraftForge.EVENT_BUS.register(new EventDoriki());
-		MinecraftForge.EVENT_BUS.register(new EventDrops());
-		MinecraftForge.EVENT_BUS.register(new EventJobs());
+		MinecraftForge.EVENT_BUS.register(new EventsCapabilities());
+		MinecraftForge.EVENT_BUS.register(new EventsDevilFruits());
+		MinecraftForge.EVENT_BUS.register(new EventsEnchantments());
+		MinecraftForge.EVENT_BUS.register(new EventsDoriki());
+		MinecraftForge.EVENT_BUS.register(new EventsDrops());
+		MinecraftForge.EVENT_BUS.register(new EventsJobs());
+		 
+		CapabilityManager.INSTANCE.register(IPlayerCapability.class, PlayerCapability.Storage.storage, PlayerCapability.class);
+		CapabilityManager.INSTANCE.register(INPCCapability.class, NPCCapability.Storage.storage, NPCCapability.class);
 		
 		GameRegistry.registerWorldGenerator(new MainWorldGen(), 1);
 		

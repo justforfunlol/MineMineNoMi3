@@ -2,16 +2,13 @@ package MineMineNoMi3.Events;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import MineMineNoMi3.Config;
-import MineMineNoMi3.Main;
-import MineMineNoMi3.MainExtendedPlayer;
-import MineMineNoMi3.MainKeys;
-import MineMineNoMi3.Packets.PacketSync;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import MineMineNoMi3.Values;
+import MineMineNoMi3.Capability.IPlayerCapability;
 
 public class EventTicks 
 {
@@ -20,13 +17,13 @@ public class EventTicks
 	public void onPlayerTick(PlayerTickEvent event) 
 	{
 		EntityPlayer player = event.player;
-		MainExtendedPlayer props = MainExtendedPlayer.get(player);
+		IPlayerCapability props = player.getCapability(Values.CAPABILITIES_PLAYER, null);
 		
 		if (event.phase == Phase.START) 
 		{	
 			if(player != null && player instanceof EntityPlayer)
 			{
-				if((player.isInsideOfMaterial(Material.water) || (player.isWet() && player.worldObj.getBlock((int)player.posX, (int)player.posY - 3, (int)player.posZ) == Blocks.water)) && !player.capabilities.isCreativeMode)
+				if((player.isInsideOfMaterial(Material.WATER) || (player.isWet() && player.worldObj.getBlockState(new BlockPos((int)player.posX, (int)player.posY - 3, (int)player.posZ)) == Blocks.WATER.getDefaultState())) && !player.capabilities.isCreativeMode)
 				{
 					if (!props.getUsedFruit().equals("N/A"))
 						player.motionY -= 5;	
@@ -50,10 +47,10 @@ public class EventTicks
 				
 				if(!player.capabilities.isCreativeMode)
 				{
-					if(Config.allowLogiaFly_actual && (props.getUsedFruit().equals("sunasuna") || props.getUsedFruit().equals("mokumoku") || props.getUsedFruit().equals("meramera")))
+					/*if(Config.allowLogiaFly_actual && (props.getUsedFruit().equals("sunasuna") || props.getUsedFruit().equals("mokumoku") || props.getUsedFruit().equals("meramera")))
 						player.capabilities.allowFlying = true;
 					else
-						player.capabilities.allowFlying = false;
+						player.capabilities.allowFlying = false;*/
 				}
 			}
 		}

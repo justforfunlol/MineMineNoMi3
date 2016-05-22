@@ -1,40 +1,53 @@
 package MineMineNoMi3.Proxy;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.client.MinecraftForgeClient;
-import MineMineNoMi3.Helper;
-import MineMineNoMi3.Entities.Projectile;
-import MineMineNoMi3.Entities.Groups.Marines.EntityMarine;
-import MineMineNoMi3.Entities.Groups.Models.ModelMarine;
-import MineMineNoMi3.Entities.Groups.Models.ModelPirate;
-import MineMineNoMi3.Entities.Groups.Pirates.EntityPirate;
-import MineMineNoMi3.Entities.Render.RenderAbility;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import MineMineNoMi3.Values;
+import MineMineNoMi3.Entities.Mobs.Doppelman;
+import MineMineNoMi3.Entities.Mobs.Marines.Marine;
+import MineMineNoMi3.Entities.Mobs.Models.ModelMarine;
+import MineMineNoMi3.Entities.Mobs.Models.ModelPirate;
+import MineMineNoMi3.Entities.Mobs.Pirates.Pirate;
 import MineMineNoMi3.Entities.Render.RenderMobType;
-import MineMineNoMi3.Entities.Render.RenderProjectile;
-import MineMineNoMi3.Entities.Render.RenderZoan;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-	
-	public void tick()
-	{
-			
-	}
-	
-	public void render()
-	{	
-		for(int i = 0; i < Helper.abilities.size(); i++)
-			MinecraftForgeClient.registerItemRenderer(Helper.abilities.get(i), new RenderAbility());	
-		
-		RenderingRegistry.registerEntityRenderingHandler(Projectile.class, new RenderProjectile());	
-		RenderingRegistry.registerEntityRenderingHandler(EntityPlayer.class, new RenderZoan());
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntityMarine.class, new RenderMobType(new ModelMarine(), "marine"));
-		RenderingRegistry.registerEntityRenderingHandler(EntityPirate.class, new RenderMobType(new ModelPirate(), "pirate"));	
 
+	public void render()
+	{	 
+		for(Item devilFruit : Values.devilfruits)
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(devilFruit, 0, new ModelResourceLocation("mineminenomi:" + devilFruit.getUnlocalizedName().substring(5), "inventory"));
+		
+		for(Item ability : Values.abilities)
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ability, 0, new ModelResourceLocation("mineminenomi:" + ability.getUnlocalizedName().substring(5), "inventory"));
+			
+		for(Item misc : Values.miscItems)
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(misc, 0, new ModelResourceLocation("mineminenomi:" + misc.getUnlocalizedName().substring(5), "inventory"));
+		
+		for(Block misc : Values.miscBlocks)
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(misc), 0, new ModelResourceLocation("mineminenomi:" + misc.getUnlocalizedName().substring(5), "inventory"));
+ 
+		//RenderingRegistry.registerEntityRenderingHandler(Marine.class, RenderMobType()::new);
+		//RenderingRegistry.registerEntityRenderingHandler(Marine.class, new IRenderFactoryBasic(new ModelPirate()));
+
+		RenderingRegistry.registerEntityRenderingHandler(Marine.class, new RenderMobType(new ModelMarine()));
+		RenderingRegistry.registerEntityRenderingHandler(Pirate.class, new RenderMobType(new ModelPirate()));
+		 
+		RenderingRegistry.registerEntityRenderingHandler(Doppelman.class, new RenderMobType(new ModelBiped(), "doppelman"));
+		 
 	}
 	
+	public EntityPlayer getPlayerEntity(MessageContext ctx) 
+	{
+		return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : super.getPlayerEntity(ctx));
+	}
 }

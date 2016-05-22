@@ -5,23 +5,24 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCoreArmor extends ItemArmor 
 {
 
 	private ArmorMaterial mat;
 
-	public ItemCoreArmor(ArmorMaterial material, int type) 
+	public ItemCoreArmor(ArmorMaterial material, EntityEquipmentSlot type) 
 	{
 		super(material, 0, type);
 		this.mat = material;
 	}
 	
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
+	/*public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
 		return "mineminenomi:textures/armor/" + this.mat.name() + "_" + (this.armorType == 2 ? "2" : "1") + ".png";
 	}
@@ -38,7 +39,7 @@ public class ItemCoreArmor extends ItemArmor
 		cloth.bipedLeftArm.showModel = armorSlot == 1;
 		cloth.bipedRightLeg.showModel = armorSlot == 2 || armorSlot == 3;
 		cloth.bipedLeftLeg.showModel = armorSlot == 2 || armorSlot == 3;
-		cloth.heldItemRight = ((EntityPlayer)entityLiving).getCurrentEquippedItem() != null ? 1 : 0;
+		cloth.rightArmPose = ((EntityPlayer)entityLiving).getCurrentEquippedItem() != null ? 1 : 0;
 		
 		cloth.isSneak = entityLiving.isSneaking();
 		cloth.isRiding = entityLiving.isRiding();
@@ -47,5 +48,5 @@ public class ItemCoreArmor extends ItemArmor
 			cloth.aimedBow = ((EntityPlayer)entityLiving).getItemInUseDuration() > 2;
 
 		return cloth;
-	}
+	}*/
 }
