@@ -1,6 +1,5 @@
 package MineMineNoMi3.Lists;
 
-import MineMineNoMi3.AbilityTaskChargeable;
 import MineMineNoMi3.Main;
 import MineMineNoMi3.MainKeys;
 import MineMineNoMi3.ParticleTemplateProjectileWithLOD;
@@ -8,6 +7,7 @@ import MineMineNoMi3.Values;
 import MineMineNoMi3.Capability.INPCCapability;
 import MineMineNoMi3.Capability.IPlayerCapability;
 import MineMineNoMi3.Entities.Mobs.Doppelman;
+import MineMineNoMi3.Entities.Models.ModelGomuBazooka;
 import MineMineNoMi3.Items.Heart;
 import WyPI.UtilISphere;
 import WyPI.UtilSphere;
@@ -17,6 +17,7 @@ import WyPI.Ability.AbilityAttribute;
 import WyPI.Ability.AbilityItem;
 import WyPI.Ability.AbilityProjectile;
 import WyPI.Ability.AbilityTask;
+import WyPI.Ability.ModelCube;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -198,7 +199,7 @@ public class Tasks
 	public static AbilityTask room = new AbilityTask()
 	{
 		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
+		{			
 			final World world = player.getEntityWorld();
 			if(!world.isRemote)
 			{
@@ -211,6 +212,7 @@ public class Tasks
 				    }
 				});
 				player.worldObj.setBlockState(new BlockPos(player.posX, player.posY, player.posZ), ListMisc.OpeMid.getDefaultState());
+				//((BlockOpeMid) world.getBlockState(new BlockPos(player.posX, player.posY, player.posZ)).getBlock()).setRoomObject(new Room(5 + power, new BlockPos(player.posX, player.posY, player.posZ), player));
 			}
 		}
 	};
@@ -413,38 +415,31 @@ public class Tasks
 		};
 	};
 	
-	/** TODO GOMU GOMU NO FIX */
 	public static AbilityTask gomugomubazooka = new AbilityTask()
 	{ 
 		public void onItemAfterUse(ItemStack itemStack, EntityPlayer player, int timeLeft)
 		{
+			AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
+			int power = (timeLeft - ((AbilityItem)itemStack.getItem()).getAttribute().getItemMaxCharges()) * -1;
 			IPlayerCapability props = player.getCapability(Values.CAPABILITIES_PLAYER, null);
-			int power;	
 			
-			if(((AbilityItem)itemStack.getItem()).getAttribute().getItemMaxCharges() == timeLeft) {power = 1;}
-			else {power = 0;}
+			if(power == 0) power = aa.getItemMaxCharges();
 
-			if(power == 1)
+			AbilityProjectile proj = null;
+
+			if(props.getGear() == 1)
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelGomuBazooka()).setColor("F5DEB3").setSize(3, 1, 1).setDamage(5 + (power/3)) );				
+			else if(props.getGear() == 2)
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelGomuBazooka()).setColor("F5DEB3").setSize(3, 1, 1).setSpeed(4).setDamage(10 + (power/3)).setParticleForProjectile(new ParticleTemplateProjectileWithLOD(4), EnumParticleTypes.SMOKE_NORMAL) );
+			else if(props.getGear() == 3)
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelGomuBazooka()).setColor("F5DEB3").setSize(7, 5, 5).setDamage(15 + (power/2)) );
+			else if(props.getGear() == 4)
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelGomuBazooka()).setColor("2A3439").setSpeed(4).setSize(7, 5, 5).setDamage(15 + power) );
+			
+			if(proj != null)
 			{
-				if(props.getGear() == 0)
-					player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(20)) );	
-				else if(props.getGear() == 2)
-					player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(10).setSpeed(8).setParticleForProjectile(new ParticleTemplateProjectileWithLOD(4), EnumParticleTypes.SMOKE_NORMAL)) );	
-				else if(props.getGear() == 3)
-					player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(30)) );	
-				else if(props.getGear() == 4)
-					player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(50).setSpeed(6)) );	 
-			}
-			else	
-			{
-				if(props.getGear() == 0)
-					player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(5)) );	
-				else if(props.getGear() == 2)
-					player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(10).setSpeed(5).setParticleForProjectile(new ParticleTemplateProjectileWithLOD(3), EnumParticleTypes.SMOKE_NORMAL)) );	
-				else if(props.getGear() == 3)
-					player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(15)) );	
-				else if(props.getGear() == 4)
-					player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(30).setSpeed(3)) );	
+				proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
+				player.worldObj.spawnEntityInWorld(proj);
 			}
 			
 		}
@@ -472,7 +467,7 @@ public class Tasks
 		{
 			IPlayerCapability props = player.getCapability(Values.CAPABILITIES_PLAYER, null);
 
-			if(props.getGear() == 0)
+			if(props.getGear() == 1)
 				itemStack.setStackDisplayName("§rGomu Gomu no Bazooka");
 			if(props.getGear() == 2)
 				itemStack.setStackDisplayName("§rGomu Gomu no Jet Bazooka");
@@ -482,32 +477,38 @@ public class Tasks
 				itemStack.setStackDisplayName("§rGomu Gomu no Leo Bazooka");
 		};
 	};
-	
-	/** TODO GOMU GOMU NO FIX */
+
 	public static AbilityTask gomugomugatling = new AbilityTask()
 	{ 	
 		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
 		{
 			IPlayerCapability props = player.getCapability(Values.CAPABILITIES_PLAYER, null);
 			
-			if(props.getGear() == 0)
-				player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(5)) );	
-			else if(props.getGear() == 2 || props.getGear() == 4)
-				player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setDamage(10).setSpeed(10).setParticleForProjectile(new ParticleTemplateProjectileWithLOD(3), EnumParticleTypes.SMOKE_NORMAL)) );	
-			/*else if(props.getGear() == 3)
-				player.worldObj.spawnEntityInWorld(new AbilityProjectile(player.worldObj, player, ListAbilities.GOMUGOMUNOGIGANTPISTOL.setDamage(15)) );	*/
-		
+			AbilityProjectile proj = null;
+
+			if(props.getGear() == 1)
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(3, 1, 1).setEntityTicks(16).setDamage(5) );				
+			else if(props.getGear() == 2)
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(3, 1, 1).setSpeed(4).setEntityTicks(16).setDamage(10).setParticleForProjectile(new ParticleTemplateProjectileWithLOD(4), EnumParticleTypes.SMOKE_NORMAL) );
+			else if(props.getGear() == 3 || props.getGear() == 4)
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(5, 3, 3).setPosition(0, 8, 0).setEntityTicks(16).setDamage(20) );
+
+			if(proj != null)
+			{
+				proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
+				player.worldObj.spawnEntityInWorld(proj);
+			}	
 		};
 		
 		public void onItemTick(ItemStack itemStack, EntityPlayer player) 
 		{
 			IPlayerCapability props = player.getCapability(Values.CAPABILITIES_PLAYER, null);
 
-			if(props.getGear() == 0)
+			if(props.getGear() == 1)
 				itemStack.setStackDisplayName("§rGomu Gomu no Gatling");
-			if(props.getGear() == 2 || props.getGear() == 4)
+			if(props.getGear() == 2)
 				itemStack.setStackDisplayName("§rGomu Gomu no Jet Gatling");
-			if(props.getGear() == 3)
+			if(props.getGear() == 3 || props.getGear() == 4)
 				itemStack.setStackDisplayName("§rGomu Gomu no Gigant Gatling");
 		};		
 	};
@@ -525,21 +526,19 @@ public class Tasks
 			AbilityProjectile proj = null;
 
 			if(props.getGear() == 1)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(aa.getModel()).setColor(aa.getColor()).setSize(aa.getScale()).setEntityTicks(aa.getEntityTicks()).setDamage(5 + (power/2)) );				
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(3, 1, 1).setDamage(5 + (power/2)) );				
 			else if(props.getGear() == 2)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(aa.getModel()).setColor(aa.getColor()).setSpeed(4).setSize(aa.getScale()).setEntityTicks(aa.getEntityTicks()).setDamage(10 + (power/2)).setParticleForProjectile(new ParticleTemplateProjectileWithLOD(4), EnumParticleTypes.SMOKE_NORMAL) );
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(3, 1, 1).setSpeed(4).setDamage(10 + (power/2)).setParticleForProjectile(new ParticleTemplateProjectileWithLOD(4), EnumParticleTypes.SMOKE_NORMAL) );
 			else if(props.getGear() == 3)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(aa.getModel()).setColor(aa.getColor()).setSize(7, 5, 5).setEntityTicks(aa.getEntityTicks()).setDamage(20 + (power/2)) );
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(7, 5, 5).setDamage(20 + (power/2)) );
 			else if(props.getGear() == 4)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(aa.getModel()).setColor("#2a3439").setSpeed(4).setSize(7, 5, 5).setEntityTicks(aa.getEntityTicks()).setDamage(20 + power) );
+				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("#2a3439").setSpeed(4).setSize(7, 5, 5).setDamage(20 + power) );
 			
 			if(proj != null)
 			{
 				proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
 				player.worldObj.spawnEntityInWorld(proj);
 			}
-			else
-				WyPI.Utils.sendMsgToPlayer(player, "[NULL_ERROR] Gomu Gomu no Pistol, valve please fix.");
 		}
 		
 		public void onItemTick(ItemStack itemStack, EntityPlayer player) 
@@ -794,8 +793,7 @@ public class Tasks
 			}
 		}	
 	};
-		
-	//TODO Skatting /onHit/
+
 	public static AbilityTask skatting = new AbilityTask()
 	{
 		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
@@ -805,6 +803,15 @@ public class Tasks
 			else
 				player.addPotionEffect(new PotionEffect(MobEffects.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
 		}
+		
+		public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) 
+		{
+			if(target.getActivePotionEffect(MobEffects.INVISIBILITY) != null)
+				target.removePotionEffect(MobEffects.INVISIBILITY);
+			else
+				target.addPotionEffect(new PotionEffect(MobEffects.INVISIBILITY, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));			
+		};
+		
 	};
 		
 	public static AbilityTask geppo = new AbilityTask()

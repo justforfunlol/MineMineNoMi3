@@ -39,12 +39,10 @@ public class Main
 	@SidedProxy(clientSide = "MineMineNoMi3.Proxy.ClientProxy", serverSide = "MineMineNoMi3.Proxy.CommonProxy")
 	public static CommonProxy proxy;
 	public static Logger logger;
-	private File sourceFolder;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{	
-		this.sourceFolder = event.getSourceFile();
 		PacketDispatcher.registerPackets();
 		WyPI.setup(instance);
 
@@ -53,10 +51,7 @@ public class Main
 		
 		if(true)
 		{
-			WyPI.Utils.generateJSONModels("mineminenomi", sourceFolder, Values.devilfruits);
-			WyPI.Utils.generateJSONModels("mineminenomi", sourceFolder, Values.abilities);
-			WyPI.Utils.generateJSONModels("mineminenomi", sourceFolder, Values.miscItems);
-			WyPI.Utils.generateJSONModels("mineminenomi", sourceFolder, Values.miscBlocks);
+			WyPI.Utils.generateJSONModels();
 		}
 	}
 	
@@ -77,7 +72,7 @@ public class Main
 		ListForge.init();
 		
 		if(true)
-			WyPI.Utils.generateLangFiles("mineminenomi", this.sourceFolder);
+			WyPI.Utils.generateLangFiles();
 	} 
 	
 	@EventHandler

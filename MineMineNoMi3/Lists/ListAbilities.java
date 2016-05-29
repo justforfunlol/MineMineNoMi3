@@ -2,7 +2,6 @@ package MineMineNoMi3.Lists;
 
 import java.awt.Color;
 
-import MineMineNoMi3.AbilityTaskChargeable;
 import MineMineNoMi3.ParticleTemplateProjectileWithLOD;
 import MineMineNoMi3.Values;
 import MineMineNoMi3.Entities.Models.ModelBird;
@@ -11,6 +10,7 @@ import WyPI.Ability.AbilityAttribute;
 import WyPI.Ability.AbilityItem;
 import WyPI.Ability.ModelCube;
 import WyPI.Ability.ModelSphere;
+import WyPI.Ability.AbilityTasks.AbilityTaskChargeable;
 import WyPI.Particles.ParticleTemplateItem;
 import WyPI.Particles.ParticleTemplateProjectile;
 import net.minecraft.creativetab.CreativeTabs;
@@ -94,8 +94,8 @@ public class ListAbilities
 	public static AbilityItem SKATTING = new AbilityItem(new AbilityAttribute("Skatting").setItemTicks(50).addTasks(Tasks.skatting) ); 
 	
 	public static AbilityItem GEAR = new AbilityItem(new AbilityAttribute("Gear").setItemTicks(400).setItemCanBeCharged(80).addTasks(Tasks.gear) );
-	public static AbilityItem GOMUGOMUNOBAZOOKA = new AbilityItem(new AbilityAttribute("Gomu Gomu no Bazooka").setItemCanBeCharged(30).setItemTicks(250).setEntityTicks(5).setModel(new ModelGomuBazooka()).setColor("F5DEB3").setPosition(0, -0.5, 0).addTasks(Tasks.gomugomubazooka) );
-	public static AbilityItem GOMUGOMUNOGATLING = new AbilityItem(new AbilityAttribute("Gomu Gomu no Gatling").setItemTicks(250).setDamage(5).setModel(new ModelCube()).setColor("F5DEB3").setSpeed(6).setSize(2, 2, 2).setItemRepeater().setEntityTicks(7).addTasks(Tasks.gomugomugatling) ); 
+	public static AbilityItem GOMUGOMUNOBAZOOKA = new AbilityItem(new AbilityAttribute("Gomu Gomu no Bazooka").setItemCanBeCharged(30).setItemTicks(250).addTasks(Tasks.gomugomubazooka) );
+	public static AbilityItem GOMUGOMUNOGATLING = new AbilityItem(new AbilityAttribute("Gomu Gomu no Gatling").setItemTicks(250).setItemRepeater().addTasks(Tasks.gomugomugatling) ); 
 	public static AbilityItem GOMUGOMUNOPISTOL = new AbilityItem(new AbilityAttribute("Gomu Gomu no Pistol").setItemTicks(150).setItemCanBeCharged(20).addTasks(Tasks.gomugomupistol) );
 	
 	public static AbilityItem AMANOMURAKUMO = new AbilityItem(new AbilityAttribute("Ama no Murakumo").setDamageAsSword(9) ); 
@@ -147,6 +147,6 @@ public class ListAbilities
 	public static AbilityAttribute MILKYDIAL = new AbilityAttribute().setModel(new ModelCube()).setSize(1, 1, 1).setColor(Color.black).setEntityTicks(20).addTasks(Tasks.milkydial);
 	public static AbilityAttribute AXEDIAL = new AbilityAttribute().setModel(new ModelCube()).setSize(1.5, 0.4, 6).setEntityTicks(100).setColor("F3E5AB").setDamage(5).setSpeed(10);
 	
-	public static AbilityItem DEBUG_ITEM = (AbilityItem) new AbilityItem(new AbilityAttribute("DEBUG ITEM").setItemCanBeCharged(20).addTasks(Tasks.debug)).setCreativeTab(Values.isDebug ? CreativeTabs.COMBAT : null);
+	//public static AbilityItem DEBUG_ITEM = (AbilityItem) new AbilityItem(new AbilityAttribute("DEBUG ITEM").setItemCanBeCharged(20).addTasks(Tasks.debug)).setCreativeTab(Values.isDebug ? CreativeTabs.COMBAT : null);
 
 }

@@ -1,4 +1,4 @@
-package MineMineNoMi3;
+package WyPI.Ability.AbilityTasks;
 
 import WyPI.Ability.AbilityAttribute;
 import WyPI.Ability.AbilityItem;

@@ -15,6 +15,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import MineMineNoMi3.AkumaNoMiHelper;
 import MineMineNoMi3.MainKeys;
 import MineMineNoMi3.Values;
 import MineMineNoMi3.Blocks.BlockDial;
@@ -72,7 +73,7 @@ public class Dial extends Item
 				axe.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 2F, 1.2F);
 				world.spawnEntityInWorld(axe);			
 			}
-			
+
 			itemStack.damageItem(2, player);
 		}
 		return new ActionResult(EnumActionResult.PASS, itemStack);

@@ -16,7 +16,7 @@ import MineMineNoMi3.Blocks.BlockDial;
 import MineMineNoMi3.Blocks.BlockEnchantmentTable;
 import MineMineNoMi3.Blocks.BlockOpe;
 import MineMineNoMi3.Blocks.BlockOpeMid;
-import MineMineNoMi3.Blocks.TileEntityOpe;
+import MineMineNoMi3.Blocks.TileEntities.TileEntityOpe;
 import MineMineNoMi3.Items.CharacterCreator;
 import MineMineNoMi3.Items.Dial;
 import MineMineNoMi3.Items.Heart;

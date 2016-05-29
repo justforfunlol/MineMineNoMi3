@@ -1,5 +1,10 @@
-package MineMineNoMi3.Blocks;
+package MineMineNoMi3.Blocks.TileEntities;
 
+import MineMineNoMi3.AkumaNoMiHelper;
+import MineMineNoMi3.Values;
+import MineMineNoMi3.Capability.IPlayerCapability;
+import MineMineNoMi3.Lists.ListMisc;
+import WyPI.WyPI;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -7,16 +12,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import MineMineNoMi3.Values;
-import MineMineNoMi3.Capability.IPlayerCapability;
-import MineMineNoMi3.Lists.ListMisc;
-import WyPI.UtilISphere;
-import WyPI.UtilSphere;
-import WyPI.WyPI;
 
 public class TileEntityOpe extends TileEntity implements ITickable
 {
-
+	
+	public TileEntityOpe()
+	{
+		
+	}
+	
 	public void update() 
 	{
 		for(EntityLivingBase elb : WyPI.Utils.getEntitiesNear(this, new int[] {28, 28, 28}))
