@@ -1,0 +1,15 @@
+{
+	"defaults": 
+	{
+		"model": "mineminenomi:dial"
+	},
+	"variants": 
+	{
+		"normal": { "model": "mineminenomi:dial" },
+		"impact": { "model": "mineminenomi:dial" },
+		"milky": { "model": "mineminenomi:dial" },
+		"axe": { "model": "mineminenomi:dial" },
+		"breath": { "model": "mineminenomi:dial" },
+		"fire": { "model": "mineminenomi:dial" }
+	}
+}

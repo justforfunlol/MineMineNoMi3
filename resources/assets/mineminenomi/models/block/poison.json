@@ -1,0 +1,8 @@
+{
+	"parent": "block/carpet",
+	"textures": 
+	{
+		"particle": "mineminenomi:blocks/poison",
+		"wool": "mineminenomi:blocks/poison"
+	}
+}
