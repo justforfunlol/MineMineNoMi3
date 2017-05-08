@@ -63,7 +63,7 @@ public class ModelZoan extends ModelBase
         super.render(entity, p_78088_2_, limbSwing, ageInTicks, netHeadYaw, headPitch, scale);
         GlStateManager.pushMatrix();
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        if(entity.getDataManager().get(Values.MODEL) == 0)
+        /*if(entity.getDataManager().get(Values.MODEL) == 0)
         {
             if (entity.isSneaking())
                 GlStateManager.translate(0.0F, 0.2F, 0.0F);
@@ -73,7 +73,7 @@ public class ModelZoan extends ModelBase
             this.bipedLeftArmwear.render(scale);
             this.bipedRightArmwear.render(scale);
             this.bipedBodyWear.render(scale);
-        }
+        }*/
 
         GlStateManager.popMatrix();
     }

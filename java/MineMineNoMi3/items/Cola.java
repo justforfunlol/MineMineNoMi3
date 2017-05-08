@@ -2,8 +2,11 @@ package MineMineNoMi3.items;
 
 import MineMineNoMi3.Values;
 import MineMineNoMi3.capability.EntityCapability.IEntityCapability;
+import MineMineNoMi3.lists.ID;
+import MineMineNoMi3.packets.PacketSync;
+import WyPI.modules.WyNetworkHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -33,10 +36,15 @@ public class Cola extends ItemFood
 		{
 			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
 			
-			if(props.getCola() <= Values.MAX_COLA - 15) 
-				props.addCola(15);
-			else 
-				props.setCola(Values.MAX_COLA);
+			if(props.getRace().equals(ID.RACE_CYBORG))
+			{
+				if(props.getCola() <= Values.MAX_COLA - 15) 
+					props.addCola(15);
+				else 
+					props.setCola(Values.MAX_COLA);
+			}
+			
+			WyNetworkHelper.instance().sendTo(new PacketSync(props), (EntityPlayerMP) player);
 		}			
 	}
 }

@@ -36,6 +36,13 @@ public class EntityCapability
 		void decCola(int i);
 		void setCola(int i);
 		
+		int getUltraColaConsumed();
+		void setUltraCola(int i);
+		void addUltraCola();
+		
+		int getMaxCola();
+		void setMaxCola(int maxCola);
+		
 		boolean isLogia();
 		void setIsLogia(boolean isLogia);
 		
@@ -47,6 +54,9 @@ public class EntityCapability
 		
 		String getFaction();
 		void setFaction(String faction);
+		
+		String getCrew();
+		void setCrew(String crewName);
 		
 		String getUsedFruit();
 		void setUsedFruit(String name);
@@ -60,6 +70,9 @@ public class EntityCapability
 		void setGear(byte gear);
 		byte getGear();
 		
+		void setKilo(boolean kilo);
+		boolean getKilo();
+		
 		boolean isFirstTime();
 		void setFirstTime(boolean firstTime);
 		void firstTimePass();
@@ -67,6 +80,12 @@ public class EntityCapability
 		boolean isBlind();
 		int getBlindTime();
 		void setBlind(int time);
+		
+		boolean hasHakiActive();
+		void triggerActiveHaki();
+		int getHakiTimer();
+		void addHakiTimer();
+		void resetHakiTimer();
 	}
 	
 	public static class Storage implements IStorage<IEntityCapability>
@@ -81,16 +100,20 @@ public class EntityCapability
 			nbt.setInteger("Belly", instance.getBelly());
 			nbt.setInteger("Extol", instance.getExtol());
 			nbt.setInteger("Cola", instance.getCola());
+			nbt.setInteger("MaxCola", instance.getMaxCola());
+			nbt.setInteger("UltraCola", instance.getUltraColaConsumed());
 			
 			nbt.setString("AkumaNoMiUsed", instance.getUsedFruit());
 			nbt.setString("Faction", instance.getFaction());
 			nbt.setString("Race", instance.getRace());
 			nbt.setString("Job", instance.getJob());
+			nbt.setString("Crew", instance.getCrew());
 			
 			nbt.setBoolean("isLogia", instance.isLogia());
 			nbt.setBoolean("hasHeart", instance.hasHeart());
 			nbt.setBoolean("hasShadow", instance.hasShadow());
 			nbt.setBoolean("firstTime", instance.isFirstTime());
+			nbt.setBoolean("kilo", instance.getKilo());
 			
 			nbt.setByte("gear", instance.getGear());
 			
@@ -105,6 +128,8 @@ public class EntityCapability
 			instance.setBelly(nbt.getInteger("Belly"));
 			instance.setExtol(nbt.getInteger("Extol"));
 			instance.setCola(nbt.getInteger("Cola"));
+			instance.setMaxCola(nbt.getInteger("MaxCola"));
+			instance.setUltraCola(nbt.getInteger("UltraCola"));
 			
 			instance.setUsedFruit(nbt.getString("AkumaNoMiUsed"));
 			instance.setFaction(nbt.getString("Faction"));
@@ -115,17 +140,18 @@ public class EntityCapability
 			instance.setHasHeart(nbt.getBoolean("hasHeart"));
 			instance.setHasShadow(nbt.getBoolean("hasShadow"));
 			instance.setFirstTime(nbt.getBoolean("firstTime"));
-			
+			instance.setKilo(nbt.getBoolean("kilo"));
+			 
 			instance.setGear(nbt.getByte("gear"));
 		}
 	}
 	
 	public static class Default implements IEntityCapability
 	{
-		protected int doriki, bounty, belly, hakiExp, extol, blindness, cola = 100;
+		protected int doriki, bounty, belly, hakiExp, extol, blindness, cola = 100, maxCola = 100, hakiTimer = 0, ultraCola = 0;
 		private byte gear = 1;
-		private String akumaNoMiUsed = "N/A", faction = "N/A", race = "N/A", job = "N/A";
-		private boolean isLogia, hasShadow = true, hasHeart = true, firstTime = true;
+		private String akumaNoMiUsed = "N/A", faction = "N/A", race = "N/A", job = "N/A", crew = "N/A";
+		private boolean isLogia, hasShadow = true, hasHeart = true, firstTime = true, hasHakiActive = false, kilo = false;
 		
 		public int getDoriki() {return doriki;}
 		public void addDoriki(int i) {doriki += i;}	
@@ -152,6 +178,13 @@ public class EntityCapability
 		public void addCola(int i) {this.cola += i;}
 		public void decCola(int i) {this.cola -= i;}	
 		
+		public int getUltraColaConsumed() { return this.ultraCola; }
+		public void setUltraCola(int i) { this.ultraCola = i; }
+		public void addUltraCola() { this.ultraCola++; }
+		
+		public int getMaxCola() { return this.maxCola; }
+		public void setMaxCola(int maxCola) { this.maxCola = maxCola; }
+		
 		public boolean isLogia() {return this.isLogia;}
 		public void setIsLogia(boolean i) {this.isLogia = i;}
 		
@@ -176,6 +209,9 @@ public class EntityCapability
 		public String getFaction() {return this.faction;}
 		public void setFaction(String i) {this.faction = i;}
 		
+		public String getCrew() {return this.crew;}
+		public void setCrew(String crewName) {this.crew = crewName;}
+		
 		public boolean isFirstTime() {return this.firstTime;}
 		public void setFirstTime(boolean firstTime) {this.firstTime = firstTime;}
 		public void firstTimePass() {this.firstTime = false;}
@@ -183,5 +219,14 @@ public class EntityCapability
 		public boolean isBlind() { return this.blindness > 0; }
 		public int getBlindTime() { return this.blindness; }
 		public void setBlind(int time) { this.blindness = time; }
+
+		public boolean hasHakiActive() { return hasHakiActive; }
+		public void triggerActiveHaki() { this.hasHakiActive = !hasHakiActive(); }
+		public int getHakiTimer() { return hakiTimer; }
+		public void addHakiTimer() { hakiTimer++; }
+		public void resetHakiTimer() { hakiTimer = 0; }
+
+		public void setKilo(boolean kilo) { this.kilo = kilo; }
+		public boolean getKilo() { return kilo; } 
 	}
 }

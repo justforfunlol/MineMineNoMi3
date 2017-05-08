@@ -2,7 +2,6 @@ package WyPI.modules;
 
 import javax.annotation.Nullable;
 
-import WyPI.Module;
 import WyPI.WyPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,21 +19,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 
-public class WyRenderHelper extends Module
+public class WyRenderHelper
 {
 
 	private static WyRenderHelper instance;
 	public static WyRenderHelper instance() 
 	{ 
-		if(instance == null) instance = new WyRenderHelper(WyPI.apiInstance);
+		if(instance == null) instance = new WyRenderHelper();
 		return instance;
 	}
 	
-	public WyRenderHelper(WyPI instance)
-	{
-		super(instance);
-	}
-
     public void renderItem(int x, int y, EntityPlayer player, @Nullable ItemStack stack)
     {
         if (stack != null)
@@ -134,7 +128,7 @@ public class WyRenderHelper extends Module
 				axisalignedbb.minY - entity.posY + y, axisalignedbb.minZ - entity.posZ + z,
 				axisalignedbb.maxX - entity.posX + x, axisalignedbb.maxY - entity.posY + y,
 				axisalignedbb.maxZ - entity.posZ + z);
-		RenderGlobal.drawOutlinedBoundingBox(axisalignedbb1, 255, 255, 255, 255);
+		RenderGlobal.drawSelectionBoundingBox(axisalignedbb1, 255, 255, 255, 255);
 
 		if (entity instanceof EntityLivingBase)
 		{
@@ -142,9 +136,9 @@ public class WyRenderHelper extends Module
 			if (entity.getParts() != null)
 			{
 				for (Entity part : entity.getParts())
-					RenderGlobal.drawOutlinedBoundingBox(part.getEntityBoundingBox(), 0, 255, 0, 255);
+					RenderGlobal.drawSelectionBoundingBox(part.getEntityBoundingBox(), 0, 255, 0, 255);
 			} else
-				RenderGlobal.drawOutlinedBoundingBox(
+				RenderGlobal.drawSelectionBoundingBox(
 						new AxisAlignedBB(x - (double) f, y + (double) entity.getEyeHeight() - 0.009999999776482582D,
 								z - (double) f, x + (double) f,
 								y + (double) entity.getEyeHeight() + 0.009999999776482582D, z + (double) f),

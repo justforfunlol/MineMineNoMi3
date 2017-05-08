@@ -4,22 +4,16 @@ import java.lang.management.ManagementFactory;
 
 import org.apache.logging.log4j.Level;
 
-import WyPI.Module;
 import WyPI.WyPI;
 import net.minecraftforge.fml.common.FMLLog;
 
-public class WyDebug extends Module
+public class WyDebug
 {
 	private static WyDebug instance;
 	public static WyDebug instance() 
 	{ 
-		if(instance == null) instance = new WyDebug(WyPI.apiInstance);
+		if(instance == null) instance = new WyDebug();
 		return instance;
-	}
-	
-	public WyDebug(WyPI instance)
-	{
-		super(instance);
 	}
 
 	public boolean isDebug()

@@ -25,32 +25,6 @@ public class Schematic
 		this.blocks = blocks;
 		this.data = data;
 	}	 
-	   
-	public void build(BlockPos pos, World world)
-	{ 
-		try  
-		{
-			int i = 0;
-			for(int sy = 0; sy < height; sy++)
-			for(int sz = 0; sz < length; sz++)
-			for(int sx = 0; sx < width; sx++)
-			{ 
-				Block b = Block.getBlockById(blocks[i]);
-				if(b != Blocks.AIR)  
-				{
-					BlockPos poz = new BlockPos(pos.getX() + sx , pos.getY() + sy, pos.getZ() + sz);
-					if(world.getBlockState(poz) != b.getDefaultState())
-					{
-						world.setBlockToAir(poz);					
-						world.setBlockState(poz, b.getStateFromMeta(data[i]), 2);
-					}
-				}
-				i++; 
-			}
-		}
-		catch(Exception e)
-		{System.out.println("[ERROR] The .schematic could not be build due to : " + e.toString());}
-	}
 
 	public int getWidth()
 	{
@@ -71,4 +45,15 @@ public class Schematic
 	{
 		return name;
 	}
+
+	public byte[] getBlocks() 
+	{
+		return blocks;
+	}
+
+	public byte[] getData() 
+	{
+		return data;
+	}
+	
 }

@@ -1,13 +1,16 @@
 package MineMineNoMi3.container;
 
-import net.minecraft.enchantment.Enchantment;
+import MineMineNoMi3.lists.ListAbilities;
+import MineMineNoMi3.lists.ListEffects;
+import MineMineNoMi3.lists.ListMisc;
+import WyPI.abilities.AbilityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
@@ -68,31 +71,35 @@ public class ContainerEnchantmentTable extends Container
 		
 		if(!this.world.isRemote && this.dialEnch.getStackInSlot(0) != null && this.dialSlots.getStackInSlot(0) != null && this.dialSlots.getStackInSlot(1) != null && this.dialSlots.getStackInSlot(2) != null)
 		{	
-			for(int i = 0; i < this.dialSlots.getSizeInventory(); i++)
+			if(!itemStack.isItemEnchanted())
 			{
-				if(!itemStack.isItemEnchanted())
-				{
-					Item mat = this.dialSlots.getStackInSlot(i).getItem();
+				Item mat0 = this.dialSlots.getStackInSlot(0).getItem();
+				Item mat1 = this.dialSlots.getStackInSlot(1).getItem();
+				Item mat2 = this.dialSlots.getStackInSlot(2).getItem();
 					
-					/*if(itemStack.getItem() instanceof ItemSword)
-					{								
-				        if(mat == ListMisc.DialFire)	
-				        	itemStack.addEnchantment(Enchantment.fireAspect, 1);
-				        if(mat == ListMisc.DialImpact)	
-				        	itemStack.addEnchantment(ListEffects.dialImpact, 1);
-				        if(mat == ListMisc.DialEisen)	
-				        	itemStack.addEnchantment(Enchantment.sharpness, 2);
-				        if(mat == ListMisc.DialBreath)
-				        	itemStack.addEnchantment(Enchantment.knockback, 2);
-				        if(mat == ListMisc.Kairoseki)
-				        	itemStack.addEnchantment(ListEffects.kairoseki, 1);
-				        if(mat == ListMisc.BlackMetal)	
-				        {
-				        	itemStack.addEnchantment(Enchantment.sharpness, 10);
-				        	itemStack.addEnchantment(Enchantment.sharpness, 2);
-				        }
+				if(itemStack.getItem() instanceof ItemSword || (itemStack.getItem() instanceof AbilityItem && ((AbilityItem)itemStack.getItem()).getAttribute().getItemDamage() > 0 ))
+				{								
+					if(mat0 == ListAbilities.DIALFIRE && mat1 == ListAbilities.DIALFIRE && mat2 == ListAbilities.DIALFIRE)	
+						itemStack.addEnchantment(Enchantments.FIRE_ASPECT, 1);
+					if(mat0 == ListAbilities.DIALIMPACT && mat1 == ListAbilities.DIALIMPACT && mat2 == ListAbilities.DIALIMPACT)	
+						itemStack.addEnchantment(ListEffects.dialImpact, 1);
+					if(mat0 == ListMisc.DialEisen && mat1 == ListMisc.DialEisen && mat2 == ListMisc.DialEisen)	
+						itemStack.addEnchantment(Enchantments.SHARPNESS, 2);
+					if(mat0 == ListAbilities.DIALBREATH && mat1 == ListAbilities.DIALBREATH && mat2 == ListAbilities.DIALBREATH)	
+						itemStack.addEnchantment(Enchantments.KNOCKBACK, 2);
+					if(mat0 == ListMisc.Kairoseki && mat1 == ListMisc.Kairoseki && mat2 == ListMisc.Kairoseki)
+						itemStack.addEnchantment(ListEffects.kairoseki, 1);
+					if(mat0 == ListMisc.BlackMetal && mat1 == ListMisc.BlackMetal && mat2 == ListMisc.BlackMetal)
+					{
+						itemStack.addEnchantment(Enchantments.SHARPNESS, 10);
+						itemStack.addEnchantment(Enchantments.SHARPNESS, 2);
 					}
-					if(itemStack.getItem() instanceof ItemArmor)
+					
+					this.dialSlots.setInventorySlotContents(0, null);
+					this.dialSlots.setInventorySlotContents(1, null);
+					this.dialSlots.setInventorySlotContents(2, null);
+				}
+					/*if(itemStack.getItem() instanceof ItemArmor)
 					{
 						if(mat == ListMisc.DialFire)	
 							itemStack.addEnchantment(Enchantment.fireProtection, 1);
@@ -103,8 +110,6 @@ public class ContainerEnchantmentTable extends Container
 						if(mat == ListMisc.DialBreath)
 							itemStack.addEnchantment(Enchantment.thorns, 1);					
 					}*/
-				}
-				this.dialSlots.setInventorySlotContents(i, null);
 			}			
 		}
 	}

@@ -1,8 +1,1 @@
-{
-	"parent": "block/carpet",
-	"textures": 
-	{
-		"particle": "mineminenomi:blocks/poison",
-		"wool": "mineminenomi:blocks/poison"
-	}
-}
+{"parent": "block/cube_all","textures": {"all": "mineminenomi:blocks/poison"}}

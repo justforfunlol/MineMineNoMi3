@@ -1,6 +1,5 @@
 package WyPI.modules;
 
-import WyPI.Module;
 import WyPI.WyPI;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -8,22 +7,17 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class WyNetworkHelper extends Module
+public class WyNetworkHelper
 {
  
-	private final SimpleNetworkWrapper	dispatcher	= NetworkRegistry.INSTANCE.newSimpleChannel("wypi_parent_network");
+	public static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel("WyPINetwork");
 	private static WyNetworkHelper instance;
 	public static WyNetworkHelper instance() 
 	{ 
-		if(instance == null) instance = new WyNetworkHelper(WyPI.apiInstance);
+		if(instance == null) instance = new WyNetworkHelper();
 		return instance;
 	}
 
-	public WyNetworkHelper(WyPI instance)
-	{
-		super(instance);
-	}
-	
 	public final void registerMessage(Class handlerClass, Class messageClass, int id, Side side) 
 	{
 		dispatcher.registerMessage(handlerClass, messageClass, id, side);

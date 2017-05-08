@@ -2,7 +2,9 @@ package MineMineNoMi3.entities.mobs.marines;
 
 import MineMineNoMi3.Values;
 import MineMineNoMi3.capability.EntityCapability.IEntityCapability;
-import MineMineNoMi3.entities.EntityNewMob;
+import MineMineNoMi3.entities.mobs.Doppelman;
+import MineMineNoMi3.entities.mobs.EntityNewMob;
+import MineMineNoMi3.entities.mobs.pirates.PirateData;
 import WyPI.modules.WyHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
@@ -15,6 +17,7 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -22,8 +25,10 @@ public class MarineData extends EntityNewMob
 {
 	
 	private EntityAIBase attackMelee = new EntityAIAttackMelee(this, 1.0D, true), 
-						nearestAttableTarget = new EntityAINearestAttackableTarget(this, EntityPlayer.class, true);
-	
+						nearestAttableTarget = new EntityAINearestAttackableTarget(this, EntityPlayer.class, true),
+						nearestAttableTargetDopp = new EntityAINearestAttackableTarget(this, Doppelman.class, true),
+						nearestAttableTargetPirate = new EntityAINearestAttackableTarget(this, PirateData.class, true);
+					
 	public MarineData(World world) 
 	{
 		super(world); 
@@ -33,30 +38,24 @@ public class MarineData extends EntityNewMob
 		this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(5, new EntityAILookIdle(this));
 		this.tasks.addTask(6, new EntityAIHurtByTarget(this, true));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 	} 
   
 	public void onEntityUpdate() 
 	{
-		super.onEntityUpdate();
-		for(EntityLivingBase players : WyHelper.instance().getEntitiesNear(this, 25))
+		for(EntityLivingBase entity : WyHelper.instance().getEntitiesNear(this, 45))
 		{
-			if(players instanceof EntityPlayer)
+			if(entity instanceof EntityPlayer)
 			{
-				IEntityCapability props = players.getCapability(Values.ENTITY_CAPABILITIES, null);
+				IEntityCapability props = entity.getCapability(Values.ENTITY_CAPABILITIES, null);
 				
-				if(!((EntityPlayer)players).capabilities.isCreativeMode)
+				if(!((EntityPlayer)entity).capabilities.isCreativeMode)
 				{
 					if(!props.getFaction().equals("Marine"))
 					{
-						if(this instanceof IRangedAttackMob)
-						{
-							
-						}
-						else
-						{
+						if(this.getCombatType() == 0 || this.getCombatType() == 2)
 							this.tasks.addTask(1, attackMelee);
-							this.targetTasks.addTask(1, nearestAttableTarget);
-						}
+						this.targetTasks.addTask(1, nearestAttableTarget);
 					}
 					else
 					{
@@ -65,7 +64,20 @@ public class MarineData extends EntityNewMob
 					}
 				}
 			}
+			else if(entity instanceof PirateData)
+			{
+				if(this.getCombatType() == 0 || this.getCombatType() == 2)
+					this.tasks.addTask(1, attackMelee);
+				this.targetTasks.addTask(1, nearestAttableTargetPirate);
+			}
+			else if(entity instanceof Doppelman)
+			{
+				if(this.getCombatType() == 0 || this.getCombatType() == 2)
+					this.tasks.addTask(1, attackMelee);
+				this.targetTasks.addTask(1, nearestAttableTargetDopp);
+			}
 		}
+		super.onEntityUpdate();
 	}
 
 	protected boolean isValidLightLevel()

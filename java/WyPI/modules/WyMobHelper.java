@@ -1,7 +1,5 @@
 package WyPI.modules;
 
-import WyPI.Module;
-import WyPI.WyPI;
 import WyPI.mobs.EntityPart;
 import WyPI.mobs.IMultiPartMob;
 import net.minecraft.entity.monster.EntityMob;
@@ -9,20 +7,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class WyMobHelper extends Module
+public class WyMobHelper
 {
 	private static WyMobHelper instance;
 	public static WyMobHelper instance() 
 	{ 
-		if(instance == null) instance = new WyMobHelper(WyPI.apiInstance);
+		if(instance == null) instance = new WyMobHelper();
 		return instance;
 	}
-	
-	public WyMobHelper(WyPI instance)
-	{
-		super(instance);
-	}
-	
+
 	public void spawnEntityWithParts(World worldObj, EntityMob parentObj, BlockPos pos)
 	{
 		if(parentObj instanceof IMultiPartMob)

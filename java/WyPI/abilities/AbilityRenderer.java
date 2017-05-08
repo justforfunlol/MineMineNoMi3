@@ -1,47 +1,78 @@
 package WyPI.abilities;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import org.lwjgl.opengl.GL11;
 
+import WyPI.WyPI;
+import WyPI.abilities.extra.AttributeManager;
+import WyPI.modules.WyHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class AbilityRenderer extends Render implements IRenderFactory<AbilityProjectile>
 {
 	private double scaleX, scaleY, scaleZ, rotAngle, rotX, rotY, rotZ, red, blue, green, renderPosX, renderPosY, renderPosZ;
+	private float alpha;
 	private ModelBase model;
+	private AbilityAttribute ablAttr;
+	private AbilityItem item;
     
 	public AbilityRenderer(RenderManager manager)
 	{
 		super(manager);
-	}   
+	}  	
 	
     public void render(AbilityProjectile entity, double par2, double par4, double par6, float par8, float par9)
     { 	
-		if(entity.getAttribute() != null)
+    	
+    	Set set = AttributeManager.instance().getHashMap().entrySet();
+		Iterator i = set.iterator();
+		
+		while(i.hasNext())
 		{
-	    	this.scaleX = entity.getAttribute().getScale()[0];
-	    	this.scaleY = entity.getAttribute().getScale()[1];
-	    	this.scaleZ = entity.getAttribute().getScale()[2];
+			Map.Entry entry = (Map.Entry)i.next();
+			if(entry.getKey().equals(entity.getCustomNameTag()))
+				this.ablAttr = AttributeManager.instance().getAttribute(entity.getCustomNameTag());
+		}
+    	
+		/*Set set = WyPI.apiInstance.getItemsMap().entrySet();
+		Iterator i = set.iterator();
+		
+		while(i.hasNext())
+		{
+			Map.Entry entry = (Map.Entry)i.next();
+			if(entry.getKey() instanceof AbilityItem)
+			{
+				if( ((AbilityItem)entry.getKey()).getAttribute().getAttributeName().equals(entity.getCustomNameTag()) )
+					this.item = ((AbilityItem)entry.getKey());
+			}
+		} */
 
-	    	this.red = entity.getAttribute().getColor().getRed();
-	    	this.green = entity.getAttribute().getColor().getGreen();
-	    	this.blue = entity.getAttribute().getColor().getBlue();
-	
-	    	this.rotAngle = entity.getAttribute().getRotation()[0];
-	    	this.rotX = entity.getAttribute().getRotation()[1];
-	    	this.rotY = entity.getAttribute().getRotation()[2];
-	    	this.rotZ = entity.getAttribute().getRotation()[3];
+		if(ablAttr != null)
+		{ 
+	    	this.scaleX = ablAttr.getProjectileSize()[0];
+	    	this.scaleY = ablAttr.getProjectileSize()[1];
+	    	this.scaleZ = ablAttr.getProjectileSize()[2];
+
+	    	this.red = ablAttr.getProjectileColor().getRed();
+	    	this.green = ablAttr.getProjectileColor().getGreen();
+	    	this.blue = ablAttr.getProjectileColor().getBlue();
+	    	this.alpha = ablAttr.getProjectileAlpha();
 	    	
-	    	this.renderPosX = entity.getAttribute().getPosition()[0]; 	
-	    	this.renderPosY = entity.getAttribute().getPosition()[1];    	
-	    	this.renderPosZ = entity.getAttribute().getPosition()[2];  	
-	    	
-	    	this.model = entity.getAttribute().getModel();   
+	    	this.model = ablAttr.getProjectileModel(); 
 		}
 		/*else
 		{
@@ -57,17 +88,17 @@ public class AbilityRenderer extends Render implements IRenderFactory<AbilityPro
 		}*/
     	
     	GlStateManager.pushMatrix();
-    	GlStateManager.translate(par2 + renderPosX, par4 + renderPosY, par6 + renderPosZ);
+    	GlStateManager.translate((float)par2, (float)par4, (float)par6);
     	GlStateManager.disableTexture2D();
     	GlStateManager.enableBlend();
     	GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); 
 
-    	GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * par9 - 90.0F, 0.0F, 1.0F, 0.0F);
-    	GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * par9, 0.0F, 0.0F, 1.0F);
+        GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * par9 - 90.0F, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * par9, 0.0F, 0.0F, 1.0F);
 
-    	GlStateManager.rotate((float)rotAngle, (float)rotX, (float)rotY, (float)rotZ);
-	    
-    	GlStateManager.color((float)this.red/255, (float)this.green/255, (float)this.blue/255, 255);
+    	//GlStateManager.rotate((float)rotAngle, (float)rotX, (float)rotY, (float)rotZ);
+
+    	GlStateManager.color((float)this.red/255, (float)this.green/255, (float)this.blue/255, this.alpha/255);
     	GlStateManager.scale(this.scaleX, this.scaleY, this.scaleZ);
 
 		if(this.model != null)

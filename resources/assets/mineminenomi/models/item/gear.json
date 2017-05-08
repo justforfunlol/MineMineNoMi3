@@ -1,1 +1,12 @@
-{"parent": "item/generated", "textures": { "layer0": "mineminenomi:items/gear"}}
+{
+	"parent": "item/generated", 
+	"textures": 
+	{ 
+		"layer0": "mineminenomi:items/gear"
+	},
+	"overrides": 
+	[
+		{"predicate": { "gear": 1 }, "model": "mineminenomi:item/gear_1"},
+		{"predicate": { "gear": 2 }, "model": "mineminenomi:item/gear_2"}
+	]
+}

@@ -17,14 +17,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockBarrier extends Block
 {	
-	private int ticks = 15;
+	private int ticks = 35;
 	
 	public BlockBarrier()
 	{
 		super(Material.IRON);
 	} 
-
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {return NULL_AABB;} 
 	
 	public boolean isOpaqueCube(IBlockState state) {return false;}
 

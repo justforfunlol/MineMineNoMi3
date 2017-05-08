@@ -1,9 +1,11 @@
 package WyPI.modules;
 
-import WyPI.Module;
 import WyPI.WyPI;
+import WyPI.abilities.AbilityItem;
+import WyPI.abilities.extra.AttributeManager;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -15,7 +17,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class WyRegistry extends Module
+public class WyRegistry
 {
 
 	private int entityID = 100;
@@ -24,18 +26,13 @@ public class WyRegistry extends Module
 	private static WyRegistry instance;
 	public static WyRegistry instance() 
 	{ 
-		if(instance == null) instance = new WyRegistry(WyPI.apiInstance);
+		if(instance == null) instance = new WyRegistry();
 		return instance;
-	}
-	
-	public WyRegistry(WyPI instance)
-	{
-		super(instance);
 	}
 	
 	public void registerName(String key, String localizedName)
 	{
-		this.apiInstance.getLangMap().put(key, localizedName);
+		WyPI.apiInstance.getLangMap().put(key, localizedName);
 	}  
 	
 	public void registerTileEntity(Block block, Class<? extends TileEntity> tile, String localizedName)
@@ -58,7 +55,7 @@ public class WyRegistry extends Module
 		block.setRegistryName(truename);
 		GameRegistry.register(block);
 		GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-		this.apiInstance.getItemsMap().put(block, localizedName);
+		WyPI.apiInstance.getItemsMap().put(block, localizedName);
 		registerName("tile." + truename + ".name", localizedName);
 	}
 	
@@ -74,9 +71,11 @@ public class WyRegistry extends Module
 			item.setUnlocalizedName(truename).setCreativeTab(tab);
 		else
 			item.setUnlocalizedName(truename);
+		if(item instanceof AbilityItem)
+			if(((AbilityItem)item).getAttribute() != null) AttributeManager.instance().registerAttribute(((AbilityItem)item).getAttribute());
 		item.setRegistryName(truename);
 		GameRegistry.register(item);
-		this.apiInstance.getItemsMap().put(item, localizedName);
+		WyPI.apiInstance.getItemsMap().put(item, localizedName);
 		registerName("item." + truename + ".name", localizedName);
 	}
 	
@@ -87,15 +86,23 @@ public class WyRegistry extends Module
 	 
 	public void registerMob(String name, Class<? extends Entity> entity, int color1, int color2)
 	{
-		EntityRegistry.registerModEntity(entity, name, entityID++, apiInstance.getParentMod().getModObject(), 64, 1, true);
+		EntityRegistry.registerModEntity(entity, name, entityID++, WyPI.apiInstance.getParentMod().getModObject(), 64, 3, true);
 		if(color1 != -1 && color2 != -1)
 			EntityRegistry.registerEgg(entity, color1, color2);
-		registerName("entity." + apiInstance.getParentMod().getParentModID() + "." + name + ".name", name);
+		registerName("entity." + WyPI.apiInstance.getParentMod().getParentModID() + "." + name + ".name", name);
 	}
 	 
 	public void registerPacket(Class handlerClass, Class messageClass, Side side)
 	{
 		WyNetworkHelper.instance().registerMessage(handlerClass, messageClass, packetID++, side);
+	}
+	
+	public void registerEnchantment(Enchantment enc, String name)
+	{
+		String truename = WyHelper.instance().getFancyName(name);
+		GameRegistry.register(enc.setRegistryName(truename));
+		enc.setName(truename);
+		registerName("enchantment." + truename, name);
 	}
 	
 	public void registerDimension(String name, int id, Class<? extends WorldProvider> clazz)

@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import MineMineNoMi3.Values;
 import MineMineNoMi3.capability.EntityCapability.IEntityCapability;
 import MineMineNoMi3.gui.extra.GUIButtonNoTexture;
-import MineMineNoMi3.lists.IDs;
+import MineMineNoMi3.lists.ID;
 import MineMineNoMi3.packets.PacketPlayer;
 import MineMineNoMi3.packets.PacketSync;
 import WyPI.modules.WyHelper;
@@ -35,9 +35,9 @@ public class GUICC extends GuiScreen
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
     
-		if(this.page == 0) Minecraft.getMinecraft().getTextureManager().bindTexture(IDs.ID_TEXTURE_FACTION);
-		if(this.page == 1) Minecraft.getMinecraft().getTextureManager().bindTexture(IDs.ID_TEXTURE_RACE);
-		if(this.page == 2) Minecraft.getMinecraft().getTextureManager().bindTexture(IDs.ID_TEXTURE_JOB);
+		if(this.page == 0) Minecraft.getMinecraft().getTextureManager().bindTexture(ID.TEXTURE_FACTION);
+		if(this.page == 1) Minecraft.getMinecraft().getTextureManager().bindTexture(ID.TEXTURE_RACE);
+		if(this.page == 2) Minecraft.getMinecraft().getTextureManager().bindTexture(ID.TEXTURE_JOB);
 		
 		int posX = (this.width - 256) / 2;
 		int posY = (this.height - 256) / 2;
@@ -68,21 +68,21 @@ public class GUICC extends GuiScreen
 				
 		if(this.page == 0)
 		{
-			this.buttonList.add(new GUIButtonNoTexture(0, posX + 130, posY + 70, 100, 50, IDs.ID_FACTION_MARINE));
-			this.buttonList.add(new GUIButtonNoTexture(1, posX + 10, posY + 70, 100, 50, IDs.ID_FACTION_PIRATE));
-			this.buttonList.add(new GUIButtonNoTexture(2, posX + 10, posY + 135, 100, 50, IDs.ID_FACTION_BOUNTYHUNTER));
+			this.buttonList.add(new GUIButtonNoTexture(0, posX + 130, posY + 70, 100, 50, ID.FACTION_MARINE));
+			this.buttonList.add(new GUIButtonNoTexture(1, posX + 10, posY + 70, 100, 50, ID.FACTION_PIRATE));
+			this.buttonList.add(new GUIButtonNoTexture(2, posX + 10, posY + 135, 100, 50, ID.FACTION_BOUNTYHUNTER));
 		}
 		if(this.page == 1)
 		{
-			this.buttonList.add(new GUIButtonNoTexture(10, posX + 130, posY + 70, 100, 50, IDs.ID_RACE_FISHMAN));
-			this.buttonList.add(new GUIButtonNoTexture(11, posX + 10, posY + 70, 100, 50, IDs.ID_RACE_HUMAN));
-			this.buttonList.add(new GUIButtonNoTexture(12, posX + 10, posY + 135, 100, 50, IDs.ID_RACE_CYBORG));		
+			this.buttonList.add(new GUIButtonNoTexture(10, posX + 130, posY + 70, 100, 50, ID.RACE_FISHMAN));
+			this.buttonList.add(new GUIButtonNoTexture(11, posX + 10, posY + 70, 100, 50, ID.RACE_HUMAN));
+			this.buttonList.add(new GUIButtonNoTexture(12, posX + 10, posY + 135, 100, 50, ID.RACE_CYBORG));		
 		}
 		if(this.page == 2)
 		{
-			this.buttonList.add(new GUIButtonNoTexture(20, posX + 130, posY + 135, 100, 50, IDs.ID_JOB_SNIPER));
-			this.buttonList.add(new GUIButtonNoTexture(21, posX + 130, posY + 70, 100, 50, IDs.ID_JOB_SWORDSMAN));
-			this.buttonList.add(new GUIButtonNoTexture(22, posX + 10, posY + 70, 100, 50, IDs.ID_JOB_DOCTOR));
+			this.buttonList.add(new GUIButtonNoTexture(20, posX + 130, posY + 135, 100, 50, ID.JOB_SNIPER));
+			this.buttonList.add(new GUIButtonNoTexture(21, posX + 130, posY + 70, 100, 50, ID.JOB_SWORDSMAN));
+			this.buttonList.add(new GUIButtonNoTexture(22, posX + 10, posY + 70, 100, 50, ID.JOB_DOCTOR));
 		}
 
 	}

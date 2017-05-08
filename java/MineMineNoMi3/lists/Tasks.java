@@ -1,8 +1,10 @@
 package MineMineNoMi3.lists;
 
+import java.awt.Color;
+
+import MineMineNoMi3.DevilFruitAbilitiesHelper;
 import MineMineNoMi3.Main;
 import MineMineNoMi3.MainKeys;
-import MineMineNoMi3.ParticleTemplateForProjectileWithLOD;
 import MineMineNoMi3.Values;
 import MineMineNoMi3.capability.EntityCapability.IEntityCapability;
 import MineMineNoMi3.entities.mobs.Doppelman;
@@ -13,11 +15,11 @@ import WyPI.abilities.AbilityItem;
 import WyPI.abilities.AbilityProjectile;
 import WyPI.abilities.AbilityTask;
 import WyPI.abilities.ModelCube;
+import WyPI.abilities.ModelSphere;
 import WyPI.math.ISphere;
 import WyPI.math.Sphere;
 import WyPI.modules.WyHelper;
 import WyPI.modules.WyHelper.Direction;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -38,6 +40,334 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
 public class Tasks 
 {
+	
+	public static AbilityTask changeItemForm = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player)
+		{
+			if(!player.worldObj.isRemote)
+			{
+				if(itemStack.getTagCompound().getInteger("form") == 0)
+					itemStack.getTagCompound().setInteger("form", 1);
+				else
+					itemStack.getTagCompound().setInteger("form", 0);
+			}
+		}
+	};
+	
+	public static AbilityTask liberation = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player)
+		{
+			if(itemStack.getTagCompound().getInteger("liberationPower") > 0)
+			{
+				if(!player.worldObj.isRemote)
+				{
+					AbilityProjectile proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.LIBERATION_BLOCK);
+					proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 0);
+					player.worldObj.spawnEntityInWorld(proj); 
+					int i = itemStack.getTagCompound().getInteger("liberationPower");
+					i = i - 1;
+					itemStack.getTagCompound().setInteger("liberationPower", i);
+				}
+			}
+			else
+			{
+				for(int x = -20; x < 20; x++)
+				for(int y = -20; y < 20; y++)
+				for(int z = -20; z < 20; z++)
+				{
+					if( player.worldObj.getBlockState(new BlockPos(player.posX + x, player.posY + y, player.posZ + z)) == ListMisc.Darkness.getDefaultState())
+					{
+						player.worldObj.setBlockToAir(new BlockPos(player.posX + x, player.posY + y, player.posZ + z));
+						itemStack.getTagCompound().setInteger("liberationPower", 10);
+					}
+				}
+			}
+		}
+	};
+	
+	public static AbilityTask darkMatter = new AbilityTask()
+	{
+		public void onProjectileHit(AbilityProjectile abilityProjectile, RayTraceResult hit)
+		{
+			WyHelper.instance().createSphere(abilityProjectile, 3, ListMisc.Darkness.getDefaultState());
+			WyHelper.instance().createSphere(abilityProjectile, 2, ListMisc.Darkness.getDefaultState());
+			WyHelper.instance().createSphere(abilityProjectile, 1, ListMisc.Darkness.getDefaultState());
+		}
+	};	
+	
+	public static AbilityTask blackHole = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player)
+		{
+			if(WyHelper.instance().get4Directions(player) == WyHelper.Direction.NORTH)
+			{
+				for(int i = -3; i < 3; i++)
+				for(int j = 0; j < 3; j++)
+				for(int k = 0; k < 12; k++)		
+					player.worldObj.setBlockState(new BlockPos(player.posX + i, player.posY - (j + 1), player.posZ - (k + 2)), ListMisc.Darkness.getDefaultState());
+			}
+			else if(WyHelper.instance().get4Directions(player) == WyHelper.Direction.SOUTH)
+			{
+				for(int i = -3; i < 3; i++)
+				for(int j = 0; j < 3; j++)
+				for(int k = 0; k < 12; k++)		
+					player.worldObj.setBlockState(new BlockPos(player.posX + i, player.posY - (j + 1), player.posZ + (k + 2)), ListMisc.Darkness.getDefaultState());
+			}
+			else if(WyHelper.instance().get4Directions(player) == WyHelper.Direction.EAST)
+			{
+				for(int i = 0; i < 12; i++)
+				for(int j = 0; j < 3; j++)
+				for(int k = -3; k < 3; k++)		
+					player.worldObj.setBlockState(new BlockPos(player.posX + (i + 2), player.posY - (j + 1), player.posZ + k), ListMisc.Darkness.getDefaultState());
+			}
+			else if(WyHelper.instance().get4Directions(player) == WyHelper.Direction.WEST)
+			{
+				for(int i = 0; i < 12; i++)
+				for(int j = 0; j < 3; j++)
+				for(int k = -3; k < 3; k++)		
+					player.worldObj.setBlockState(new BlockPos(player.posX - (i + 2), player.posY - (j + 1), player.posZ + k), ListMisc.Darkness.getDefaultState());
+			}
+		}
+	};
+	
+	public static AbilityTask sagariNoRyusei = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
+		{
+			if(!player.worldObj.isRemote)
+			{			
+				AbilityProjectile proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.METEOR );
+				proj.setHeadingFromThrower(player, 90, 0, 0, 1.5F, 0);
+				proj.setPosition(player.posX, player.posY + 100, player.posZ);
+				proj.motionY = -1.9;
+				player.worldObj.spawnEntityInWorld(proj);
+			}
+		};
+	};
+	 
+	public static AbilityTask moko = new AbilityTask()
+	{
+		public void onProjectileHit(AbilityProjectile abilityProjectile, RayTraceResult hit)
+		{
+			if(hit.entityHit != null)
+			{
+				int posX = (int) hit.entityHit.posX;
+				int posY = (int) hit.entityHit.posY;
+				int posZ = (int) hit.entityHit.posZ;
+
+				for(int x = -5; x < 5; x++)
+				for(int y = 0; y < 22; y++)
+				for(int z = -5; z < 5; z++)
+				{
+					if( abilityProjectile.worldObj.getBlockState(new BlockPos(posX + x, posY - y, posZ + z)) != ListMisc.Ope.getDefaultState() && abilityProjectile.worldObj.getBlockState(new BlockPos(posX + x, posY - y, posZ + z)) != ListMisc.OpeMid.getDefaultState() 
+							&& abilityProjectile.worldObj.getBlockState(new BlockPos(posX + x, posY - y, posZ + z)) != Blocks.BEDROCK.getDefaultState() )
+						abilityProjectile.worldObj.setBlockState(new BlockPos(posX + x, posY - y, posZ + z), Blocks.AIR.getDefaultState());
+				}
+			}
+		};
+	};
+	
+	public static AbilityTask chiyuHormone = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
+		{
+			player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 1));
+		};
+		
+		public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) 
+		{
+			target.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 1));		
+		};
+	};
+	
+	public static AbilityTask tensionHormone = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
+		{
+			player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 300, 1));
+			player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 300, 1));
+		};
+		
+		public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) 
+		{
+			target.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 300, 1));
+			target.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 300, 1));			
+		};
+	}; 
+	
+	public static AbilityTask rejectDial = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
+		{
+			for(EntityLivingBase target : WyHelper.instance().getEntitiesNear(player, 10))
+			{
+				target.attackEntityFrom(DamageSource.generic, Integer.MAX_VALUE);
+				player.attackEntityFrom(DamageSource.generic, Integer.MAX_VALUE);
+			}
+		}
+	};
+	
+	public static AbilityTask breathDial = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
+		{
+			for(EntityLivingBase target : WyHelper.instance().getEntitiesNear(player, 10))
+			{
+				Direction dir = WyHelper.instance().get4Directions(target);
+				if(dir == WyHelper.Direction.SOUTH)
+					target.motionX -= 10;
+				else if(dir == WyHelper.Direction.EAST)
+					target.motionX += 10; 
+				else if(dir == WyHelper.Direction.NORTH)
+					target.motionZ -= 10;
+				else if(dir == WyHelper.Direction.WEST)  
+					target.motionZ += 10;	
+			}
+		}
+	};
+	
+	public static AbilityTask consumable = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
+		{
+			itemStack.damageItem(2, player);
+		}
+	};
+	
+	public static AbilityTask swordsSpecialAbility = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
+		{
+			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
+			if(!player.worldObj.isRemote && itemStack.getTagCompound().getInteger("specialCooldown") <= 0)
+			{
+				if(props.getUsedFruit().equals("opeope") && DevilFruitAbilitiesHelper.isEntityInRoom(player))
+				{
+					AbilityProjectile proj = new AbilityProjectile(player.worldObj, (EntityPlayer) player, ListAbilities.DIALAXE.getAttribute());
+					proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.7F, 0);
+					player.worldObj.spawnEntityInWorld(proj);
+					itemStack.getTagCompound().setInteger("specialCooldown", 80);
+				}
+				else if(props.getUsedFruit().equals("guragura"))
+				{
+					player.worldObj.newExplosion(player, player.posX, player.posY, player.posZ, 5, false, false);
+					itemStack.getTagCompound().setInteger("specialCooldown", 140);
+				}
+				else if(props.getUsedFruit().equals("jikijiki"))
+				{			
+					AbilityProjectile proj = new AbilityProjectile(player.worldObj, (EntityPlayer) player, ListExtraAttributes.GRAVITO);
+					proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.7F, 0);
+					player.worldObj.spawnEntityInWorld(proj);
+					itemStack.getTagCompound().setInteger("specialCooldown", 180);
+				}
+			}
+		};
+		
+		public void onItemTick(ItemStack itemStack, EntityPlayer player) 
+		{
+			if(itemStack.getTagCompound().getInteger("specialCooldown") > 0)
+			{
+				int t = itemStack.getTagCompound().getInteger("specialCooldown");
+				t--;
+				itemStack.getTagCompound().setInteger("specialCooldown", t);
+			}
+		};
+	};
+	
+	public static AbilityTask barrier = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player)
+		{
+			if(!player.worldObj.isRemote)
+			{
+				if(WyHelper.instance().get4Directions(player) == WyHelper.Direction.NORTH)
+				{
+					for(int x = -3; x < 3; x++)
+					for(int y = 0; y <= 3; y++)
+					for(int z = -1; z <= 1; z++)
+						player.worldObj.setBlockState(new BlockPos(player.posX - x, player.posY + y, (player.posZ - 3) - z), ListMisc.Barrier.getDefaultState());
+				}
+				if(WyHelper.instance().get4Directions(player) == WyHelper.Direction.SOUTH)
+				{
+					for(int x = -3; x < 3; x++)
+					for(int y = 0; y <= 3; y++)
+					for(int z = -1; z <= 1; z++)
+						player.worldObj.setBlockState(new BlockPos(player.posX - x, player.posY + y, (player.posZ + 2) - z), ListMisc.Barrier.getDefaultState());
+				}
+				if(WyHelper.instance().get4Directions(player) == WyHelper.Direction.EAST)
+				{
+					for(int x = -1; x < 1; x++)
+					for(int y = 0; y <= 3; y++)
+					for(int z = -3; z <= 3; z++)
+						player.worldObj.setBlockState(new BlockPos((player.posX + 2) - x, player.posY + y, player.posZ - z), ListMisc.Barrier.getDefaultState());
+				}
+				if(WyHelper.instance().get4Directions(player) == WyHelper.Direction.WEST)
+				{
+					for(int x = -1; x < 1; x++)
+					for(int y = 0; y <= 3; y++)
+					for(int z = -3; z <= 3; z++)
+						player.worldObj.setBlockState(new BlockPos((player.posX - 3) - x, player.posY + y, player.posZ - z), ListMisc.Barrier.getDefaultState());
+				}
+			}
+		}		
+	};
+	
+	public static AbilityTask barrierBall = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player)
+		{
+			RayTraceResult rtr = WyHelper.instance().rayTrace(player);
+
+			if(rtr.entityHit != null)
+			{
+				if(rtr.entityHit instanceof EntityLivingBase)
+					WyHelper.instance().createSphere(rtr.entityHit, 5, ListMisc.Barrier.getDefaultState());
+			}
+			else
+				WyHelper.instance().createSphere(player, 5, ListMisc.Barrier.getDefaultState());
+		}
+	};
+	
+	public static AbilityTask kilopress = new AbilityTask()
+	{
+		public void onItemUse(ItemStack itemStack, EntityPlayer player)
+		{
+			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
+			if(!props.getKilo())
+				props.setKilo(true);
+			else
+				props.setKilo(false);
+		}
+		
+		public void onItemTick(ItemStack itemStack, EntityPlayer player) 
+		{
+			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);		
+			if(props.getKilo())
+			{
+				itemStack.setStackDisplayName("§r10,000 Kilo Press");
+				if(player.onGround)
+				{
+					for(EntityLivingBase e : WyHelper.instance().getEntitiesNear(player, 2))
+						e.attackEntityFrom(DamageSource.causePlayerDamage(player), 25);
+					props.setKilo(false);
+				}
+			}
+			else
+				itemStack.setStackDisplayName("§r1 Kilo Press");
+		}
+	};
+	
+	
+	public static AbilityTask parfumefemur = new AbilityTask()
+	{
+		public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) 
+		{
+			target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 300, 1));
+			target.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 300, 1));
+		}
+	};
 	
 	public static AbilityTask sparclaw = new AbilityTask()
 	{
@@ -88,13 +418,26 @@ public class Tasks
 		{
 			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
 			
-			player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 99999, (int)(Math.sqrt(props.getDoriki()) * 2) ));
+			if(!props.hasHakiActive())
+			{
+				props.triggerActiveHaki();
+				itemStack.getTagCompound().setBoolean("use", true);
+			}
+			else
+			{
+				props.triggerActiveHaki();
+				itemStack.getTagCompound().setBoolean("use", false);
+			}
 		}
 		
 		public void onItemTick(ItemStack itemStack, EntityPlayer player) 
 		{
-			if(itemStack.getTagCompound().getBoolean("use") && itemStack.getTagCompound().getInteger("ticks") < 500)
-				player.removeActivePotionEffect(MobEffects.STRENGTH);
+			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
+
+			if(!props.hasHakiActive())
+			{
+				itemStack.getTagCompound().setBoolean("use", false);
+			}
 		};
 	};
 	
@@ -138,20 +481,20 @@ public class Tasks
 	
 	public static AbilityTask fubuki = new AbilityTask()
 	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
+		public void onItemUse(ItemStack itemStack, final EntityPlayer player)
 		{
 			for(EntityLivingBase e : WyHelper.instance().getEntitiesNear(player, 25))
 			{
 				e.attackEntityFrom(DamageSource.causePlayerDamage(player), 10);
 				e.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 200, 2));
 				
-				Sphere.generate((int)player.posX, (int)player.posY, (int)player.posZ, 12, new ISphere()
+				Sphere.generate((int)player.posX, (int)player.posY, (int)player.posZ, 25, new ISphere()
 			    { 
 					public void call(int x, int y, int z)
 					{
-		    			for(int i = -3; i <= 3; i++)
-				    		if(player.worldObj.isAirBlock(new BlockPos(x, y + i, z)))
-				    			player.worldObj.setBlockState(new BlockPos(x, y + i, z), Blocks.SNOW_LAYER.getDefaultState());
+		    			for(int i = -4; i <= 4; i++)
+				    		if(player.worldObj.isAirBlock(new BlockPos(x, y, z)) && player.worldObj.getBlockState(new BlockPos(x, y - 1, z)) != Blocks.AIR.getDefaultState() && player.worldObj.getBlockState(new BlockPos(x, y - 1, z)) != Blocks.SNOW_LAYER.getDefaultState()  )
+				    			player.worldObj.setBlockState(new BlockPos(x, y, z), Blocks.SNOW_LAYER.getDefaultState());
 					}
 			    });
 			}
@@ -203,9 +546,9 @@ public class Tasks
 		{
 			if(!player.worldObj.isRemote)
 			{
-				for(int i = -4; i < 4; i++)
+				for(int i = -7; i < 7; i++)
 				for(int j = -5; j < 0; j++)
-				for(int k = -4; k < 4; k++)
+				for(int k = -7; k < 7; k++)
 					player.worldObj.setBlockState(new BlockPos(player.getPosition().getX() + i, player.getPosition().getY() + j, player.getPosition().getZ() + k), Blocks.FLOWING_LAVA.getDefaultState());
 			}
 		}
@@ -391,8 +734,8 @@ public class Tasks
 			for (int i = -20; i < 20; i++) 
 			for (int j = -10; j < 10; j++) 
 			for (int k = -20; k < 20; k++)
-			for (IBlockState ibs : Values.BANNED_BLOCKS)
-				if(!player.worldObj.isAirBlock(new BlockPos(player.posX + i, player.posY + j, player.posZ + k)) && player.worldObj.getBlockState(new BlockPos(player.posX + i, player.posY + j, player.posZ + k)) != ibs)
+				if(!player.worldObj.isAirBlock(new BlockPos(player.posX + i, player.posY + j, player.posZ + k)) && player.worldObj.getBlockState(new BlockPos(player.posX + i, player.posY + j, player.posZ + k)) != ListMisc.Ope.getDefaultState()
+						&& player.worldObj.getBlockState(new BlockPos(player.posX + i, player.posY + j, player.posZ + k)) != ListMisc.OpeMid.getDefaultState() && player.worldObj.getBlockState(new BlockPos(player.posX + i, player.posY + j, player.posZ + k)) != Blocks.BEDROCK.getDefaultState())
 					player.worldObj.setBlockState(new BlockPos(player.posX + i, player.posY + j, player.posZ + k), Blocks.PACKED_ICE.getDefaultState());	
 		}
 	};
@@ -413,34 +756,10 @@ public class Tasks
 			}			
 		}
 	};
-	
-	public static AbilityTask iceBlock = new AbilityTask()
-	{
-		public void onProjectileHit(AbilityProjectile abilityProjectile, RayTraceResult hit)
-		{
-			abilityProjectile.worldObj.setBlockState(abilityProjectile.getPosition(), Blocks.PACKED_ICE.getDefaultState());
-		}
-	};
-	
-	public static AbilityTask fireBlock = new AbilityTask()
-	{
-		public void onProjectileHit(AbilityProjectile abilityProjectile, RayTraceResult hit)
-		{
-			abilityProjectile.worldObj.setBlockState(abilityProjectile.getPosition(), Blocks.FIRE.getDefaultState());
-		}
-	};
-	
-	public static AbilityTask lavaBlock = new AbilityTask()
-	{
-		public void onProjectileHit(AbilityProjectile abilityProjectile, RayTraceResult hit)
-		{
-			abilityProjectile.worldObj.setBlockState(abilityProjectile.getPosition(), Blocks.FLOWING_LAVA.getDefaultState());
-		}
-	};
-	
+
 	public static AbilityTask enjomo = new AbilityTask()
 	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
+		public void onItemUse(ItemStack itemStack, final EntityPlayer player)
 		{
 			if(!player.worldObj.isRemote)
 			{
@@ -567,10 +886,9 @@ public class Tasks
 			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
 
 			if((itemStack.getTagCompound().getInteger("ticks") < 200 && props.getGear() == 2) || (itemStack.getTagCompound().getInteger("ticks") < 250 && props.getGear() == 3) || (itemStack.getTagCompound().getInteger("ticks") < 300 && props.getGear() == 4))
-			{
 				props.setGear((byte) 1);
+			else if(itemStack.getTagCompound().getInteger("ticks") < 10) 
 				itemStack.setStackDisplayName("§rGear");
-			}
 		};
 	};
 	
@@ -578,49 +896,32 @@ public class Tasks
 	{ 
 		public void onItemAfterUse(ItemStack itemStack, EntityPlayer player, int timeLeft)
 		{
-			AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
-			int power = (timeLeft - ((AbilityItem)itemStack.getItem()).getAttribute().getItemMaxCharges()) * -1;
-			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
-			
-			if(power == 0) power = aa.getItemMaxCharges();
-
-			AbilityProjectile proj = null;
-
-			if(props.getGear() == 1)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelGomuBazooka()).setColor("F5DEB3").setSize(3, 1, 1).setDamage(5 + (power/3)) );				
-			else if(props.getGear() == 2)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelGomuBazooka()).setColor("F5DEB3").setSize(3, 1, 1).setSpeed(4).setDamage(10 + (power/3)).setParticleForProjectile(new ParticleTemplateForProjectileWithLOD(4), EnumParticleTypes.SMOKE_NORMAL) );
-			else if(props.getGear() == 3)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelGomuBazooka()).setColor("F5DEB3").setSize(7, 5, 5).setDamage(15 + (power/2)) );
-			else if(props.getGear() == 4)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelGomuBazooka()).setColor("2A3439").setSpeed(4).setSize(7, 5, 5).setDamage(15 + power) );
-			
-			if(proj != null)
+			if(!player.worldObj.isRemote)
 			{
-				proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
-				player.worldObj.spawnEntityInWorld(proj);
+				AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
+				int power = (timeLeft - ((AbilityItem)itemStack.getItem()).getAttribute().getItemMaxCharges()) * -1;
+				IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
+				
+				if(power == 0) power = aa.getItemMaxCharges();
+	
+				AbilityProjectile proj = null;
+	
+				if(props.getGear() == 1)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOBAZOOKA.setProjectileDamage(5 + (power/3)) );				
+				else if(props.getGear() == 2)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOJETBAZOOKA.setProjectileDamage(10 + (power/3)) );
+				else if(props.getGear() == 3)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOGIGANTBAZOOKA.setProjectileDamage(15 + (power/2)) );
+				else if(props.getGear() == 4)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOLEOBAZOOKA.setProjectileDamage(15 + power) );
+				
+				if(proj != null)
+				{
+					proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
+					player.worldObj.spawnEntityInWorld(proj);
+				}
 			}
-			
 		}
-		
-		public void onProjectileHit(AbilityProjectile abilityProjectile, RayTraceResult hit) 
-		{
-			if(hit.entityHit instanceof EntityLivingBase)
-			{
-				((EntityLivingBase) hit.entityHit).motionY += 0.8;
-				IEntityCapability props = abilityProjectile.getThrower().getCapability(Values.ENTITY_CAPABILITIES, null);
-				Direction dir = WyHelper.instance().get4Directions(abilityProjectile.getThrower());
-				//System.out.println(0.25 / props.getGear()); 
-				if(dir == WyHelper.Direction.SOUTH)
-					((EntityLivingBase) hit.entityHit).motionZ += 1.7;
-				else if(dir == WyHelper.Direction.EAST)
-					((EntityLivingBase) hit.entityHit).motionX += 1.7; 
-				else if(dir == WyHelper.Direction.NORTH)
-					((EntityLivingBase) hit.entityHit).motionZ -= 1.7;
-				else if(dir == WyHelper.Direction.WEST)  
-					((EntityLivingBase) hit.entityHit).motionX -= 1.7;	
-			}
-		}; 
 		
 		public void onItemTick(ItemStack itemStack, EntityPlayer player) 
 		{
@@ -635,28 +936,50 @@ public class Tasks
 			if(props.getGear() == 4)
 				itemStack.setStackDisplayName("§rGomu Gomu no Leo Bazooka");
 		};
+		
+		public void onProjectileHit(AbilityProjectile abilityProjectile, RayTraceResult hit) 
+		{
+			if(hit.entityHit instanceof EntityLivingBase)
+			{
+				((EntityLivingBase) hit.entityHit).motionY += 0.8;
+				Direction dir = WyHelper.instance().get4Directions(abilityProjectile.getThrower());
+				if(dir == WyHelper.Direction.SOUTH)
+					((EntityLivingBase) hit.entityHit).motionZ += 1.7;
+				else if(dir == WyHelper.Direction.EAST)
+					((EntityLivingBase) hit.entityHit).motionX += 1.7; 
+				else if(dir == WyHelper.Direction.NORTH)
+					((EntityLivingBase) hit.entityHit).motionZ -= 1.7;
+				else if(dir == WyHelper.Direction.WEST)  
+					((EntityLivingBase) hit.entityHit).motionX -= 1.7;	
+			}
+		}; 
 	};
 
 	public static AbilityTask gomugomugatling = new AbilityTask()
 	{ 	
 		public void onItemUse(ItemStack itemStack, EntityPlayer player)  
 		{
-			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
-			
-			AbilityProjectile proj = null;
-
-			if(props.getGear() == 1)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(3, 1, 1).setEntityTicks(16).setDamage(5) );				
-			else if(props.getGear() == 2)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(3, 1, 1).setSpeed(4).setEntityTicks(16).setDamage(10).setParticleForProjectile(new ParticleTemplateForProjectileWithLOD(4), EnumParticleTypes.SMOKE_NORMAL) );
-			else if(props.getGear() == 3 || props.getGear() == 4)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(5, 3, 3).setEntityTicks(16).setDamage(20) );
-
-			if(proj != null)
+			if(!player.worldObj.isRemote)
 			{
-				proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
-				player.worldObj.spawnEntityInWorld(proj);
-			}	
+				IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
+				
+				AbilityProjectile proj = null;
+	
+				if(props.getGear() == 1)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOGATLING.setProjectileDamage(5) );				
+				else if(props.getGear() == 2)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOJETGATLING.setProjectileDamage(5) );
+				else if(props.getGear() == 3)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOGIGANTGATLING.setProjectileDamage(10) );
+				else if(props.getGear() == 4)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOKONGORGAN.setProjectileSpeed(4).setProjectileDamage(10) );
+				
+				if(proj != null)
+				{
+					proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
+					player.worldObj.spawnEntityInWorld(proj);
+				}	
+			}
 		};
 		
 		public void onItemTick(ItemStack itemStack, EntityPlayer player) 
@@ -667,8 +990,10 @@ public class Tasks
 				itemStack.setStackDisplayName("§rGomu Gomu no Gatling");
 			if(props.getGear() == 2)
 				itemStack.setStackDisplayName("§rGomu Gomu no Jet Gatling");
-			if(props.getGear() == 3 || props.getGear() == 4)
+			if(props.getGear() == 3)
 				itemStack.setStackDisplayName("§rGomu Gomu no Gigant Gatling");
+			if(props.getGear() == 4)
+				itemStack.setStackDisplayName("§rGomu Gomu no Kong Organ");
 		};		
 	};
 	
@@ -676,27 +1001,30 @@ public class Tasks
 	{ 		
 		public void onItemAfterUse(ItemStack itemStack, EntityPlayer player, int timeLeft)
 		{
-			AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
-			int power = (timeLeft - ((AbilityItem)itemStack.getItem()).getAttribute().getItemMaxCharges()) * -1;
-			IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
-			
-			if(power == 0) power = aa.getItemMaxCharges();
-
-			AbilityProjectile proj = null;
-
-			if(props.getGear() == 1)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(3, 1, 1).setDamage(5 + (power/2)) );				
-			else if(props.getGear() == 2)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(3, 1, 1).setSpeed(4).setDamage(10 + (power/2)).setParticleForProjectile(new ParticleTemplateForProjectileWithLOD(4), EnumParticleTypes.SMOKE_NORMAL) );
-			else if(props.getGear() == 3)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("F5DEB3").setSize(7, 5, 5).setDamage(20 + (power/2)) );
-			else if(props.getGear() == 4)
-				proj = new AbilityProjectile(player.worldObj, player, new AbilityAttribute().setModel(new ModelCube()).setColor("#2a3439").setSpeed(4).setSize(7, 5, 5).setDamage(20 + power) );
-			
-			if(proj != null)
+			if(!player.worldObj.isRemote)
 			{
-				proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
-				player.worldObj.spawnEntityInWorld(proj);
+				AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
+				int power = (timeLeft - ((AbilityItem)itemStack.getItem()).getAttribute().getItemMaxCharges()) * -1;
+				IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
+				
+				if(power == 0) power = aa.getItemMaxCharges();
+	
+				AbilityProjectile proj = null;
+	
+				if(props.getGear() == 1)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOPISTOL.setProjectileDamage(5 + (power/2)) );
+				else if(props.getGear() == 2)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOJETPISTOL.setProjectileDamage(10 + (power/2)) );
+				else if(props.getGear() == 3)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOGIGANTPISTOL.setProjectileDamage(20 + (power/2)) );
+				else if(props.getGear() == 4)
+					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOKONGGUN.setProjectileSpeed(4).setProjectileDamage(20 + power) );
+				
+				if(proj != null)
+				{
+					proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
+					player.worldObj.spawnEntityInWorld(proj);
+				}
 			}
 		}
 		
@@ -718,12 +1046,11 @@ public class Tasks
 		};
 		
 	};
-	
-	/** TODO Doppelman */
+
 	public static AbilityTask doppelman = new AbilityTask()
 	{ 
 		//String[] actions = {"§rAggressive", "§rDefensive", "§rChange Positions", "§rFollow", "§rStay", "§rReturn"};
-		String[] actions = {"§rChange Positions", "§rReturn"};
+		String[] actions = {"§rChange Positions", "§rSelf-destruct", "§rReturn"};
 		String currentAction = actions[0];
 		
 		public void onItemUse(ItemStack itemStack, EntityPlayer player)
@@ -753,21 +1080,9 @@ public class Tasks
 					}
 					else
 					{
-						/*if(currentAction == actions[0])
-						{
-							for(EntityLivingBase dopp : WyHelper.instance().getEntitiesNear(player, 230))
-								if(dopp instanceof Doppelman && ((Doppelman) dopp).getOwner() == player)
-									((Doppelman) dopp).setState(0);
-						}
-						if(currentAction == actions[1])
-						{
-							for(EntityLivingBase dopp : WyHelper.instance().getEntitiesNear(player, 230))
-								if(dopp instanceof Doppelman && ((Doppelman) dopp).getOwner() == player)
-									((Doppelman) dopp).setState(1);
-						}*/
 						if(currentAction == actions[0])
 						{
-							for(EntityLivingBase dopp : WyHelper.instance().getEntitiesNear(player, 230))
+							for(EntityLivingBase dopp : WyHelper.instance().getEntitiesNear(player, 840))
 								if(dopp instanceof Doppelman && ((Doppelman) dopp).getOwner() == player)
 								{
 									BlockPos newPos = dopp.getPosition();
@@ -775,13 +1090,22 @@ public class Tasks
 									player.setPositionAndUpdate(newPos.getX(), newPos.getY(), newPos.getZ());
 								}
 						}
-						//if(currentAction == actions[3])
-							//System.out.println( "Follow" );
-						//if(currentAction == actions[4])
-							//System.out.println( "Stay" );
+						if(currentAction == actions[1])
+						{							
+							for(EntityLivingBase dopp : WyHelper.instance().getEntitiesNear(player, 840))
+								if(dopp instanceof Doppelman && ((Doppelman) dopp).getOwner() == player)
+								{
+									dopp.worldObj.newExplosion(dopp, dopp.posX, dopp.posY, dopp.posZ, 5, false, false);
+									for(EntityLivingBase target : WyHelper.instance().getEntitiesNear(dopp, 10))
+										if(target != ((Doppelman)dopp).getOwner())
+											target.addPotionEffect(new PotionEffect(MobEffects.WITHER, 500, 1));
+									dopp.setDead();
+									itemStack.getTagCompound().setBoolean("doppelman", false);
+								}
+						}
 						if(currentAction == actions[actions.length - 1])
 						{
-							for(EntityLivingBase dopp : WyHelper.instance().getEntitiesNear(player, 230))
+							for(EntityLivingBase dopp : WyHelper.instance().getEntitiesNear(player, 840))
 								if(dopp instanceof Doppelman && ((Doppelman) dopp).getOwner() == player)
 									dopp.setDead();
 							itemStack.getTagCompound().setBoolean("doppelman", false);
@@ -884,18 +1208,15 @@ public class Tasks
 		}
 		public void onItemCooldown(ItemStack itemStack, EntityPlayer entity) 
 		{
-			ParticleTemplateForProjectileWithLOD lod = new ParticleTemplateForProjectileWithLOD(15);
 			if(itemStack.getTagCompound().getInteger("ticks") > 120)
 			{
-				if(!entity.onGround)
-					lod.render(entity, EnumParticleTypes.SMOKE_LARGE);
 				for(EntityLivingBase e : WyHelper.instance().getEntitiesNear(entity, 1.6))
 					e.attackEntityFrom(DamageSource.causePlayerDamage(entity), 10);
 			}
 					
 		}
 	};
-		
+		 
 	public static AbilityTask elthor = new AbilityTask()
 	{
 		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
@@ -923,12 +1244,12 @@ public class Tasks
 	{
 		public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) 
 		{
-			IEntityCapability props = attacker.getCapability(Values.ENTITY_CAPABILITIES, null);
+			IEntityCapability props = target.getCapability(Values.ENTITY_CAPABILITIES, null);
 
 			if(props.hasHeart())
 			{
 				ItemStack heart = new ItemStack(ListMisc.Heart);
-				((Heart) heart.getItem()).setHeartOwner(target);
+				((Heart) heart.getItem()).setHeartOwner(heart, target);
 				heart.setStackDisplayName(target.getName() + "'s Heart"); 
 						
 				((EntityPlayer) attacker).inventory.addItemStackToInventory(heart);
@@ -1021,10 +1342,6 @@ public class Tasks
 		}
 	}; 
 
-	public static AbilityTask icesaber = new AbilityTask() {public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) {target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1));}};
-		
-	public static AbilityTask noronorobeamsword = new AbilityTask() {public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) {target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 200, 5));}};
-	
 	public static AbilityTask bluesword = new AbilityTask() {public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) {target.setFire(100);}};
 	
 	public static AbilityTask springhopper = new AbilityTask()
@@ -1064,6 +1381,7 @@ public class Tasks
 				for(EntityLivingBase e : WyHelper.instance().getEntitiesNear(player, 1.6))
 					e.attackEntityFrom(DamageSource.causePlayerDamage(player), 10 + (itemStack.getTagCompound().getInteger("extra_power") * 10));
 		}
+		
 		public void onItemAfterUse(ItemStack itemStack, EntityPlayer player, int timeLeft) 
 		{
 			double mX = (double)(-MathHelper.sin(player.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(player.rotationPitch / 180.0F * (float)Math.PI) * 0.4);

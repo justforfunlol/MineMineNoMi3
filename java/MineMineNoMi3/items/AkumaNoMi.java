@@ -7,6 +7,8 @@ import MineMineNoMi3.Main;
 import MineMineNoMi3.Values;
 import MineMineNoMi3.capability.EntityCapability.IEntityCapability;
 import MineMineNoMi3.lists.ListCreativeTabs;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
@@ -21,7 +23,7 @@ import net.minecraft.world.World;
 
 public class AkumaNoMi extends ItemFood
 {
-
+ 
 	public EnumFruitType type;
 	public Item ability1, ability2, ability3, ability4;
 	public Item[] abilities;
@@ -34,7 +36,7 @@ public class AkumaNoMi extends ItemFood
 		this.abilities = abilities;
 		this.setCreativeTab(ListCreativeTabs.tabDevilFruits);
 		this.setAlwaysEdible(); 
-	}
+	} 
 
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
     {
@@ -52,7 +54,7 @@ public class AkumaNoMi extends ItemFood
 		if(!props.getUsedFruit().equals("N/A") && !player.capabilities.isCreativeMode)
 			player.attackEntityFrom(DamageSource.wither, Float.POSITIVE_INFINITY);
 		if(props.getUsedFruit().equals("N/A"))
-			props.setUsedFruit(this.getUnlocalizedName().substring(5).replace("nomi", "").replace(":", "").replace("model", ""));
+			props.setUsedFruit(this.getUnlocalizedName().substring(5).replace("nomi", "").replace(":", "").replace(",", "").replace("model", ""));
 		
 		if(this.type == EnumFruitType.LOGIA)
 			props.setIsLogia(true);
@@ -129,4 +131,6 @@ public class AkumaNoMi extends ItemFood
 	  	list.add("");
 	  	list.add(type.getColor() + type.getName());
 	}
+	
+	public EnumFruitType getType() { return type; }
 }

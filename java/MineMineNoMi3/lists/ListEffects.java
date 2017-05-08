@@ -1,6 +1,11 @@
 package MineMineNoMi3.lists;
 
+import MineMineNoMi3.MainEnchantment;
+import WyPI.modules.WyRegistry;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ListEffects 
 {
@@ -8,9 +13,10 @@ public class ListEffects
 	
 	public static void init()
 	{		
-		/*dialImpact 	= new MainEnchantment(145	, 4	, "Impact Dial"		, 1);
-		dialFlash	= new MainEnchantment(146	, 4	, "Flash Dial"		, 1);
-		dialAxe 	= new MainEnchantment(147	, 4	, "Axe Dial"		, 1);
-		kairoseki 	= new MainEnchantment(148	, 4	, "Kairoseki"		, 1);	*/
+		dialImpact = new MainEnchantment("Impact", EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+		kairoseki 	= new MainEnchantment("Kairoseki", EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});	
+		
+		WyRegistry.instance().registerEnchantment(dialImpact, "Impact");
+		WyRegistry.instance().registerEnchantment(kairoseki, "Kairoseki");
 	}
 }

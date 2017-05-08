@@ -6,27 +6,26 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.SortedSet;
 
-import WyPI.Module;
 import WyPI.WyPI;
+import WyPI.abilities.AbilityItem;
+import WyPI.abilities.extra.ItemProperty;
 import WyPI.math.ISphere;
 import WyPI.math.Sphere;
-import WyPI.modules.WyHelper.Direction;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -39,35 +38,30 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class WyHelper extends Module
+public class WyHelper
 {
 	private static WyHelper instance;
 	public static WyHelper instance() 
 	{ 
-		if(instance == null) instance = new WyHelper(WyPI.apiInstance);
+		if(instance == null) instance = new WyHelper();
 		return instance;
 	}
 	
 	private String[] exceptionsForJSON;
-	
-	public WyHelper(WyPI instance)
-	{
-		super(instance);
-	}
-	
+
 	public static enum Direction {SOUTH, SOUTH_EAST, EAST, NORTH, NORTH_EAST, NORTH_WEST, WEST, SOUTH_WEST;}
 	
 	public void generateLangFiles()
 	{
-		Set set = apiInstance.getLangMap().entrySet();
+		Set set = WyPI.apiInstance.getLangMap().entrySet();
 		Iterator i = set.iterator();
 		
-		File langFolder = new File(apiInstance.getParentMod().getSourceFolder() + "/assets/" + apiInstance.getParentMod().getParentModID() + "/lang/");
+		File langFolder = new File(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/lang/");
 		langFolder.mkdirs();
 		
 		if(langFolder.exists())
 		{			
-			try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(apiInstance.getParentMod().getSourceFolder() + "/assets/" + apiInstance.getParentMod().getParentModID() + "/lang/en_US.lang"), "UTF-8"))) 
+			try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/lang/en_US.lang"), "UTF-8"))) 
 			{
 				while(i.hasNext())
 				{
@@ -80,10 +74,10 @@ public class WyHelper extends Module
 			catch(Exception e) {e.getStackTrace();}
 		}
 	}
-	
+
 	public void generateIngameModels()
 	{
-		Set set = apiInstance.getItemsMap().entrySet();
+		Set set = WyPI.apiInstance.getItemsMap().entrySet();
 		Iterator i = set.iterator();
 		
 		while(i.hasNext())
@@ -92,12 +86,12 @@ public class WyHelper extends Module
 			if(entry.getKey() instanceof Item)
 			{
 				Item item = (Item) entry.getKey();
-				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(apiInstance.getParentMod().getParentModID() + ":" + item.getUnlocalizedName().substring(5), "inventory"));
+				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(WyPI.apiInstance.getParentMod().getParentModID() + ":" + item.getUnlocalizedName().substring(5), "inventory"));
 			}
 			if(entry.getKey() instanceof Block)
 			{
 				Block block = (Block) entry.getKey();
-				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(apiInstance.getParentMod().getParentModID() + ":" + block.getUnlocalizedName().substring(5), "inventory"));
+				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(WyPI.apiInstance.getParentMod().getParentModID() + ":" + block.getUnlocalizedName().substring(5), "inventory"));
 			}
 		}
 	}
@@ -107,57 +101,102 @@ public class WyHelper extends Module
 		this.exceptionsForJSON = s;
 	}
 	
-	public void generateJSONModels()
-	{
-		File itemFolder = new File(apiInstance.getParentMod().getSourceFolder() + "/assets/" + apiInstance.getParentMod().getParentModID() + "/models/item/");
-		File blockstateFolder = new File(apiInstance.getParentMod().getSourceFolder() + "/assets/" + apiInstance.getParentMod().getParentModID() + "/blockstates/");
-		File blockFolder = new File(apiInstance.getParentMod().getSourceFolder() + "/assets/" + apiInstance.getParentMod().getParentModID() + "/models/block/");
+	public void generateJSONModels(boolean overrideFiles)
+	{	
+		File itemFolder = new File(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/item/");
+		File blockstateFolder = new File(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/blockstates/");
+		File blockFolder = new File(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/block/");
 		
 		itemFolder.mkdirs();
 		blockstateFolder.mkdirs();
 		blockFolder.mkdirs();
-		 
-		Set set = apiInstance.getItemsMap().entrySet();
+		  
+		Set set = WyPI.apiInstance.getItemsMap().entrySet();
 		Iterator i = set.iterator();
 		
 		if(itemFolder.exists() && blockFolder.exists() && blockstateFolder.exists())
-		{ 
+		{  
+			//Creates the handheldp.json file used by swords to display a 3D model
+			if(overrideFiles || !(new File(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/item/handheldp.json").exists()))
+			{
+				try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/item/handheldp.json"), "UTF-8"))) 
+				{
+					writer.write("{ \"parent\": \"item/generated\",\"display\": {\"thirdperson_righthand\": {\"rotation\": [ 0, -90, 55 ],\"translation\": [ 0, 8.5, 0 ],\"scale\": [ 1.5, 1.5, 1.5 ]},\"thirdperson_lefthand\": {\"rotation\": [ 0, 90, -55 ],\"translation\": [ 0, 8.5, 0.0 ],\"scale\": [ 1.5, 1.5, 1.5 ]},\"firstperson_righthand\": {\"rotation\": [ 0, -90, 25 ],\"translation\": [ 1.13, 3.2, 1.13 ],\"scale\": [ 0.68, 0.68, 0.68 ]},\"firstperson_lefthand\": {\"rotation\": [ 0, 90, -25 ],\"translation\": [ 1.13, 3.2, 1.13 ],\"scale\": [ 0.68, 0.68, 0.68 ]}}} ");
+				}
+				catch(Exception e) {e.getStackTrace();}
+			}
+			  
 			while(i.hasNext())
 			{
 				Map.Entry entry = (Map.Entry)i.next();
 				
-				//for(String s : this.exceptionsForJSON)
-					//if(this.getFancyName((String) entry.getValue()).equals(s) && this.exceptionsForJSON.length > 0) return;
-				
+				//Creates the item json files for each registered item. IF the item has a damage value it will be rendered as a 3d model
 				if(entry.getKey() instanceof Item)
 				{
-					try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(apiInstance.getParentMod().getSourceFolder() + "/assets/" + apiInstance.getParentMod().getParentModID() + "/models/item/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + ".json"), "UTF-8"))) 
+					if(overrideFiles || !(new File(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/item/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + ".json").exists()))
 					{
-						writer.write("{\"parent\": \"item/generated\", \"textures\": { \"layer0\": \"" + apiInstance.getParentMod().getParentModID() + ":items/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + "\"}}");
-						writer.close();
+						try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/item/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + ".json"), "UTF-8"))) 
+						{
+							if(entry.getKey() instanceof AbilityItem && (((AbilityItem)entry.getKey()).getAttribute().getItemDamage() > 0 ))
+								writer.write("{\"parent\": \"" + WyPI.apiInstance.getParentMod().getParentModID() + ":item/handheldp\", \"textures\": { \"layer0\": \"" + WyPI.apiInstance.getParentMod().getParentModID() + ":items/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + "\"}");
+							else
+								writer.write("{\"parent\": \"item/generated\", \"textures\": { \"layer0\": \"" + WyPI.apiInstance.getParentMod().getParentModID() + ":items/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + "\"}");
+							 
+							if( (((AbilityItem)entry.getKey()).getAttribute().getProperties() != null) )
+							{  
+								writer.write(" ,\"overrides\": [");
+								for(ItemProperty ip : (((AbilityItem)entry.getKey()).getAttribute().getProperties())) 
+								{ 
+									for(int k = 1; k < ip.getValue() + 1; k++)
+									{
+										writer.write("{\"predicate\": { \"" + ip.getName() + "\": " + k + " }, \"model\": \"" + WyPI.apiInstance.getParentMod().getParentModID() + ":item/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + "_" + k + "\"}");	
+									
+										try (Writer writerSubFile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/item/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + "_" + k + ".json"), "UTF-8"))) 
+										{
+											writerSubFile.write("{\"parent\": \"" + WyPI.apiInstance.getParentMod().getParentModID() + ":item/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + "\", \"textures\": { \"layer0\": \"" + WyPI.apiInstance.getParentMod().getParentModID() + ":items/" + ((Item)entry.getKey()).getUnlocalizedName().substring(5) + "_" + k + "\"}}");									
+											writerSubFile.close();
+										}
+										catch(Exception e) {e.getStackTrace();}
+									}
+								}
+								writer.write("]");
+							}
+							
+							writer.write("}");
+							writer.close();
+						}
+						catch(Exception e) {e.getStackTrace();}
 					}
-					catch(Exception e) {e.getStackTrace();}
-				}  
+				}  //Creates the block json files (including block, item and blockstate files)
 				else if(entry.getKey() instanceof Block)
 				{
-					try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(apiInstance.getParentMod().getSourceFolder() + "/assets/" + apiInstance.getParentMod().getParentModID() + "/models/block/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + ".json"), "UTF-8"))) 
+					if(overrideFiles || !(new File(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/block/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + ".json").exists()))
 					{
-						writer.write("{\"parent\": \"block/cube_all\",\"textures\": {\"all\": \"" + apiInstance.getParentMod().getParentModID() + ":blocks/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + "\"}}");
-						writer.close();
+						try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/block/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + ".json"), "UTF-8"))) 
+						{
+							writer.write("{\"parent\": \"block/cube_all\",\"textures\": {\"all\": \"" + WyPI.apiInstance.getParentMod().getParentModID() + ":blocks/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + "\"}}");
+							writer.close();
+						}
+						catch(Exception e) {e.getStackTrace();}
 					}
-					catch(Exception e) {e.getStackTrace();}
-					try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(apiInstance.getParentMod().getSourceFolder() + "/assets/" + apiInstance.getParentMod().getParentModID() + "/models/item/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + ".json"), "UTF-8"))) 
+					if(overrideFiles || !(new File(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/item/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + ".json").exists()))
 					{
-						writer.write("{\"parent\":\"" + apiInstance.getParentMod().getParentModID() + ":block/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + "\"}");
-						writer.close();
+						try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/models/item/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + ".json"), "UTF-8"))) 
+						{
+							writer.write("{\"parent\":\"" + WyPI.apiInstance.getParentMod().getParentModID() + ":block/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + "\"}");
+							writer.close();
+						}
+						catch(Exception e) {e.getStackTrace();}
 					}
-					catch(Exception e) {e.getStackTrace();}
-					try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(apiInstance.getParentMod().getSourceFolder() + "/assets/" + apiInstance.getParentMod().getParentModID() + "/blockstates/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + ".json"), "UTF-8"))) 
+					if(overrideFiles || !(new File(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/blockstates/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + ".json").exists()))
 					{
-						writer.write("{\"variants\": {\"normal\": { \"model\": \"" + apiInstance.getParentMod().getParentModID() + ":" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + "\" }}}");
-						writer.close();
+						try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(WyPI.apiInstance.getParentMod().getSourceFolder() + "/assets/" + WyPI.apiInstance.getParentMod().getParentModID() + "/blockstates/" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + ".json"), "UTF-8"))) 
+						{
+							writer.write("{\"variants\": {\"normal\": { \"model\": \"" + WyPI.apiInstance.getParentMod().getParentModID() + ":" + ((Block)entry.getKey()).getUnlocalizedName().substring(5) + "\" }}}");
+							writer.close();
+						}
+						catch(Exception e) {e.getStackTrace();}
 					}
-					catch(Exception e) {e.getStackTrace();}
 				}
 			}
 		}
@@ -231,19 +270,29 @@ public class WyHelper extends Module
 	
     public List<EntityLivingBase> getEntitiesNear(Entity e, double radius)
     {
+	    return getEntitiesNear(e, radius, EntityLivingBase.class);
+    }
+
+    public List<EntityLivingBase> getEntitiesNear(Entity e, double radius, Class <? extends Entity> classEntity)
+    {
     	AxisAlignedBB aabb = new AxisAlignedBB(e.posX, e.posY, e.posZ, e.posX + 1, e.posY + 1, e.posZ + 1).expand(radius, radius, radius);
-    	List<EntityLivingBase> list = e.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
+    	List list = e.worldObj.getEntitiesWithinAABB(classEntity, aabb);
     	list.remove(e);
 	    return list;
     }
-
-    public List<EntityLivingBase> getEntitiesNear(TileEntity e, int[] radius)
+    
+    public List<EntityLivingBase> getEntitiesNear(TileEntity e, double radius)
     {
-    	AxisAlignedBB aabb = new AxisAlignedBB((double)e.getPos().getX(), (double)e.getPos().getY(), (double)e.getPos().getZ(), (double)(e.getPos().getX() + 1), (double)(e.getPos().getY() + 1), (double)(e.getPos().getZ() + 1)).expand(radius[0], radius[1], radius[2]);
-    	List<EntityLivingBase> list = e.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, aabb);
-		return list;
+		return getEntitiesNear(e, radius, EntityLivingBase.class);
     }
 
+    public List<EntityLivingBase> getEntitiesNear(TileEntity e, double radius, Class <? extends Entity> classEntity)
+    {
+    	AxisAlignedBB aabb = new AxisAlignedBB((double)e.getPos().getX(), (double)e.getPos().getY(), (double)e.getPos().getZ(), (double)(e.getPos().getX() + 1), (double)(e.getPos().getY() + 1), (double)(e.getPos().getZ() + 1)).expand(radius, radius, radius);
+    	List list = e.getWorld().getEntitiesWithinAABB(classEntity, aabb);
+		return list;
+    }
+    
 	public Direction get4Directions(Entity e)
 	{
 		switch(MathHelper.floor_double(e.rotationYaw * 4.0F / 360.0F + 0.5D) & 3)
@@ -278,6 +327,20 @@ public class WyHelper extends Module
 		for(int x = 0; x < numDimensions; x++)
 			playerList.addAll(Minecraft.getMinecraft().thePlayer.getServer().worldServers[x].playerEntities);	
 		return playerList;
+	}
+	
+	public void setThirdPersonCameraDistance(int distance)
+	{
+		try
+		{
+			Field field = EntityRenderer.class.getDeclaredField("thirdPersonDistance");
+			field.setAccessible(true);
+			field.set(Minecraft.getMinecraft().entityRenderer, distance);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -1,7 +1,15 @@
 package MineMineNoMi3.entities.mobs.pirates;
 
 import MineMineNoMi3.Values;
+import MineMineNoMi3.capability.EntityCapability.IEntityCapability;
+import MineMineNoMi3.entities.mobs.Doppelman;
+import MineMineNoMi3.entities.mobs.EntityNewMob;
 import MineMineNoMi3.entities.mobs.marines.MarineData;
+import WyPI.modules.WyHelper;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IRangedAttackMob;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
@@ -10,79 +18,89 @@ import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class PirateData extends EntityMob
+public class PirateData extends EntityNewMob
 {
-	
-	public PirateData(World world) 
+
+	private EntityAIBase attackMelee = new EntityAIAttackMelee(this, 1.0D, true), 
+					nearestAttableTarget = new EntityAINearestAttackableTarget(this, EntityPlayer.class, true),
+					nearestAttableTargetDopp = new EntityAINearestAttackableTarget(this, Doppelman.class, true),
+					nearestAttableTargetMarine = new EntityAINearestAttackableTarget(this, MarineData.class, true);
+
+	public PirateData(World world)
 	{
 		super(world);
-		this.tasks.addTask(1, new EntityAISwimming(this));
-        //this.tasks.addTask(2, new EntityAIAttackOnCollide(this, MarineData.class, 1.0D, false));
-        //this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
-		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-		this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(0, new EntityAISwimming(this));
+		this.tasks.addTask(2, new EntityAIOpenDoor(this, true));
+		this.tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1.0D));
+		this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(5, new EntityAILookIdle(this));
+		this.tasks.addTask(6, new EntityAIHurtByTarget(this, false));
 		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(8, new EntityAIWatchClosest(this, MarineData.class, 8.0F));
-		this.tasks.addTask(9, new EntityAILookIdle(this));
-		this.tasks.addTask(10, new EntityAIHurtByTarget(this, true));
-		this.tasks.addTask(11, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-        this.tasks.addTask(12, new EntityAINearestAttackableTarget(this, MarineData.class, true));    
 	}
 
-	/*public void onEntityUpdate() 
+	public void onEntityUpdate()
 	{
+		for (EntityLivingBase entity : WyHelper.instance().getEntitiesNear(this, 45))
+		{
+			if (entity instanceof EntityPlayer)
+			{
+				IEntityCapability props = entity.getCapability(Values.ENTITY_CAPABILITIES, null);
+				IEntityCapability propz = this.getCapability(Values.ENTITY_CAPABILITIES, null);
 
-	}*/
-	
-	public String getTexture()
-	{
-		return this.getDataManager().get(Values.TEXTURE);
-	}
+				if (!((EntityPlayer) entity).capabilities.isCreativeMode)
+				{
+					if (!(this instanceof IRangedAttackMob))
+						this.tasks.addTask(1, attackMelee);
+					this.targetTasks.addTask(1, nearestAttableTarget);
 
-	protected void setTexture(String texture)
-	{
-		this.getDataManager().set(Values.TEXTURE, texture);
+					/*
+					 * if(!props.getCrew().equals(propz.getCrew()) &&
+					 * (!props.getCrew().equals("N/A") ||
+					 * !propz.getCrew().equals("N/A"))) { if(!(this instanceof
+					 * IRangedAttackMob)) this.tasks.addTask(1, attackMelee);
+					 * this.targetTasks.addTask(1, nearestAttableTarget); } else
+					 * { this.tasks.removeTask(attackMelee);
+					 * this.targetTasks.removeTask(nearestAttableTarget); }
+					 */
+				}
+			}
+			else if (entity instanceof MarineData)
+			{
+				if (!(this instanceof IRangedAttackMob))
+					this.tasks.addTask(1, attackMelee);
+				this.targetTasks.addTask(1, nearestAttableTargetMarine);
+			}
+			else if(entity instanceof Doppelman)
+			{
+				if(!(this instanceof IRangedAttackMob))
+					this.tasks.addTask(1, attackMelee);
+				this.targetTasks.addTask(1, nearestAttableTargetDopp);
+			}
+		}
+		super.onEntityUpdate();
 	}
-	
-	public void writeEntityToNBT(NBTTagCompound nbt)
-	{
-		super.writeEntityToNBT(nbt);
-		nbt.setString("Texture", getTexture());
-	}
-	
-	public void readEntityFromNBT(NBTTagCompound nbt)
-	{
-		super.readEntityFromNBT(nbt);
-		setTexture(nbt.getString("Texture"));
-	}
-	
-	protected void entityInit()
-	{
-		super.entityInit();
-	    this.getDataManager().register(Values.TEXTURE, "n/a");
-	}
-	
-	public boolean attackEntityFrom(DamageSource damageSource, float f)
-	{return super.attackEntityFrom(damageSource, f);}
 
 	protected boolean isValidLightLevel()
-	{return true;} 
-    
+	{
+		return true;
+	}
+
 	protected boolean canDespawn()
-	{return true;}
-    
+	{
+		return true;
+	}
+
 	public boolean isAIEnabled()
-	{return true;}
-	
+	{
+		return true;
+	}
+
 	public boolean getCanSpawnHere()
-	{return true;}
+	{
+		return true;
+	}
 
 }
-

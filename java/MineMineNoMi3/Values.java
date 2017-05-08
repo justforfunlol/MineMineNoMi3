@@ -3,6 +3,7 @@ package MineMineNoMi3;
 import java.util.ArrayList;
 import java.util.List;
 
+import MineMineNoMi3.capability.AchievementsCapability.IAchievementsCapability;
 import MineMineNoMi3.capability.EntityCapability.IEntityCapability;
 import MineMineNoMi3.lists.ListMisc;
 import net.minecraft.block.Block;
@@ -27,6 +28,7 @@ public class Values
 	
 	public static final int MAX_DORIKI = 10000;
 	public static final int MAX_COLA = 100;
+	public static final int MAX_ULTRACOLA = 10;
 	public static final int MAX_GENERAL = 999999999; //Used by Bounty, Reputation, Belly & Extol
 	public static final int MAX_CREW = 50;
 	
@@ -34,9 +36,6 @@ public class Values
 
 	@CapabilityInject(IEntityCapability.class)
     public static final Capability<IEntityCapability> ENTITY_CAPABILITIES = null;
-
-	public static final DataParameter<String> TEXTURE = EntityDataManager.<String>createKey(Entity.class, DataSerializers.STRING);
-	public static final DataParameter<Integer> ENMITY = EntityDataManager.<Integer>createKey(Entity.class, DataSerializers.VARINT);
-	public static final DataParameter<Byte> MODEL = EntityDataManager.<Byte>createKey(Entity.class, DataSerializers.BYTE);
-
+	@CapabilityInject(IAchievementsCapability.class)
+    public static final Capability<IAchievementsCapability> ACHIEVEMENTS_CAPABILITIES = null;
 }

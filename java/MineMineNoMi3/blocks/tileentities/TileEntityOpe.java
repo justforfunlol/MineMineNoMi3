@@ -22,7 +22,7 @@ public class TileEntityOpe extends TileEntity implements ITickable
 	
 	public void update() 
 	{
-		for(EntityLivingBase elb : WyHelper.instance().getEntitiesNear(this, new int[] {28, 28, 28}))
+		for(EntityLivingBase elb : WyHelper.instance().getEntitiesNear(this, 28))
 		{
 			if(elb instanceof EntityPlayer)
 			{ 

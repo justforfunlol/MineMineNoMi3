@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import MineMineNoMi3.Values;
 import MineMineNoMi3.capability.EntityCapability.IEntityCapability;
 import MineMineNoMi3.items.AkumaNoMi;
-import MineMineNoMi3.lists.IDs;
+import MineMineNoMi3.lists.ID;
 import WyPI.WyPI;
 import WyPI.modules.WyHelper;
 import net.minecraft.client.Minecraft;
@@ -40,7 +40,7 @@ public class GUIAbilities extends GuiScreen
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		IEntityCapability props = player.getCapability(Values.ENTITY_CAPABILITIES, null);
     
-		Minecraft.getMinecraft().getTextureManager().bindTexture(IDs.ID_TEXTURE_BLANK);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ID.TEXTURE_BLANK);
 		
 		int posX = (this.width - 256) / 2;
 		int posY = (this.height - 256) / 2;

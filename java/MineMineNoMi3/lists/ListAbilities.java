@@ -2,179 +2,202 @@ package MineMineNoMi3.lists;
 
 import java.awt.Color;
 
-import MineMineNoMi3.ParticleTemplateForProjectileWithLOD;
 import MineMineNoMi3.entities.models.ModelBird;
 import MineMineNoMi3.entities.models.ModelGhost;
+import MineMineNoMi3.entities.models.ModelHeart;
 import MineMineNoMi3.entities.models.ModelX;
+import MineMineNoMi3.items.AbilityItemPlus;
+import MineMineNoMi3.zoan.TaskZoanForms;
 import WyPI.abilities.AbilityAttribute;
 import WyPI.abilities.AbilityItem;
 import WyPI.abilities.ModelCube;
 import WyPI.abilities.ModelSphere;
 import WyPI.abilities.extra.EffectType;
+import WyPI.abilities.extra.ItemProperty;
 import WyPI.abilities.tasks.AbilityTaskChargeable;
-import WyPI.vfx.ParticleTemplateForItem;
-import WyPI.vfx.ParticleTemplateForProjectile;
+import WyPI.abilities.tasks.AbilityTaskPlaceBlock;
+import WyPI.abilities.tasks.AbilityTaskSetOnFire;
+import WyPI.abilities.tasks.AbilityTaskSwordEffect;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumParticleTypes;
 
 public class ListAbilities 
 {  
-	public static AbilityItem KILOPRESS = new AbilityItem(new AbilityAttribute("Kilo Press") );
 	
-	public static AbilityItem TODOROKI = new AbilityItem(new AbilityAttribute("Todoroki") );
+	public static AbilityItemPlus ZOANFORM_USHI = new AbilityItemPlus(new AbilityAttribute().addTasks(new TaskZoanForms("Human Point", "Power Point", "Speed Point")) );
+	public static AbilityItemPlus FIDDLEBANFF = new AbilityItemPlus(new AbilityAttribute("Fiddle Banff") );
 	
-	public static AbilityItem PISTOLKISS = new AbilityItem(new AbilityAttribute("Pistol Kiss") );
-	public static AbilityItem PERFUMEFEMUR = new AbilityItem(new AbilityAttribute("Perfume Femur") );
-	public static AbilityItem SLAVEARROW = new AbilityItem(new AbilityAttribute("Slave Arrow") );
-	public static AbilityItem MEROMEROMELLOW = new AbilityItem(new AbilityAttribute("Mero Mero Mellow") );
+	public static AbilityItemPlus SAGARINORYUSEI = new AbilityItemPlus(new AbilityAttribute("Sagari no Ryusei").setItemCooldown(500).addTasks(Tasks.sagariNoRyusei) );
+	public static AbilityItemPlus MOKO = new AbilityItemPlus(new AbilityAttribute("Moko").setItemCooldown(150).setProjectileModel(new ModelCube()).setProjectileSize(new double[] {0, 0, 0}).addTasks(Tasks.moko) );
 	
-	public static AbilityItem SPIRALHOLLOW = new AbilityItem(new AbilityAttribute("Spiral Hollow").setItemTicks(200).setDamage(20).setModel(new ModelCube()).setColor("#F8F8FF").setSize(5, 3, 3).setEntityTicks(3) );
-	public static AbilityItem ATOMICSPAR = new AbilityItem(new AbilityAttribute("Atomic Spar").setItemTicks(120).setModel(new ModelX()).setSize(2, 2, 2).setColor("#F8F8FF").setDamage(10) );
-	public static AbilityItem SPARCLAW = new AbilityItem(new AbilityAttribute("Spar Claw").setItemTicks(120).addTasks(Tasks.sparclaw) );
-	public static AbilityItem SPIDER = new AbilityItem(new AbilityAttribute("Spider").addEffects(EffectType.USER,new PotionEffect(MobEffects.RESISTANCE, 10, 100), new PotionEffect(MobEffects.SLOWNESS, 10, 100)) );
+	public static AbilityItemPlus DARKMATTER = new AbilityItemPlus(new AbilityAttribute("Dark Matter").setItemCooldown(250).setProjectileModel(new ModelSphere()).setProjectileColor("000000").setProjectileSize(5, 5, 5).addTasks(Tasks.darkMatter) );
+	public static AbilityItemPlus KUROUZU = new AbilityItemPlus(new AbilityAttribute("Kurouzu").setItemCooldown(200) );
+	public static AbilityItemPlus LIBERATION = new AbilityItemPlus(new AbilityAttribute("Liberation").setItemCooldown(50).addTasks(Tasks.liberation) );
+	public static AbilityItemPlus BLACKHOLE = new AbilityItemPlus(new AbilityAttribute("Black Hole").setItemCooldown(200).addTasks(Tasks.blackHole) );
 	
-	public static AbilityItem NEGATIVEHOLLOW = new AbilityItem(new AbilityAttribute("Negative Hollow").setItemTicks(150).setModel(new ModelGhost()).setSize(1, 1, 1).setColor("#F8F8FF").setDamage(10).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.NAUSEA, 200, 1), new PotionEffect(MobEffects.SLOWNESS, 200, 1)) );
-	public static AbilityItem MINIHOLLOW = new AbilityItem(new AbilityAttribute("Mini Hollow").setItemTicks(80).setModel(new ModelGhost()).setSize(0.4, 0.4, 0.4).setColor("#F8F8FF").setDamage(5).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.NAUSEA, 200, 0), new PotionEffect(MobEffects.SLOWNESS, 200, 0)).setItemRepeater() );
-	public static AbilityItem TOKUHOLLOW = new AbilityItem(new AbilityAttribute("Toku Hollow").setItemTicks(250).setModel(new ModelGhost()).setSize(4, 4, 4).setColor("#F8F8FF").setDamage(10).setExplosion(5, false, false).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.NAUSEA, 200, 1), new PotionEffect(MobEffects.SLOWNESS, 200, 1)) );
+	public static AbilityItemPlus TENSIONHORMONE = new AbilityItemPlus(new AbilityAttribute("Tension Hormone").setItemCooldown(500).addTasks(Tasks.tensionHormone) );
+	public static AbilityItemPlus CHIYUHORMONE = new AbilityItemPlus(new AbilityAttribute("Chiyu Hormone").setItemCooldown(500).addTasks(Tasks.chiyuHormone) );
 	
-	public static AbilityItem BLACKKNIGHT = new AbilityItem(new AbilityAttribute("Black Knight") );
-	public static AbilityItem OVERHEAT = new AbilityItem(new AbilityAttribute("Overheat") );
-	public static AbilityItem SORANOMICHI = new AbilityItem(new AbilityAttribute("Sora no Michi") );
-	public static AbilityItem PARASITE = new AbilityItem(new AbilityAttribute("Parasite") );
+	public static AbilityItemPlus KILOPRESS = new AbilityItemPlus(new AbilityAttribute("Kilo Press").setItemCooldown(80).addTasks(Tasks.kilopress) );
 	
-	public static AbilityItem BARIBARINOPISTOL = new AbilityItem(new AbilityAttribute("Bari Bari no Pistol") );
-	public static AbilityItem BARRIERBALL = new AbilityItem(new AbilityAttribute("Barrier Ball") );
-	public static AbilityItem BARRIERCRASH = new AbilityItem(new AbilityAttribute("Barrier Crash") );
-	public static AbilityItem BARRIER = new AbilityItem(new AbilityAttribute("Barrier") );
+	public static AbilityItemPlus TODOROKI = new AbilityItemPlus(new AbilityAttribute("Todoroki").setItemCooldown(300).setProjectileModel(new ModelCube()).setProjectileColor("#87CEFA").setProjectileSize(5, 3, 3).setProjectileTicks(10).setProjectileDamage(15).setItemRepeater() );
 	
-	public static AbilityItem FUBUKI = new AbilityItem(new AbilityAttribute("Fubuki").setItemTicks(250).addTasks(Tasks.fubuki) );
-	public static AbilityItem TABIRAYUKI = new AbilityItem(new AbilityAttribute("Tabira Yuki").setDamageAsSword(6).addTasks(Tasks.tabirayuki) );
-	public static AbilityItem MANNENYUKI = new AbilityItem(new AbilityAttribute("Mannen Yuki") );
-	public static AbilityItem KAMAKURAJUSSOSHI = new AbilityItem(new AbilityAttribute("Kamakura Jussoshi").setItemTicks(300).addTasks(Tasks.kamakurajusshoshi) );
-	public static AbilityItem YUKIRABI = new AbilityItem(new AbilityAttribute("Yuki Rabi").setItemTicks(70).setColor(Color.WHITE).setDamage(5).setModel(new ModelCube()).setSize(1, 1, 1).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.SLOWNESS, 50, 1)) );
-	public static AbilityItem KAMAKURA = new AbilityItem(new AbilityAttribute("Kamakura").setItemTicks(100).addTasks(Tasks.kamakura) );
+	public static AbilityItemPlus PISTOLKISS = new AbilityItemPlus(new AbilityAttribute("Pistol Kiss").setItemCooldown(100).setProjectileModel(new ModelCube()).setProjectileSize(.3, .3, .3).setProjectileColor("#FFC0DB").setProjectileDamage(5).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.SLOWNESS, 100, 1)).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.MINING_FATIGUE, 100, 1)) );
+	public static AbilityItemPlus PERFUMEFEMUR = new AbilityItemPlus(new AbilityAttribute("Perfume Femur").setItemCooldown(200).setItemDamage(15).addTasks(Tasks.parfumefemur) );
+	public static AbilityItemPlus SLAVEARROW = new AbilityItemPlus(new AbilityAttribute("Slave Arrow").setItemCooldown(100).setProjectileModel(new ModelCube()).setProjectileSize(.3, .3, .3).setProjectileColor("#FFC0DB").setProjectileDamage(5).setItemRepeater() );
+	public static AbilityItemPlus MEROMEROMELLOW = new AbilityItemPlus(new AbilityAttribute("Mero Mero Mellow").setItemCooldown(150).setProjectileModel(new ModelHeart()).setProjectileSize(3, 3, 3).setProjectileColor("#FFC0DB").setProjectileDamage(10).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.SLOWNESS, 200, 1)).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.MINING_FATIGUE, 200, 1)) );
 	
-	public static AbilityItem SHINOKUNI = new AbilityItem(new AbilityAttribute("Shinokuni") );
-	public static AbilityItem KARAKUNI = new AbilityItem(new AbilityAttribute("Karakuni").setItemTicks(300).addTasks(Tasks.karakuni) );
-	public static AbilityItem BLUESWORD = new AbilityItem(new AbilityAttribute("Blue Sword").setDamageAsSword(7).addTasks(Tasks.bluesword) );
-	public static AbilityItem GASTANET = new AbilityItem(new AbilityAttribute("Gastanet").setItemTicks(150).setExplosion(5, false) );
-	public static AbilityItem GASTILLE = new AbilityItem(new AbilityAttribute("Gastille").setItemTicks(200).setSpeed(6).setDamage(10).setModel(new ModelCube()).setColor("324AB2").setSize(2, 1, 1).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)).setItemRepeater().setExplosion(1, false) );
-	public static AbilityItem GASROBE = new AbilityItem(new AbilityAttribute("Gas Robe").setItemTicks(150).setSpeed(6).setDamage(10).setModel(new ModelCube()).setSize(0, 0, 0).setItemRepeater().setParticleForProjectile(new ParticleTemplateForProjectileWithLOD(6), EnumParticleTypes.PORTAL, EnumParticleTypes.SPELL_WITCH) );
+	public static AbilityItemPlus SPIRALHOLLOW = new AbilityItemPlus(new AbilityAttribute("Spiral Hollow").setItemCooldown(200).setProjectileDamage(20).setProjectileModel(new ModelCube()).setProjectileColor("#F8F8FF").setProjectileSize(5, 3, 3).setProjectileTicks(3) );
+	public static AbilityItemPlus ATOMICSPAR = new AbilityItemPlus(new AbilityAttribute("Atomic Spar").setItemCooldown(120).setProjectileModel(new ModelX()).setProjectileSize(2, 2, 2).setProjectileColor("#F8F8FF").setProjectileDamage(10) );
+	public static AbilityItemPlus SPARCLAW = new AbilityItemPlus(new AbilityAttribute("Spar Claw").setItemCooldown(120).addTasks(Tasks.sparclaw) );
+	public static AbilityItemPlus SPIDER = new AbilityItemPlus(new AbilityAttribute("Spider").addEffects(EffectType.USER,new PotionEffect(MobEffects.RESISTANCE, 10, 100), new PotionEffect(MobEffects.SLOWNESS, 10, 100)) );
 	
-	public static AbilityItem DOKUFUGU = new AbilityItem(new AbilityAttribute("Doku Fugu").setItemTicks(250).setDamage(15).setModel(new ModelSphere()).setColor("A020F0").setSize(5, 5, 5).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)).setItemRepeater() );
-	public static AbilityItem VENOMDEMON = new AbilityItem(new AbilityAttribute("Venom Demon") );
-	public static AbilityItem VENOMROAD = new AbilityItem(new AbilityAttribute("Venom Road").setItemTicks(200).setDamage(30).setModel(new ModelCube()).setColor("A020F0").setSize(6, 4, 4).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)).addTasks(Tasks.venomroad) );
-	public static AbilityItem CHLOROBALL = new AbilityItem(new AbilityAttribute("Chloro Ball").setItemTicks(150).setDamage(10).setModel(new ModelSphere()).setColor("A020F0").setSize(5, 5, 5).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)).addTasks(Tasks.chloroball) );
-	public static AbilityItem HYDRA = new AbilityItem(new AbilityAttribute("Hydra").setItemTicks(200).setDamage(30).setModel(new ModelCube()).setColor("A020F0").setSize(6, 4, 4).setEntityTicks(3).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)) );
+	public static AbilityItemPlus NEGATIVEHOLLOW = new AbilityItemPlus(new AbilityAttribute("Negative Hollow").setItemCooldown(150).setProjectileModel(new ModelGhost()).setProjectileSize(1, 1, 1).setProjectileColor("#F8F8FF").setProjectileDamage(10).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.NAUSEA, 200, 1), new PotionEffect(MobEffects.SLOWNESS, 200, 1)) );
+	public static AbilityItemPlus MINIHOLLOW = new AbilityItemPlus(new AbilityAttribute("Mini Hollow").setItemCooldown(80).setProjectileModel(new ModelGhost()).setProjectileSize(0.4, 0.4, 0.4).setProjectileColor("#F8F8FF").setProjectileDamage(5).setProjectileExplosion(2).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.NAUSEA, 200, 0), new PotionEffect(MobEffects.SLOWNESS, 200, 0)).setItemRepeater() );
+	public static AbilityItemPlus TOKUHOLLOW = new AbilityItemPlus(new AbilityAttribute("Toku Hollow").setItemCooldown(250).setProjectileModel(new ModelGhost()).setProjectileSize(4, 4, 4).setProjectileColor("#F8F8FF").setProjectileDamage(10).setProjectileExplosion(7, false, false).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.NAUSEA, 200, 1), new PotionEffect(MobEffects.SLOWNESS, 200, 1)) );
 	
-	public static AbilityItem CANDLEHOUSE = new AbilityItem(new AbilityAttribute("Candle House").setItemTicks(250).addTasks(Tasks.candleHouse) );
-	public static AbilityItem CANDLEWALL = new AbilityItem(new AbilityAttribute("Candle Wall").setItemTicks(150).addTasks(Tasks.candleWall) );
-	public static AbilityItem DORUDORUARTSKEN = new AbilityItem(new AbilityAttribute("Doru Doru Arts : Ken").setDamageAsSword(7) );
-	public static AbilityItem DORUDORUARTSMORI = new AbilityItem(new AbilityAttribute("Doru Doru Arts : Mori").setItemTicks(100).setDamage(15).setModel(new ModelCube()).setColor("A2ADD0").setSize(5, .5, .5) );
+	public static AbilityItemPlus BLACKKNIGHT = new AbilityItemPlus(new AbilityAttribute("Black Knight") );
+	public static AbilityItemPlus OVERHEAT = new AbilityItemPlus(new AbilityAttribute("Overheat") );
+	public static AbilityItemPlus SORANOMICHI = new AbilityItemPlus(new AbilityAttribute("Sora no Michi") );
+	public static AbilityItemPlus PARASITE = new AbilityItemPlus(new AbilityAttribute("Parasite").setItemCooldown(100).setProjectileModel(new ModelCube()).setProjectileSize(1, .5, .5).setProjectileColor("#FFFFFF").setProjectileDamage(10) );
 	
-	public static AbilityItem BAKURETSUKAZAN = new AbilityItem(new AbilityAttribute("Bakuretsu Kazan").setItemTicks(400).addTasks(Tasks.bakuretsukazan) );
-	public static AbilityItem RYUSEIKAZAN = new AbilityItem(new AbilityAttribute("Ryusei Kazan").setItemTicks(300).setDamage(10).setModel(new ModelCube()).setSize(4, 2, 2).setColor("CF1020").setEnemyOnFire(100).setItemRepeater().addTasks(Tasks.lavaBlock) );
-	public static AbilityItem MEIGO = new AbilityItem(new AbilityAttribute("Meigo").setItemTicks(200).setDamage(40).setModel(new ModelCube()).setColor("CF1020").setSize(6, 4, 4).setEntityTicks(3) );
-	public static AbilityItem DAIFUNKA = new AbilityItem(new AbilityAttribute("Dai Funka").setItemTicks(150).setDamage(20).setModel(new ModelCube()).setSize(4, 2, 2).setColor("CF1020").setEnemyOnFire(100).addTasks(Tasks.lavaBlock) );
+	public static AbilityItemPlus BARIBARINOPISTOL = new AbilityItemPlus(new AbilityAttribute("Bari Bari no Pistol").setItemDamage(20) );
+	public static AbilityItemPlus BARRIERBALL = new AbilityItemPlus(new AbilityAttribute("Barrier Ball").setItemCooldown(100).addTasks(Tasks.barrierBall) );
+	public static AbilityItemPlus BARRIERCRASH = new AbilityItemPlus(new AbilityAttribute("Barrier Crash").setItemCooldown(150).setProjectileTicks(20).setProjectileModel(new ModelCube()).setProjectileColor("#87CEFA").setProjectileSize(.3, 9, 9).setProjectileDamage(15) );
+	public static AbilityItemPlus BARRIER = new AbilityItemPlus(new AbilityAttribute("Barrier").setItemCooldown(80).addTasks(Tasks.barrier) );
 	
-	public static AbilityItem GROUNDDEATH = new AbilityItem(new AbilityAttribute("Ground Death").setItemTicks(300).addTasks(Tasks.groundDeath) );
-	public static AbilityItem BARJAN = new AbilityItem(new AbilityAttribute("Barjan").setItemTicks(150).setDamage(15).setModel(new ModelCube()).setColor("967117").setSize(1.5, 0.4, 6).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.HUNGER, 500, 1)) );
-	public static AbilityItem SABLES = new AbilityItem(new AbilityAttribute("Sables").setItemTicks(150).addTasks(Tasks.sables) );
-	public static AbilityItem DESERTSPADA = new AbilityItem(new AbilityAttribute("Desert Spada").setItemTicks(250).addTasks(Tasks.desertSpada) );
+	public static AbilityItemPlus FUBUKI = new AbilityItemPlus(new AbilityAttribute("Fubuki").setItemCooldown(250).addTasks(Tasks.fubuki) );
+	public static AbilityItemPlus TABIRAYUKI = new AbilityItemPlus(new AbilityAttribute("Tabira Yuki").setItemDamage(6).addTasks(Tasks.tabirayuki) );
+	public static AbilityItemPlus MANNENYUKI = new AbilityItemPlus(new AbilityAttribute("Mannen Yuki") );
+	public static AbilityItemPlus KAMAKURAJUSSOSHI = new AbilityItemPlus(new AbilityAttribute("Kamakura Jussoshi").setItemCooldown(300).addTasks(Tasks.kamakurajusshoshi) );
+	public static AbilityItemPlus YUKIRABI = new AbilityItemPlus(new AbilityAttribute("Yuki Rabi").setItemCooldown(70).setProjectileColor(Color.WHITE).setProjectileDamage(5).setProjectileModel(new ModelCube()).setProjectileSize(1, 1, 1).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.SLOWNESS, 50, 1)).setItemRepeater() );
+	public static AbilityItemPlus KAMAKURA = new AbilityItemPlus(new AbilityAttribute("Kamakura").setItemCooldown(100).addTasks(Tasks.kamakura) );
 	
-	public static AbilityItem TSUNOTOKAGE = new AbilityItem(new AbilityAttribute("Tsuno-Tokage").setItemTicks(200).setDamage(30).setModel(new ModelCube()).setColor(Color.black).setSize(6, 4, 4).setEntityTicks(3) );
-	public static AbilityItem SHADOWSASGARD = new AbilityItem(new AbilityAttribute("Shadow's Asgard").setItemTicks(400).addTasks(Tasks.shadowsasgard) );
-	public static AbilityItem BLACKBOX = new AbilityItem(new AbilityAttribute("Black Box").setItemTicks(200).setModel(new ModelCube()).setColor(Color.black).setSize(2, 2, 2) );
-	public static AbilityItem DOPPELMAN = new AbilityItem(new AbilityAttribute("Doppelman").setItemTicks(10).addTasks(Tasks.doppelman) );
-	public static AbilityItem BRICKBAT = new AbilityItem(new AbilityAttribute("Brick Bat").setItemTicks(100).setDamage(10).setModel(new ModelCube()).setSize(1,	1, 1).setColor(Color.black).setItemRepeater() );
+	public static AbilityItemPlus SHINOKUNI = new AbilityItemPlus(new AbilityAttribute("Shinokuni") );
+	public static AbilityItemPlus KARAKUNI = new AbilityItemPlus(new AbilityAttribute("Karakuni").setItemCooldown(300).addTasks(Tasks.karakuni) );
+	public static AbilityItemPlus BLUESWORD = new AbilityItemPlus(new AbilityAttribute("Blue Sword").setItemDamage(7).addTasks(Tasks.bluesword) );
+	public static AbilityItemPlus GASTANET = new AbilityItemPlus(new AbilityAttribute("Gastanet").setItemCooldown(150).setProjectileExplosion(5, false) );
+	public static AbilityItemPlus GASTILLE = new AbilityItemPlus(new AbilityAttribute("Gastille").setItemCooldown(200).setProjectileSpeed(6).setProjectileDamage(10).setProjectileModel(new ModelCube()).setProjectileColor("324AB2").setProjectileSize(2, 1, 1).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)).setItemRepeater().setProjectileExplosion(1, false) );
+	public static AbilityItemPlus GASROBE = new AbilityItemPlus(new AbilityAttribute("Gas Robe").setItemCooldown(150).setProjectileSpeed(6).setProjectileDamage(10).setProjectileModel(new ModelCube()).setProjectileSize(0, 0, 0).setItemRepeater() );
 	
-	public static AbilityItem SHIMAYURASHI = new AbilityItem(new AbilityAttribute("Shima Yurashi").setItemTicks(250).setDamage(20).setExplosion(2, false).setItemRepeater() );
-	public static AbilityItem KABUTOWARI = new AbilityItem(new AbilityAttribute("Kabutowari").setItemTicks(150).setExplosion(5, false) );
-	public static AbilityItem KAISHIN = new AbilityItem(new AbilityAttribute("Kaishin").setItemTicks(150).setDamage(50).setModel(new ModelCube()).setSize(0, 0, 0).setExplosion(1, false, false) );
+	public static AbilityItemPlus DOKUFUGU = new AbilityItemPlus(new AbilityAttribute("Doku Fugu").setItemCooldown(250).setProjectileDamage(15).setProjectileModel(new ModelSphere()).setProjectileColor("A020F0").setProjectileSize(5, 5, 5).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)).setItemRepeater() );
+	public static AbilityItemPlus VENOMDEMON = new AbilityItemPlus(new AbilityAttribute("Venom Demon") );
+	public static AbilityItemPlus VENOMROAD = new AbilityItemPlus(new AbilityAttribute("Venom Road").setItemCooldown(200).setProjectileDamage(30).setProjectileModel(new ModelCube()).setProjectileColor("A020F0").setProjectileSize(6, 4, 4).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)).addTasks(Tasks.venomroad) );
+	public static AbilityItemPlus CHLOROBALL = new AbilityItemPlus(new AbilityAttribute("Chloro Ball").setItemCooldown(150).setProjectileDamage(10).setProjectileModel(new ModelSphere()).setProjectileColor("A020F0").setProjectileSize(5, 5, 5).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)).addTasks(Tasks.chloroball) );
+	public static AbilityItemPlus HYDRA = new AbilityItemPlus(new AbilityAttribute("Hydra").setItemCooldown(200).setProjectileDamage(30).setProjectileModel(new ModelCube()).setProjectileColor("A020F0").setProjectileSize(6, 4, 4).setProjectileTicks(10).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)) );
 	
-	public static AbilityItem KICKBOMB = new AbilityItem(new AbilityAttribute("Kick Bomb").setItemTicks(150).setExplosion(7, false) );
-	public static AbilityItem NOSEFANCYCANNON = new AbilityItem(new AbilityAttribute("Nose Fancy Cannon").setItemTicks(100).setModel(new ModelCube()).setColor("3D2B1F").setSize(2, 1, 1).setDamage(10).setExplosion(3, false) );
+	public static AbilityItemPlus CANDLEHOUSE = new AbilityItemPlus(new AbilityAttribute("Candle House").setItemCooldown(250).addTasks(Tasks.candleHouse) );
+	public static AbilityItemPlus CANDLEWALL = new AbilityItemPlus(new AbilityAttribute("Candle Wall").setItemCooldown(150).addTasks(Tasks.candleWall) );
+	public static AbilityItemPlus DORUDORUARTSKEN = new AbilityItemPlus(new AbilityAttribute("Doru Doru Arts : Ken").setItemDamage(7) );
+	public static AbilityItemPlus DORUDORUARTSMORI = new AbilityItemPlus(new AbilityAttribute("Doru Doru Arts : Mori").setItemCooldown(100).setProjectileDamage(15).setProjectileModel(new ModelCube()).setProjectileColor("A2ADD0").setProjectileSize(5, .5, .5) );
 	
-	public static AbilityItem URSUSSHOCK = new AbilityItem(new AbilityAttribute("Ursus Shock").setItemTicks(300).setModel(new ModelCube()).setColor("F8F8FF").setSize(1.5, 1.5, 1.5).setDamage(50).setExplosion(2, false, false).setItemCanBeCharged(40).setFalseAttribute().addTasks(new AbilityTaskChargeable()) );
-	public static AbilityItem PADHO = new AbilityItem(new AbilityAttribute("Pad Ho").setItemTicks(150).addTasks(Tasks.padho) );
+	public static AbilityItemPlus BAKURETSUKAZAN = new AbilityItemPlus(new AbilityAttribute("Bakuretsu Kazan").setItemCooldown(400).addTasks(Tasks.bakuretsukazan) );
+	public static AbilityItemPlus RYUSEIKAZAN = new AbilityItemPlus(new AbilityAttribute("Ryusei Kazan").setItemCooldown(300).setProjectileDamage(10).setProjectileModel(new ModelCube()).setProjectileSize(4, 2, 2).setProjectileColor("CF1020").setItemRepeater().addTasks(new AbilityTaskPlaceBlock(Blocks.LAVA), new AbilityTaskSetOnFire(100)) );
+	public static AbilityItemPlus MEIGO = new AbilityItemPlus(new AbilityAttribute("Meigo").setItemCooldown(200).setProjectileDamage(40).setProjectileModel(new ModelCube()).setProjectileColor("CF1020").setProjectileSize(6, 4, 4).setProjectileTicks(3) );
+	public static AbilityItemPlus DAIFUNKA = new AbilityItemPlus(new AbilityAttribute("Dai Funka").setItemCooldown(150).setProjectileDamage(20).setProjectileModel(new ModelCube()).setProjectileSize(4, 2, 2).setProjectileColor("CF1020").addTasks(new AbilityTaskPlaceBlock(Blocks.LAVA), new AbilityTaskSetOnFire(100)) );
 	
-	public static AbilityItem WHITELAUNCHER = new AbilityItem(new AbilityAttribute("White Launcher").setItemTicks(150).addTasks(Tasks.whitelauncher) );
-	public static AbilityItem WHITESNAKE = new AbilityItem(new AbilityAttribute("White Snake").setItemTicks(150).setEntityTicks(120).setModel(new ModelCube()).setSpeed(5).setSize(0, 0, 0).setDamage(15).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)).setParticleForProjectile(new ParticleTemplateForProjectileWithLOD(10), EnumParticleTypes.SMOKE_LARGE) );
-	public static AbilityItem WHITEOUT = new AbilityItem(new AbilityAttribute("White Out").setItemTicks(80).setModel(new ModelCube()).setSpeed(5).setSize(0, 0, 0).setDamage(10).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.SLOWNESS, 500, 5)).setParticleForProjectile(new ParticleTemplateForProjectileWithLOD(10), EnumParticleTypes.EXPLOSION_NORMAL).setItemRepeater() );
+	public static AbilityItemPlus GROUNDDEATH = new AbilityItemPlus(new AbilityAttribute("Ground Death").setItemCooldown(300).addTasks(Tasks.groundDeath) );
+	public static AbilityItemPlus BARJAN = new AbilityItemPlus(new AbilityAttribute("Barjan").setItemCooldown(150).setProjectileDamage(15).setProjectileModel(new ModelCube()).setProjectileColor("967117").setProjectileSize(1.5, 0.4, 6).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.HUNGER, 500, 1)) );
+	public static AbilityItemPlus SABLES = new AbilityItemPlus(new AbilityAttribute("Sables").setItemCooldown(150).addTasks(Tasks.sables) );
+	public static AbilityItemPlus DESERTSPADA = new AbilityItemPlus(new AbilityAttribute("Desert Spada").setItemCooldown(250).addTasks(Tasks.desertSpada) );
 	
-	public static AbilityItem SANGO = new AbilityItem(new AbilityAttribute("Sango").setItemTicks(250).setEntityTicks(10).setModel(new ModelCube()).setSize(10, 3, 3).setColor("7CB9E8").setDamage(15) );
-	public static AbilityItem KARI = new AbilityItem(new AbilityAttribute("Kari").setItemTicks(150).setExplosion(6, false, false) );
-	public static AbilityItem RAIGO = new AbilityItem(new AbilityAttribute("Raigo").setItemTicks(400).setModel(new ModelCube()).setColor("5D8AA8").setSize(8, 8, 8).setDamage(40).setExplosion(7, false) );
-	public static AbilityItem VOLTVARI = new AbilityItem(new AbilityAttribute("Volt Vari").setItemTicks(80).setModel(new ModelSphere()).setSize(3, 3, 3).setDamage(5).setColor("7CB9E8").setItemCanBeCharged(20).addTasks(new AbilityTaskChargeable()).setFalseAttribute() );
-	public static AbilityItem ELTHOR = new AbilityItem(new AbilityAttribute("El Thor").setItemTicks(200).addTasks(Tasks.elthor) );
+	public static AbilityItemPlus TSUNOTOKAGE = new AbilityItemPlus(new AbilityAttribute("Tsuno-Tokage").setItemCooldown(200).setProjectileDamage(30).setProjectileModel(new ModelCube()).setProjectileColor(Color.black).setProjectileSize(5, 2, 2).setProjectileTicks(3) );
+	public static AbilityItemPlus SHADOWSASGARD = new AbilityItemPlus(new AbilityAttribute("Shadow's Asgard").setItemCooldown(400).addTasks(Tasks.shadowsasgard) );
+	public static AbilityItemPlus BLACKBOX = new AbilityItemPlus(new AbilityAttribute("Black Box").setItemCooldown(200).setProjectileModel(new ModelCube()).setProjectileColor(Color.black).setProjectileSize(2, 2, 2) );
+	public static AbilityItemPlus DOPPELMAN = new AbilityItemPlus(new AbilityAttribute("Doppelman").setItemCooldown(10).addTasks(Tasks.doppelman) );
+	public static AbilityItemPlus BRICKBAT = new AbilityItemPlus(new AbilityAttribute("Brick Bat").setItemCooldown(100).setProjectileDamage(10).setProjectileModel(new ModelCube()).setProjectileSize(1,	1, 1).setProjectileColor(Color.black).setItemRepeater() );
+	
+	public static AbilityItemPlus SHIMAYURASHI = new AbilityItemPlus(new AbilityAttribute("Shima Yurashi").setItemCooldown(250).setProjectileDamage(20).setProjectileExplosion(2, false).setItemRepeater() );
+	public static AbilityItemPlus KABUTOWARI = new AbilityItemPlus(new AbilityAttribute("Kabutowari").setItemCooldown(150).setProjectileExplosion(5, false) );
+	public static AbilityItemPlus KAISHIN = new AbilityItemPlus(new AbilityAttribute("Kaishin").setItemCooldown(150).setProjectileDamage(50).setProjectileModel(new ModelCube()).setProjectileSize(0, 0, 0).setProjectileExplosion(1, false, false) );
+	
+	public static AbilityItemPlus KICKBOMB = new AbilityItemPlus(new AbilityAttribute("Kick Bomb").setItemCooldown(150).setProjectileExplosion(7, false) );
+	public static AbilityItemPlus NOSEFANCYCANNON = new AbilityItemPlus(new AbilityAttribute("Nose Fancy Cannon").setItemCooldown(100).setProjectileModel(new ModelCube()).setProjectileColor("3D2B1F").setProjectileSize(.8, .4, .4).setProjectileDamage(10).setProjectileExplosion(3, false) );
+	
+	public static AbilityItemPlus URSUSSHOCK = new AbilityItemPlus(new AbilityAttribute("Ursus Shock").setItemCooldown(300).setProjectileModel(new ModelCube()).setProjectileColor("F8F8FF").setProjectileSize(1.5, 1.5, 1.5).setProjectileDamage(50).setProjectileExplosion(2, false, false).setItemCharge(40).setFalseAttribute().addTasks(new AbilityTaskChargeable()) );
+	public static AbilityItemPlus PADHO = new AbilityItemPlus(new AbilityAttribute("Pad Ho").setItemCooldown(150).addTasks(Tasks.padho) );
+	
+	public static AbilityItemPlus WHITELAUNCHER = new AbilityItemPlus(new AbilityAttribute("White Launcher").setItemCooldown(150).addTasks(Tasks.whitelauncher) );
+	public static AbilityItemPlus WHITESNAKE = new AbilityItemPlus(new AbilityAttribute("White Snake").setItemCooldown(150).setProjectileTicks(120).setProjectileModel(new ModelCube()).setProjectileSpeed(5).setProjectileSize(0, 0, 0).setProjectileDamage(15).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.POISON, 500, 1)) );
+	public static AbilityItemPlus WHITEOUT = new AbilityItemPlus(new AbilityAttribute("White Out").setItemCooldown(80).setProjectileModel(new ModelCube()).setProjectileSpeed(5).setProjectileSize(0, 0, 0).setProjectileDamage(10).addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.SLOWNESS, 500, 5)).setItemRepeater() );
+	
+	public static AbilityItemPlus SANGO = new AbilityItemPlus(new AbilityAttribute("Sango").setItemCooldown(250).setProjectileTicks(10).setProjectileModel(new ModelCube()).setProjectileSize(10, 3, 3).setProjectileColor("7CB9E8").setProjectileDamage(15) );
+	public static AbilityItemPlus KARI = new AbilityItemPlus(new AbilityAttribute("Kari").setItemCooldown(150).setProjectileExplosion(6, false, false) );
+	public static AbilityItemPlus RAIGO = new AbilityItemPlus(new AbilityAttribute("Raigo").setItemCooldown(400).setProjectileModel(new ModelCube()).setProjectileColor("5D8AA8").setProjectileSize(8, 8, 8).setProjectileDamage(40).setProjectileExplosion(7, false) );
+	public static AbilityItemPlus VOLTVARI = new AbilityItemPlus(new AbilityAttribute("Volt Vari").setItemCooldown(80).setProjectileModel(new ModelSphere()).setProjectileSize(3, 3, 3).setProjectileDamage(5).setProjectileColor("7CB9E8").setItemCharge(20).addTasks(new AbilityTaskChargeable()).setFalseAttribute() );
+	public static AbilityItemPlus ELTHOR = new AbilityItemPlus(new AbilityAttribute("El Thor").setItemCooldown(200).addTasks(Tasks.elthor) );
 	 
-	public static AbilityItem GAMMAKNIFE = new AbilityItem(new AbilityAttribute("Gamma Knife").setItemTicks(750).setEntityTicks(20).setModel(new ModelCube()).setColor("00AB66").setDamage(100).setSize(5, 1, 1) );
-	public static AbilityItem MES = new AbilityItem(new AbilityAttribute("Mes").setItemTicks(100).addTasks(Tasks.mes) ); 
-	public static AbilityItem COUNTERSHOCK = new AbilityItem(new AbilityAttribute("Counter Shock").setItemTicks(200).setEntityTicks(7).setModel(new ModelCube()).setSize(1, 1, 1).setDamage(40).setExplosion(1, false, false) );
-	public static AbilityItem ROOM = new AbilityItem(new AbilityAttribute("Room").setItemTicks(100).addTasks(Tasks.room) );
+	public static AbilityItemPlus GAMMAKNIFE = new AbilityItemPlus(new AbilityAttribute("Gamma Knife").setItemCooldown(750).setProjectileTicks(20).setProjectileModel(new ModelCube()).setProjectileColor("00AB66").setProjectileDamage(100).setProjectileSize(5, 1, 1) );
+	public static AbilityItemPlus MES = new AbilityItemPlus(new AbilityAttribute("Mes").setItemCooldown(100).addTasks(Tasks.mes) ); 
+	public static AbilityItemPlus COUNTERSHOCK = new AbilityItemPlus(new AbilityAttribute("Counter Shock").setItemCooldown(200).setProjectileTicks(7).setProjectileModel(new ModelCube()).setProjectileSize(1, 1, 1).setProjectileDamage(40).setProjectileExplosion(1, false, false) );
+	public static AbilityItemPlus ROOM = new AbilityItemPlus(new AbilityAttribute("Room").setItemCooldown(100).addTasks(Tasks.room) );
 	
-	public static AbilityItem NORONOROBEAM = new AbilityItem(new AbilityAttribute("Noro Noro Beam").setItemTicks(100).setModel(new ModelCube()).setSize(.6, .6, .6).setColor("FF1DCE").addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.SLOWNESS, 100, 10)).setSpeed(5) );
-	public static AbilityItem NORONOROBEAMSWORD = new AbilityItem(new AbilityAttribute("Noro Noro Beam Sword").setDamage(6).addTasks(Tasks.noronorobeamsword) );
+	public static AbilityItemPlus NORONOROBEAM = new AbilityItemPlus(new AbilityAttribute("Noro Noro Beam").setItemCooldown(100).setProjectileModel(new ModelCube()).setProjectileSize(.6, .6, .6).setProjectileColor("FF1DCE").addEffects(EffectType.PROJECTILE, new PotionEffect(MobEffects.SLOWNESS, 100, 10)).setProjectileSpeed(5) );
+	public static AbilityItemPlus NORONOROBEAMSWORD = new AbilityItemPlus(new AbilityAttribute("Noro Noro Beam Sword").setProjectileDamage(6).addTasks( new AbilityTaskSwordEffect(new PotionEffect(MobEffects.SLOWNESS, 200, 5)) ) );
 	
-	public static AbilityItem SHISHANOTE = new AbilityItem(new AbilityAttribute("Shisha no Te").setItemTicks(100).setDamage(5).setModel(new ModelCube()).setSize(0, 0, 0).setExplosion(3, false) );
-	public static AbilityItem SKATTING = new AbilityItem(new AbilityAttribute("Skatting").setItemTicks(50).addTasks(Tasks.skatting) ); 
-	
-	public static AbilityItem GEAR = new AbilityItem(new AbilityAttribute("Gear").setItemTicks(400).setItemCanBeCharged(80).addTasks(Tasks.gear) );
-	public static AbilityItem GOMUGOMUNOBAZOOKA = new AbilityItem(new AbilityAttribute("Gomu Gomu no Bazooka").setItemCanBeCharged(30).setItemTicks(250).addTasks(Tasks.gomugomubazooka) );
-	public static AbilityItem GOMUGOMUNOGATLING = new AbilityItem(new AbilityAttribute("Gomu Gomu no Gatling").setItemTicks(250).setItemRepeater().addTasks(Tasks.gomugomugatling) ); 
-	public static AbilityItem GOMUGOMUNOPISTOL = new AbilityItem(new AbilityAttribute("Gomu Gomu no Pistol").setItemTicks(150).setItemCanBeCharged(20).addTasks(Tasks.gomugomupistol) );
-	
-	public static AbilityItem AMANOMURAKUMO = new AbilityItem(new AbilityAttribute("Ama no Murakumo").setDamageAsSword(9) ); 
-	public static AbilityItem AMATERASU = new AbilityItem(new AbilityAttribute("Amaterasu").setItemTicks(350).setEntityTicks(150).setModel(new ModelCube()).setSize(5, 1.2, 1.2).setColor("FFFF00").setSpeed(7).setDamage(35).setExplosion(6, false) );
-	public static AbilityItem YASAKANINOMAGATAMA = new AbilityItem(new AbilityAttribute("Yasakani no Magatama").setItemTicks(60).setModel(new ModelCube()).setSize(3, .5, .5).setColor("FFFF00").setSpeed(5).setItemRepeater().setDamage(5).setExplosion(3, false) );
-	public static AbilityItem YATANOKAGAMI = new AbilityItem(new AbilityAttribute("Yata no Kagami").setItemTicks(100).addTasks(Tasks.yatanokagami) );
+	public static AbilityItemPlus SHISHANOTE = new AbilityItemPlus(new AbilityAttribute("Shisha no Te").setItemCooldown(100).setProjectileDamage(5).setProjectileModel(new ModelCube()).setProjectileSize(0, 0, 0).setProjectileExplosion(3, false) );
+	public static AbilityItemPlus SKATTING = new AbilityItemPlus(new AbilityAttribute("Skatting").setItemCooldown(50).addTasks(Tasks.skatting) );  
 	 
-	public static AbilityItem SPRINGDEATHKNOCK = new AbilityItem(new AbilityAttribute("Spring Death Knock").setItemTicks(200).setDamage(20).setModel(new ModelCube()).setColor("E6E8FA").setSize(5, 3, 3).setEntityTicks(3) );
-	public static AbilityItem SPRINGSNIPE = new AbilityItem(new AbilityAttribute("Spring Snipe").setItemTicks(150).setItemCanBeCharged(20).addTasks(Tasks.springsnipe) );
-	public static AbilityItem SPRINGHOPPER = new AbilityItem(new AbilityAttribute("Spring Hopper").setItemTicks(80).setItemCanBeCharged(15).addTasks(Tasks.springhopper) );
+	public static AbilityItemPlus GEAR = new AbilityItemPlus(new AbilityAttribute("Gear").setItemCooldown(400).setItemCharge(80).addTasks(Tasks.gear).addProperty( new ItemProperty("gear", 2, PropertyGetters.GEAR) ));
+	public static AbilityItemPlus GOMUGOMUNOBAZOOKA = new AbilityItemPlus(new AbilityAttribute("Gomu Gomu no Bazooka").setItemCooldown(250).setItemCharge(30).addTasks(Tasks.gomugomubazooka) );
+	public static AbilityItemPlus GOMUGOMUNOGATLING = new AbilityItemPlus(new AbilityAttribute("Gomu Gomu no Gatling").setItemCooldown(250).setItemRepeater().addTasks(Tasks.gomugomugatling) ); 
+	public static AbilityItemPlus GOMUGOMUNOPISTOL = new AbilityItemPlus(new AbilityAttribute("Gomu Gomu no Pistol").setItemCooldown(150).setItemCharge(20).addTasks(Tasks.gomugomupistol) );
+	
+	public static AbilityItemPlus AMANOMURAKUMO = new AbilityItemPlus(new AbilityAttribute("Ama no Murakumo").setItemDamage(9) ); 
+	public static AbilityItemPlus AMATERASU = new AbilityItemPlus(new AbilityAttribute("Amaterasu").setItemCooldown(350).setProjectileTicks(150).setProjectileModel(new ModelCube()).setProjectileSize(5, 1.2, 1.2).setProjectileColor("FFFF00").setProjectileSpeed(7).setProjectileDamage(35).setProjectileExplosion(6, false) );
+	public static AbilityItemPlus YASAKANINOMAGATAMA = new AbilityItemPlus(new AbilityAttribute("Yasakani no Magatama").setItemCooldown(60).setProjectileModel(new ModelCube()).setProjectileSize(3, .5, .5).setProjectileColor("FFFF00").setProjectileSpeed(5).setItemRepeater().setProjectileDamage(5).setProjectileExplosion(3, false) );
+	public static AbilityItemPlus YATANOKAGAMI = new AbilityItemPlus(new AbilityAttribute("Yata no Kagami").setItemCooldown(100).addTasks(Tasks.yatanokagami) );
+	 
+	public static AbilityItemPlus SPRINGDEATHKNOCK = new AbilityItemPlus(new AbilityAttribute("Spring Death Knock").setItemCooldown(200).setProjectileDamage(20).setProjectileModel(new ModelCube()).setProjectileColor("E6E8FA").setProjectileSize(5, 3, 3).setProjectileTicks(3) );
+	public static AbilityItemPlus SPRINGSNIPE = new AbilityItemPlus(new AbilityAttribute("Spring Snipe").setItemCooldown(150).setItemCharge(20).addTasks(Tasks.springsnipe) );
+	public static AbilityItemPlus SPRINGHOPPER = new AbilityItemPlus(new AbilityAttribute("Spring Hopper").setItemCooldown(80).setItemCharge(15).addTasks(Tasks.springhopper) );
 
-	public static AbilityItem ICETIMECAPSULE = new AbilityItem(new AbilityAttribute("Ice Time Capsule").setItemTicks(350).addTasks(Tasks.iceTime) );
-	public static AbilityItem ICESABER = new AbilityItem(new AbilityAttribute("Ice Saber").setDamageAsSword(6).addTasks(Tasks.icesaber) ); 
-	public static AbilityItem ICEBALL = new AbilityItem(new AbilityAttribute("Ice Ball").setItemTicks(150).setDamage(5).setModel(new ModelSphere()).setColor("00FFFF").setSize(5, 5, 5).addTasks(Tasks.iceBall) );
-	public static AbilityItem ICEAGE = new AbilityItem(new AbilityAttribute("Ice Age").setItemTicks(350).addEffects(EffectType.AOE, new PotionEffect(MobEffects.SLOWNESS, 200, 100), new PotionEffect(MobEffects.MINING_FATIGUE, 200, 100)).setAoERadius(20).addTasks(Tasks.iceAge) );
-	public static AbilityItem ICEBLOCKPARTISAN = new AbilityItem(new AbilityAttribute("Ice Block : Partisan").setItemTicks(100).setDamage(10).setModel(new ModelCube()).setColor("00FFFF").setSize(5, .5, .5).setParticleForProjectile(new ParticleTemplateForProjectile(), EnumParticleTypes.WATER_SPLASH, EnumParticleTypes.CRIT_MAGIC, EnumParticleTypes.DRIP_WATER).setItemRepeater().addTasks(Tasks.iceBlock) );
-	public static AbilityItem ICEBLOCKPHEASANT = new AbilityItem(new AbilityAttribute("Ice Block : Pheasant").setItemTicks(500).setDamage(15).setModel(new ModelBird()).setColor("00FFFF").setSize(5, 5, 5).setParticleForProjectile(new ParticleTemplateForProjectile(), EnumParticleTypes.WATER_SPLASH, EnumParticleTypes.CRIT_MAGIC, EnumParticleTypes.DRIP_WATER) );
+	public static AbilityItemPlus ICETIMECAPSULE = new AbilityItemPlus(new AbilityAttribute("Ice Time Capsule").setItemCooldown(350).addTasks(Tasks.iceTime) );
+	public static AbilityItemPlus ICESABER = new AbilityItemPlus(new AbilityAttribute("Ice Saber").setItemDamage(6).addTasks(new AbilityTaskSwordEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1)) ) ); 
+	public static AbilityItemPlus ICEBALL = new AbilityItemPlus(new AbilityAttribute("Ice Ball").setItemCooldown(150).setProjectileDamage(5).setProjectileModel(new ModelSphere()).setProjectileColor("00FFFF").setProjectileSize(5, 5, 5).addTasks(Tasks.iceBall) );
+	public static AbilityItemPlus ICEAGE = new AbilityItemPlus(new AbilityAttribute("Ice Age").setItemCooldown(350).addEffects(EffectType.AOE, new PotionEffect(MobEffects.SLOWNESS, 200, 100), new PotionEffect(MobEffects.MINING_FATIGUE, 200, 100)).setEffectRadius(20).addTasks(Tasks.iceAge) );
+	public static AbilityItemPlus ICEBLOCKPARTISAN = new AbilityItemPlus(new AbilityAttribute("Ice Block : Partisan").setItemCooldown(100).setProjectileDamage(10).setProjectileModel(new ModelCube()).setProjectileColor("00FFFF").setProjectileSize(5, .5, .5).setItemRepeater().addTasks(new AbilityTaskPlaceBlock(Blocks.PACKED_ICE)) );
+	public static AbilityItemPlus ICEBLOCKPHEASANT = new AbilityItemPlus(new AbilityAttribute("Ice Block : Pheasant").setItemCooldown(500).setProjectileDamage(15).setProjectileModel(new ModelBird()).setProjectileColor("00FFFF").setProjectileSize(5, 5, 5) );
 	
-	public static AbilityItem ENJOMO  = new AbilityItem(new AbilityAttribute("Enjomo").setItemTicks(250).addTasks(Tasks.enjomo));
-	public static AbilityItem KAGERO = new AbilityItem(new AbilityAttribute("Jujika").setItemTicks(150).setDamage(5).setModel(new ModelCube()).setColor("FF0000").setSize(3, .1, .1).setParticleForProjectile(new ParticleTemplateForProjectile(), EnumParticleTypes.FLAME, EnumParticleTypes.LAVA).addTasks(Tasks.kagero));
-	public static AbilityItem HIDARUMA = new AbilityItem(new AbilityAttribute("Hidaruma").setItemTicks(150).setModel(new ModelCube()).setSize(0, 0, 0).setEnemyOnFire(100).setParticleForItem(new ParticleTemplateForItem(), EnumParticleTypes.VILLAGER_HAPPY).setParticleForProjectile(new ParticleTemplateForProjectile(), EnumParticleTypes.VILLAGER_HAPPY).addTasks(Tasks.fireBlock) );
-	public static AbilityItem DAIENKAIENTEI = new AbilityItem(new AbilityAttribute("Dai Enkai : Entei").setModel(new ModelSphere()).setDamage(25).setColor("FF0000").setSize(9, 9, 9).setExplosion(4).setItemTicks(500).setParticleForProjectile(new ParticleTemplateForProjectile(), EnumParticleTypes.FLAME, EnumParticleTypes.LAVA).setItemCanBeCharged(15).addTasks(new AbilityTaskChargeable()).setFalseAttribute() );
-	public static AbilityItem HIGAN = new AbilityItem(new AbilityAttribute("Higan").setItemTicks(80).setModel(new ModelCube()).setDamage(5).setColor("FF0000").setSize(.3, .3, .3).setItemRepeater().setParticleForProjectile(new ParticleTemplateForProjectileWithLOD(1), EnumParticleTypes.FLAME, EnumParticleTypes.LAVA) );
-	public static AbilityItem HIKEN = new AbilityItem(new AbilityAttribute("Hiken").setItemTicks(200).setModel(new ModelCube()).setDamage(20).setColor("FF0000").setSize(3, 1, 1).setExplosion(2).setParticleForProjectile(new ParticleTemplateForProjectile(), EnumParticleTypes.FLAME, EnumParticleTypes.LAVA) );
+	public static AbilityItemPlus ENJOMO  = new AbilityItemPlus(new AbilityAttribute("Enjomo").setItemCooldown(250).addTasks(Tasks.enjomo));
+	public static AbilityItemPlus KAGERO = new AbilityItemPlus(new AbilityAttribute("Jujika").setItemCooldown(150).setProjectileDamage(5).setProjectileModel(new ModelCube()).setProjectileColor("FF0000").setProjectileSize(3, .1, .1).addTasks(Tasks.kagero));
+	public static AbilityItemPlus HIDARUMA = new AbilityItemPlus(new AbilityAttribute("Hidaruma").setItemCooldown(150).setProjectileModel(new ModelCube()).setProjectileSize(0, 0, 0).addTasks(new AbilityTaskPlaceBlock(Blocks.FIRE), new AbilityTaskSetOnFire(100)) );
+	public static AbilityItemPlus DAIENKAIENTEI = new AbilityItemPlus(new AbilityAttribute("Dai Enkai : Entei").setProjectileModel(new ModelSphere()).setProjectileDamage(25).setProjectileColor("FF0000").setProjectileSize(9, 9, 9).setProjectileExplosion(4).setItemCooldown(500).setItemCharge(15).addTasks(new AbilityTaskChargeable()).setFalseAttribute() );
+	public static AbilityItemPlus HIGAN = new AbilityItemPlus(new AbilityAttribute("Higan").setItemCooldown(80).setProjectileModel(new ModelCube()).setProjectileDamage(5).setProjectileColor("FF0000").setProjectileSize(.3, .3, .3).setItemRepeater().addTasks(new AbilityTaskPlaceBlock(Blocks.FIRE)) );
+	public static AbilityItemPlus HIKEN = new AbilityItemPlus(new AbilityAttribute("Hiken").setItemCooldown(200).setProjectileModel(new ModelCube()).setProjectileDamage(20).setProjectileColor("FF0000").setProjectileSize(2, 1, 1).setProjectileExplosion(2) );
   
-	public static AbilityItem SORU = new AbilityItem(new AbilityAttribute().addEffects(EffectType.USER, new PotionEffect(MobEffects.SPEED, 10, 2)));
-	public static AbilityItem TEKKAI = new AbilityItem(new AbilityAttribute().addEffects(EffectType.USER,new PotionEffect(MobEffects.RESISTANCE, 10, 100), new PotionEffect(MobEffects.SLOWNESS, 10, 100)));
-	public static AbilityItem GEPPO = new AbilityItem(new AbilityAttribute().setItemTicks(22).addTasks(Tasks.geppo) );
-	public static AbilityItem RANKYAKU = new AbilityItem(new AbilityAttribute().setItemTicks(200).setEntityTicks(100).setModel(new ModelCube()).setSize(1.5, 0.4, 6).setColor("69E3FF").setDamage(20).setExplosion(5, false) );
-	public static AbilityItem SHIGAN = new AbilityItem(new AbilityAttribute().setItemTicks(130).setEntityTicks(3).setModel(new ModelCube()).setSize(6, 1, 1).setDamage(25) );
-	public static AbilityItem KAMIE = new AbilityItem(new AbilityAttribute().addEffects(EffectType.USER,new PotionEffect(MobEffects.RESISTANCE, 20, 100)) );
+	public static AbilityItemPlus SORU = new AbilityItemPlus(new AbilityAttribute("Soru").addEffects(EffectType.USER, new PotionEffect(MobEffects.SPEED, 30, 3)));
+	public static AbilityItemPlus TEKKAI = new AbilityItemPlus(new AbilityAttribute("Tekkai").addEffects(EffectType.USER,new PotionEffect(MobEffects.RESISTANCE, 30, 100), new PotionEffect(MobEffects.SLOWNESS, 30, 100)));
+	public static AbilityItemPlus GEPPO = new AbilityItemPlus(new AbilityAttribute("Geppo").setItemCooldown(22).addTasks(Tasks.geppo) );
+	public static AbilityItemPlus RANKYAKU = new AbilityItemPlus(new AbilityAttribute("Rankyaku").setItemCooldown(200).setProjectileTicks(100).setProjectileModel(new ModelCube()).setProjectileSize(1.5, 0.4, 6).setProjectileColor("69E3FF").setProjectileDamage(20).setProjectileExplosion(5, false) );
+	public static AbilityItemPlus SHIGAN = new AbilityItemPlus(new AbilityAttribute("Shigan").setItemCooldown(130).setProjectileTicks(3).setProjectileModel(new ModelCube()).setProjectileSize(6, 1, 1).setProjectileDamage(25) );
+	public static AbilityItemPlus KAMIE = new AbilityItemPlus(new AbilityAttribute("Kamie").addEffects(EffectType.USER,new PotionEffect(MobEffects.RESISTANCE, 20, 100)) );
 	
-	public static AbilityItem UCHIMIZU = new AbilityItem(new AbilityAttribute().setItemTicks(100).setModel(new ModelCube()).setColor("00CED1").setSize(1.3, 1, 1).setDamage(5).setItemRepeater());
-	public static AbilityItem YARINAMI = new AbilityItem(new AbilityAttribute().setItemTicks(150).setModel(new ModelCube()).setColor("00CED1").setSize(3, 1, 1).setDamage(15) );
-	public static AbilityItem SAMEHADASHOTEI = new AbilityItem(new AbilityAttribute().addEffects(EffectType.USER, new PotionEffect(MobEffects.RESISTANCE, 10, 100), new PotionEffect(MobEffects.SLOWNESS, 10, 100)));
-	public static AbilityItem SOSHARK = new AbilityItem(new AbilityAttribute().setItemTicks(200).addTasks(Tasks.soshark));
-	public static AbilityItem MURASAME = new AbilityItem(new AbilityAttribute().setItemTicks(250).setModel(new ModelCube()).setColor("00CED1").setSize(1.8, 1.4, 1.4).setDamage(15).setItemRepeater());
-	public static AbilityItem KARAKUSAGAWARASEIKEN = new AbilityItem(new AbilityAttribute().setItemTicks(400).addTasks(Tasks.karakusagawaraseiken));
+	public static AbilityItemPlus UCHIMIZU = new AbilityItemPlus(new AbilityAttribute("Uchimizu").setItemCooldown(100).setProjectileModel(new ModelCube()).setProjectileColor("00CED1").setProjectileSize(1.3, 1, 1).setProjectileDamage(5).setItemRepeater());
+	public static AbilityItemPlus YARINAMI = new AbilityItemPlus(new AbilityAttribute("Yarinami").setItemCooldown(150).setProjectileModel(new ModelCube()).setProjectileColor("00CED1").setProjectileSize(3, 1, 1).setProjectileDamage(15) );
+	public static AbilityItemPlus SAMEHADASHOTEI = new AbilityItemPlus(new AbilityAttribute("Samehada Shotei").addEffects(EffectType.USER, new PotionEffect(MobEffects.RESISTANCE, 10, 100), new PotionEffect(MobEffects.SLOWNESS, 10, 100)));
+	public static AbilityItemPlus SOSHARK = new AbilityItemPlus(new AbilityAttribute("Soshark").setItemCooldown(200).addTasks(Tasks.soshark));
+	public static AbilityItemPlus MURASAME = new AbilityItemPlus(new AbilityAttribute("Murasame").setItemCooldown(250).setProjectileModel(new ModelCube()).setProjectileColor("00CED1").setProjectileSize(1.8, 1, 1).setProjectileDamage(15).setItemRepeater());
+	public static AbilityItemPlus KARAKUSAGAWARASEIKEN = new AbilityItemPlus(new AbilityAttribute("Karakusagawara Seiken").setItemCooldown(400).addTasks(Tasks.karakusagawaraseiken));
 	
-	public static AbilityItem FRESHFIRE = new AbilityItem(new AbilityAttribute());
-	public static AbilityItem MASTERNAIL = new AbilityItem(new AbilityAttribute());
-	public static AbilityItem RADICALBEAM = new AbilityItem(new AbilityAttribute());
-	public static AbilityItem COUPDEVENT = new AbilityItem(new AbilityAttribute());
-	public static AbilityItem STRONGRIGHT = new AbilityItem(new AbilityAttribute());
+	public static AbilityItemPlus FRESHFIRE = new AbilityItemPlus(new AbilityAttribute("Fresh Fire") );
+	public static AbilityItemPlus MASTERNAIL = new AbilityItemPlus(new AbilityAttribute("Master Nail") );
+	public static AbilityItemPlus RADICALBEAM = new AbilityItemPlus(new AbilityAttribute("Radical Beam") );
+	public static AbilityItemPlus COUPDEVENT = new AbilityItemPlus(new AbilityAttribute("Coup de Vent") );
+	public static AbilityItemPlus STRONGRIGHT = new AbilityItemPlus(new AbilityAttribute("Strong Right") );
 	
-	public static AbilityItem KENBUNSHOKUHAKI = new AbilityItem(new AbilityAttribute().setItemTicks(300).addTasks(Tasks.kenbunshokuhaki));
-	public static AbilityItem BUSOSHOKUHAKI = new AbilityItem(new AbilityAttribute().setItemTicks(800).addTasks(Tasks.busoshokuhaki));
-	public static AbilityItem HAOSHOKUHAKI = new AbilityItem(new AbilityAttribute().setItemTicks(1000).addTasks(Tasks.haohokuhaki));
+	public static AbilityItemPlus KENBUNSHOKUHAKI = new AbilityItemPlus(new AbilityAttribute().setItemCooldown(300).addTasks(Tasks.kenbunshokuhaki));
+	public static AbilityItemPlus BUSOSHOKUHAKI = new AbilityItemPlus(new AbilityAttribute().setItemCooldown(0).addTasks(Tasks.busoshokuhaki));
+	public static AbilityItemPlus HAOSHOKUHAKI = new AbilityItemPlus(new AbilityAttribute().setItemCooldown(1000).addTasks(Tasks.haohokuhaki));
 
-	public static AbilityAttribute MILKYDIAL = new AbilityAttribute().setModel(new ModelCube()).setSize(1, 1, 1).setColor(Color.black).setEntityTicks(20).addTasks(Tasks.milkydial);
-	public static AbilityAttribute AXEDIAL = new AbilityAttribute().setModel(new ModelCube()).setSize(1.5, 0.4, 6).setEntityTicks(100).setColor("F3E5AB").setDamage(5).setSpeed(10);
+	public static AbilityItem DIALREJECT = new AbilityItem(new AbilityAttribute("Reject Dial").setItemMaxStack(16).setProjectileExplosion(4, false).setItemMaxDamage(1).addTasks(Tasks.rejectDial, Tasks.consumable));
+	public static AbilityItem DIALBREATH = new AbilityItem(new AbilityAttribute("Breath Dial").setItemMaxStack(16).setItemMaxDamage(4).addTasks(Tasks.breathDial, Tasks.consumable));
+	public static AbilityItem DIALIMPACT = new AbilityItem(new AbilityAttribute("Impact Dial").setItemMaxStack(16).setProjectileExplosion(4, false).setItemMaxDamage(1).addTasks(Tasks.consumable));
+	public static AbilityItemPlus DIALFIRE = new AbilityItemPlus(new AbilityAttribute("Fire Dial").setItemMaxStack(16).setProjectileModel(new ModelCube()).setProjectileDamage(8).setProjectileColor("FF0000").setProjectileSize(1, .8, .8).setProjectileExplosion(1).setItemMaxDamage(2).addTasks(Tasks.consumable) );
+	public static AbilityItem DIALMILKY = new AbilityItem(new AbilityAttribute("Milky Road").setItemMaxStack(16).setProjectileModel(new ModelCube()).setProjectileSize(.1, .1, .1).setProjectileColor(Color.BLUE).setProjectileTicks(20).setItemMaxDamage(1).addTasks(Tasks.milkydial, Tasks.consumable));
+	public static AbilityItem DIALAXE = new AbilityItem(new AbilityAttribute("Axe Dial").setItemMaxStack(16).setProjectileModel(new ModelCube()).setProjectileDamage(5).setProjectileSize(1.5, 0.4, 6).setProjectileTicks(100).setProjectileColor("69E3FF").setItemMaxDamage(4).addTasks(Tasks.consumable));
 	
-	//public static AbilityItem DEBUG_ITEM = (AbilityItem) new AbilityItem(new AbilityAttribute("DEBUG ITEM").setItemCanBeCharged(20).addTasks(Tasks.debug)).setCreativeTab(Values.isDebug ? CreativeTabs.COMBAT : null);
+	//public static AbilityItemPlus DEBUG_ITEM = (AbilityItemPlus) new AbilityItemPlus(new AbilityAttribute("DEBUG ITEM").setItemCharge(20).addTasks(Tasks.debug)).setCreativeTab(Values.isDebug ? CreativeTabs.COMBAT : null);
 
 }

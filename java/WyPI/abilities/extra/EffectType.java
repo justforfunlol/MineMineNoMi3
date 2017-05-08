@@ -4,5 +4,6 @@ public enum EffectType
 {
 	USER,
 	PROJECTILE,
+	HIT,
 	AOE;
 }

@@ -11,11 +11,12 @@ public class ListDevilFruits
 	public static AkumaNoMi MeraMeraNoMi, HieHieNoMi, BaneBaneNoMi, PikaPikaNoMi, GomuGomuNoMi, SukeSukeNoMi, OpeOpeNoMi, NoroNoroNoMi, GoroGoroNoMi, MokuMokuNoMi, NikyuNikyuNoMi, BomuBomuNoMi, GuraGuraNoMi, 
 				KageKageNoMi, SunaSunaNoMi, MaguMaguNoMi, DoruDoruNoMi, DokuDokuNoMi, BariBariNoMi, GasuGasuNoMi, YukiYukiNoMi, JikiJikiNoMi, YamiYamiNoMi, ItoItoNoMi, HoroHoroNoMi, SupaSupaNoMi, OriOriNoMi,
 				MeroMeroNoMi, GoeGoeNoMi, KiloKiloNoMi, HanaHanaNoMi, HoruHoruNoMi, BetaBetaNoMi, IshiIshiNoMi, PamuPamuNoMi, UshiUshiNoMiBison;
-	 
+
+	private static final AbilityItem[] USHIB = {null, null, null, null};
 	private static final AbilityItem[] PAMU = {};
 	private static final AbilityItem[] ISHI = {};
 	private static final AbilityItem[] BETA = {};
-	private static final AbilityItem[] HORU = {};
+	private static final AbilityItem[] HORU = {ListAbilities.TENSIONHORMONE, ListAbilities.CHIYUHORMONE, null, null};
 	private static final AbilityItem[] HANA = {};
 	private static final AbilityItem[] KILO = {ListAbilities.KILOPRESS, null, null, null};
 	private static final AbilityItem[] GOE = {ListAbilities.TODOROKI, null, null, null};
@@ -24,8 +25,8 @@ public class ListDevilFruits
 	private static final AbilityItem[] SUPA = {ListAbilities.SPIDER, ListAbilities.ATOMICSPAR, ListAbilities.SPARCLAW, ListAbilities.SPIRALHOLLOW};
 	private static final AbilityItem[] HORO = {ListAbilities.NEGATIVEHOLLOW, ListAbilities.MINIHOLLOW, ListAbilities.TOKUHOLLOW, null};
 	private static final AbilityItem[] ITO = {ListAbilities.PARASITE, ListAbilities.SORANOMICHI, ListAbilities.OVERHEAT, ListAbilities.BLACKKNIGHT};
-	private static final AbilityItem[] YAMI = {};
-	private static final AbilityItem[] JIKI = {};
+	private static final AbilityItem[] YAMI = {ListAbilities.BLACKHOLE, null, ListAbilities.DARKMATTER, ListAbilities.LIBERATION};
+	private static final AbilityItem[] JIKI = {ListAbilities.SAGARINORYUSEI, ListAbilities.MOKO, null, null};
 	private static final AbilityItem[] YUKI = {ListAbilities.KAMAKURA, ListAbilities.YUKIRABI, ListAbilities.FUBUKI, ListAbilities.MANNENYUKI, ListAbilities.KAMAKURAJUSSOSHI, ListAbilities.TABIRAYUKI};
 	private static final AbilityItem[] GASU = {ListAbilities.GASROBE, ListAbilities.GASTILLE, ListAbilities.GASTANET, ListAbilities.SHINOKUNI, ListAbilities.KARAKUNI, ListAbilities.BLUESWORD};
 	private static final AbilityItem[] BARI = {ListAbilities.BARRIER, ListAbilities.BARRIERBALL, ListAbilities.BARRIERCRASH, ListAbilities.BARIBARINOPISTOL};
@@ -48,10 +49,18 @@ public class ListDevilFruits
 	private static final AbilityItem[] BANE = {ListAbilities.SPRINGHOPPER, ListAbilities.SPRINGSNIPE, ListAbilities.SPRINGDEATHKNOCK, null};
 	private static final AbilityItem[] MERA = {ListAbilities.HIKEN, ListAbilities.HIGAN, ListAbilities.DAIENKAIENTEI, ListAbilities.HIDARUMA, ListAbilities.ENJOMO, ListAbilities.KAGERO};
 	private static final AbilityItem[][] EVERY_FRUIT = {MERA, HIE, PIKA, GOMU, BANE, SUKE, NORO, OPE, GORO, MOKU, NIKYU, BOMU, GURA, KAGE, SUNA, MAGU, DORU, DOKU, GASU, YUKI, BARI, JIKI, YAMI, ITO, HORO
-			, SUPA, ORI, MERO, GOE, KILO, HANA, HORU, BETA, ISHI, PAMU};
+			, SUPA, ORI, MERO, GOE, KILO, HORU, USHIB};
 	
 	public static void init()
 	{	
+		UshiUshiNoMiBison = new AkumaNoMi(EnumFruitType.ZOAN, USHIB);
+		addITEM(UshiUshiNoMiBison, "Ushi Ushi no Mi, Model Bison");
+		JikiJikiNoMi = new AkumaNoMi(EnumFruitType.PARAMECIA, JIKI);
+		addITEM(JikiJikiNoMi, "Jiki Jiki no Mi");
+		YamiYamiNoMi = new AkumaNoMi(EnumFruitType.LOGIA, YAMI);
+		addITEM(YamiYamiNoMi, "Yami Yami no Mi");
+		HoruHoruNoMi = new AkumaNoMi(EnumFruitType.PARAMECIA, HORU);
+		addITEM(HoruHoruNoMi, "Horu Horu no Mi");
 		MeroMeroNoMi = new AkumaNoMi(EnumFruitType.PARAMECIA, MERO);
 		addITEM(MeroMeroNoMi, "Mero Mero no Mi");
 		KiloKiloNoMi = new AkumaNoMi(EnumFruitType.PARAMECIA, KILO);
