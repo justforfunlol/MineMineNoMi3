@@ -5,9 +5,6 @@ import javax.annotation.Nullable;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.sun.javafx.geom.Vec3d;
-import com.sun.prism.impl.VertexBuffer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -33,7 +30,7 @@ public class WyRenderHelper
 	    tessellator.addVertexWithUV(x + u		, y + v			, 0, 1.0, 1.0);
 	    tessellator.addVertexWithUV(x + u		, y        		, 0, 1.0, 0.0);
 	    tessellator.addVertexWithUV(x			, y         	, 0, 0.0, 0.0);
-	    tessellator.draw();
+	    tessellator.draw();	    
 	}
 	
 	/*public static void drawColorOnScreen(int r, int g, int b, int alpha, double posX, double posY, double width, double height)

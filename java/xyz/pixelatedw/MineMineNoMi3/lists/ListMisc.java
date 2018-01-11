@@ -9,10 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import xyz.pixelatedw.MineMineNoMi3.NewBlock;
 import xyz.pixelatedw.MineMineNoMi3.Values;
-import xyz.pixelatedw.MineMineNoMi3.abilities.FishKarateAbilities;
-import xyz.pixelatedw.MineMineNoMi3.abilities.HakiAbilities;
-import xyz.pixelatedw.MineMineNoMi3.abilities.RokushikiAbilities;
-import xyz.pixelatedw.MineMineNoMi3.abilities.WeaponsAbilities;
 import xyz.pixelatedw.MineMineNoMi3.api.WyRegistry;
 import xyz.pixelatedw.MineMineNoMi3.blocks.BlockBarrier;
 import xyz.pixelatedw.MineMineNoMi3.blocks.BlockCustomSpawner;
@@ -31,6 +27,7 @@ import xyz.pixelatedw.MineMineNoMi3.items.CharacterCreator;
 import xyz.pixelatedw.MineMineNoMi3.items.Cola;
 import xyz.pixelatedw.MineMineNoMi3.items.Flintlock;
 import xyz.pixelatedw.MineMineNoMi3.items.Heart;
+import xyz.pixelatedw.MineMineNoMi3.items.ItemCoreWeapon;
 import xyz.pixelatedw.MineMineNoMi3.items.UltraCola;
 
 public class ListMisc 
@@ -49,7 +46,7 @@ public class ListMisc
 	public static Block Dial = new BlockDial();
 	public static Block Barrier = new BlockBarrier();
 	public static Block Poison = new BlockPoison();
-	public static BlockCustomSpawner CustomSpawner = (BlockCustomSpawner) new BlockCustomSpawner().setTickRandomly(true);
+	public static BlockCustomSpawner CustomSpawner = new BlockCustomSpawner();
 	public static Block Darkness = new BlockDarkness();
 
 	public static Item CharacterCreator = new CharacterCreator();
@@ -82,7 +79,29 @@ public class ListMisc
 	public static Item PirateLeggings = new ItemCoreArmor(EnumToolMats.pirate_armor, EntityEquipmentSlot.LEGS);
 	public static Item PirateBoots = new ItemCoreArmor(EnumToolMats.pirate_armor, EntityEquipmentSlot.FEET);*/
 	
-	public static Item Flintlock = new Flintlock();
+	public static Item Flintlock = new Flintlock().setFull3D();
+	public static ItemCoreWeapon MarineSword = new ItemCoreWeapon(5);
+	public static ItemCoreWeapon PirateCutlass = new ItemCoreWeapon(5);
+	public static ItemCoreWeapon Pipe = new ItemCoreWeapon(4);
+	public static ItemCoreWeapon Scissors = new ItemCoreWeapon(6);
+	public static ItemCoreWeapon Kikoku = new ItemCoreWeapon(8);
+	public static ItemCoreWeapon Kiribachi = new ItemCoreWeapon(6);
+	public static ItemCoreWeapon Yoru = new ItemCoreWeapon(10);
+	public static ItemCoreWeapon Biseto = new ItemCoreWeapon(8);
+	public static ItemCoreWeapon Hook = new ItemCoreWeapon(6);
+	public static ItemCoreWeapon Umbrella = new ItemCoreWeapon(3);
+	public static ItemCoreWeapon Jitte = new ItemCoreWeapon(7);
+	public static ItemCoreWeapon BoStick = new ItemCoreWeapon(6);
+	
+	public static ItemCoreWeapon Hammer5t = new ItemCoreWeapon(1);
+	public static ItemCoreWeapon Hammer10t = new ItemCoreWeapon(1);
+	public static ItemCoreWeapon Hammer100t = new ItemCoreWeapon(1);
+	public static ItemCoreWeapon Tonfa = new ItemCoreWeapon(4);
+	public static ItemCoreWeapon Knife1 = new ItemCoreWeapon(3);	
+	public static ItemCoreWeapon Knife2 = new ItemCoreWeapon(3);	
+	public static ItemCoreWeapon WadoIchimonji = new ItemCoreWeapon(8);
+	public static ItemCoreWeapon Kitetsu = new ItemCoreWeapon(8);
+	public static ItemCoreWeapon Shusui = new ItemCoreWeapon(8);
 	
 	public static void init()
 	{
@@ -103,48 +122,38 @@ public class ListMisc
  		addITEM(Bullets								, "Bullets"					, ListCreativeTabs.tabWeapons);
  		addITEM(KairosekiBullets					, "Kairoseki Bullets"		, ListCreativeTabs.tabWeapons);
  		
-/* 		addITEM(MarineHelm							, "Marine Helmet"			, ListCreativeTabs.tabMisc);
- 		addITEM(MarineChestplate					, "Marine Chestplate"		, ListCreativeTabs.tabMisc);
- 		addITEM(MarineLeggings						, "Marine Leggings"			, ListCreativeTabs.tabMisc);
- 		addITEM(MarineBoots							, "Marine Boots"			, ListCreativeTabs.tabMisc);
+/* 		addITEM(MarineHelm							, "Marine Helmet"			, ListCreativeTabs.tabWeapons);
+ 		addITEM(MarineChestplate					, "Marine Chestplate"		, ListCreativeTabs.tabWeapons);
+ 		addITEM(MarineLeggings						, "Marine Leggings"			, ListCreativeTabs.tabWeapons);
+ 		addITEM(MarineBoots							, "Marine Boots"			, ListCreativeTabs.tabWeapons);
  	
- 		addITEM(PirateChestplate					, "Pirate Chestplate"		, ListCreativeTabs.tabMisc);
- 		addITEM(PirateLeggings						, "Pirate Leggings"			, ListCreativeTabs.tabMisc);
- 		addITEM(PirateBoots							, "Pirate Boots"			, ListCreativeTabs.tabMisc);
+ 		addITEM(PirateChestplate					, "Pirate Chestplate"		, ListCreativeTabs.tabWeapons);
+ 		addITEM(PirateLeggings						, "Pirate Leggings"			, ListCreativeTabs.tabWeapons);
+ 		addITEM(PirateBoots							, "Pirate Boots"			, ListCreativeTabs.tabWeapons);
 */ 		
 		addITEM(Flintlock							, "Flintlock"				, ListCreativeTabs.tabWeapons); 	
- 		addITEM(WeaponsAbilities.MARINESWORD		, "Marine Sword"			, ListCreativeTabs.tabWeapons); 	
- 		addITEM(WeaponsAbilities.PIRATECUTLASS		, "Pirate Cutlass"			, ListCreativeTabs.tabWeapons); 	
- 		addITEM(WeaponsAbilities.PIPE				, "Pipe"					, ListCreativeTabs.tabWeapons); 	
- 		addITEM(WeaponsAbilities.SCISSORS			, "Scissors"				, ListCreativeTabs.tabWeapons); 	
- 		addITEM(WeaponsAbilities.KIKOKU				, "Kikoku"					, ListCreativeTabs.tabWeapons); 	
- 		addITEM(WeaponsAbilities.KIRIBACHI			, "Kiribachi"				, ListCreativeTabs.tabWeapons); 
- 		addITEM(WeaponsAbilities.YORU				, "Yoru"					, ListCreativeTabs.tabWeapons); 
- 		addITEM(WeaponsAbilities.BISETO				, "Biseto"					, ListCreativeTabs.tabWeapons); 
- 		addITEM(WeaponsAbilities.HOOK				, "Hook"					, ListCreativeTabs.tabWeapons);	
- 		addITEM(WeaponsAbilities.UMBRELLA			, "Umbrella"				, ListCreativeTabs.tabWeapons);	
-		addITEM(WeaponsAbilities.JITTE				, "Jitte"					, ListCreativeTabs.tabWeapons);	
-		addITEM(WeaponsAbilities.BOSTICK			, "Bo"						, ListCreativeTabs.tabWeapons);	
- 		
- 		addITEM(CharacterCreator					, "Character Creator"		, ListCreativeTabs.tabMisc);  
- 		
- 		addITEM(RokushikiAbilities.abilitiesArray[0], "Soru"					, ListCreativeTabs.tabHaki); 	
-		addITEM(RokushikiAbilities.abilitiesArray[1], "Tekkai"					, ListCreativeTabs.tabHaki); 
- 		addITEM(RokushikiAbilities.abilitiesArray[2], "Geppo"					, ListCreativeTabs.tabHaki); 	
-		addITEM(RokushikiAbilities.abilitiesArray[3], "Rankyaku"				, ListCreativeTabs.tabHaki);
- 		addITEM(RokushikiAbilities.abilitiesArray[4], "Shigan"					, ListCreativeTabs.tabHaki); 	
-		addITEM(RokushikiAbilities.abilitiesArray[5], "Kamie"					, ListCreativeTabs.tabHaki);	
+ 		addITEM(MarineSword							, "Marine Sword"			, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(PirateCutlass						, "Pirate Cutlass"			, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(Pipe								, "Pipe"					, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(Scissors							, "Scissors"				, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(Kikoku								, "Kikoku"					, ListCreativeTabs.tabWeapons); 	
+ 		addITEM(Kiribachi							, "Kiribachi"				, ListCreativeTabs.tabWeapons); 
+ 		addITEM(Yoru								, "Yoru"					, ListCreativeTabs.tabWeapons); 
+ 		addITEM(Biseto								, "Biseto"					, ListCreativeTabs.tabWeapons); 
+ 		addITEM(Hook								, "Hook"					, ListCreativeTabs.tabWeapons);	
+ 		addITEM(Umbrella							, "Umbrella"				, ListCreativeTabs.tabWeapons);	
+		addITEM(Jitte								, "Jitte"					, ListCreativeTabs.tabWeapons);	
+		addITEM(BoStick								, "Bo Staff"				, ListCreativeTabs.tabWeapons);
+		addITEM(Hammer5t							, "5t Hammer"				, ListCreativeTabs.tabWeapons);
+		addITEM(Hammer10t							, "10t Hammer"				, ListCreativeTabs.tabWeapons);
+		addITEM(Hammer100t							, "100t Hammer"				, ListCreativeTabs.tabWeapons);
+		addITEM(Tonfa								, "Tonfa"					, ListCreativeTabs.tabWeapons);
+		addITEM(Knife1								, "Knife"					, ListCreativeTabs.tabWeapons);
+		addITEM(WadoIchimonji						, "Wado Ichimonji"			, ListCreativeTabs.tabWeapons);		
+		addITEM(Kitetsu								, "Kitetsu"					, ListCreativeTabs.tabWeapons);		
+		addITEM(Shusui								, "Shusui"					, ListCreativeTabs.tabWeapons);	
 		
- 		addITEM(FishKarateAbilities.UCHIMIZU		, "Uchimizu"				, ListCreativeTabs.tabHaki); 	
-		addITEM(FishKarateAbilities.YARINAMI		, "Yarinami"				, ListCreativeTabs.tabHaki); 
- 		addITEM(FishKarateAbilities.SAMEHADASHOTEI	, "Samehada Shotei"			, ListCreativeTabs.tabHaki); 	
-		addITEM(FishKarateAbilities.SOSHARK			, "Soshark"					, ListCreativeTabs.tabHaki);
- 		addITEM(FishKarateAbilities.MURASAME		, "Murasame"				, ListCreativeTabs.tabHaki); 	
-		addITEM(FishKarateAbilities.KARAKUSAGAWARASEIKEN, "Karakusagawara Seiken"	, ListCreativeTabs.tabHaki);
-
-		addITEM(HakiAbilities.BUSOSHOKUHAKI			, "Busoshoku Haki"			, ListCreativeTabs.tabHaki);
-		addITEM(HakiAbilities.KENBUNSHOKUHAKI		, "Kenbunshoku Haki"		, ListCreativeTabs.tabHaki);
-		addITEM(HakiAbilities.HAOSHOKUHAKI			, "Haoshoku Haki"			, ListCreativeTabs.tabHaki);
+ 		addITEM(CharacterCreator					, "Character Creator"		, ListCreativeTabs.tabMisc);  
 		
  		/*addITEM(DialDefault							, "Default Dial"			, ListCreativeTabs.tabMisc);
  		addITEM(DialEisen							, "Eisen Dial"				, ListCreativeTabs.tabMisc);
@@ -165,7 +174,7 @@ public class ListMisc
  		addBLOCK(Dial				, "Dial"				, 1.5F							, null							, null);
  		addBLOCK(Barrier			, "Crash Barrier"		, Float.POSITIVE_INFINITY		, null							, null);
  		addBLOCK(Poison				, "Poison"				, 1.5F							, null							, null);
- 		addBLOCK(CustomSpawner		, "Custom Spawner"		, Float.POSITIVE_INFINITY		, TileEntityCustomSpawner.class	, null);
+ 		addBLOCK(CustomSpawner		, "Custom Spawner"		, Float.POSITIVE_INFINITY		, TileEntityCustomSpawner.class	, ListCreativeTabs.tabMisc);
  		addBLOCK(Darkness			, "Darkness"			, Float.POSITIVE_INFINITY		, null							, ListCreativeTabs.tabMisc);
  		
 	}   
@@ -178,8 +187,7 @@ public class ListMisc
 	
 	private static void addBLOCK(Block block, String localizedName, float hard, Class<? extends TileEntity> tile, CreativeTabs tab)
 	{	
-		WyRegistry.registerBlock(block, localizedName, hard, tab);
-		WyRegistry.registerTileEntity(block, tile, localizedName);
+		WyRegistry.registerBlock(block, localizedName, hard, tab, tile);
 		Values.miscBlocks.add(block);
 	}
 }

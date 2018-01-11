@@ -1,16 +1,16 @@
 package xyz.pixelatedw.MineMineNoMi3.entities.mobs;
 
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityNewMob extends EntityMob implements IMultiTextureMob
+public class EntityNewMob extends EntityMob implements IDynamicRenderer
 {
 
 	private boolean hasHaki = false, isLogia = false;
 	private String texture = "N/A", model = "N/A";
-	private boolean isAggressive;
-	
+
 	public EntityNewMob(World worldIn) 
 	{
 		super(worldIn);
@@ -46,6 +46,15 @@ public class EntityNewMob extends EntityMob implements IMultiTextureMob
 		setAsLogiaUser(nbt.getBoolean("Logia"));
 	}
 	
+    protected void addRandomArmor() {}
+	
+    public IEntityLivingData onSpawnWithEgg(IEntityLivingData data)
+    {
+        super.onSpawnWithEgg(data);
+        addRandomArmor();
+        return data;
+    }
+	
 	protected void entityInit()
 	{super.entityInit();}
 	
@@ -67,4 +76,14 @@ public class EntityNewMob extends EntityMob implements IMultiTextureMob
 	// 0 - Melee ONLY; 1 - Range ONLY; 2 - Both Melee and Range
 	public int getCombatType()
 	{ return 2; }
+
+	public double[] itemOffset() 
+	{
+		return new double[] {0, 0, 0};
+	}
+
+	public double[] itemScale() 
+	{
+		return new double[] {1, 1, 1};
+	}
 }

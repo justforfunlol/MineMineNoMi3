@@ -2,7 +2,9 @@ package xyz.pixelatedw.MineMineNoMi3.events;
 
 import com.google.common.collect.Iterables;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -14,9 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -27,15 +27,10 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import xyz.pixelatedw.MineMineNoMi3.ID;
 import xyz.pixelatedw.MineMineNoMi3.Values;
-import xyz.pixelatedw.MineMineNoMi3.abilities.FishKarateAbilities;
-import xyz.pixelatedw.MineMineNoMi3.abilities.HakiAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.RokushikiAbilities;
-import xyz.pixelatedw.MineMineNoMi3.abilities.WeaponsAbilities;
-import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
-import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityItem;
+import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
 import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.EntityNewMob;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.marines.MarineData;
@@ -112,7 +107,18 @@ public class EventsPersistence
 			ItemStack heldItem = player.getHeldItem();
 			IAttributeInstance maxHp = player.getEntityAttribute(SharedMonsterAttributes.maxHealth);
 			int extraHP;
-
+			
+			if(!player.worldObj.isRemote)
+			{
+				for(int i = 0; i < props.getAbilitiesInHotbar(); i++)
+				{
+					if(props.getAbilityFromSlot(i) != null && !props.getAbilityFromSlot(i).equals("n/a"))
+					{
+						props.getAbilityFromSlot(i).update(player);
+					}
+				}
+			}
+			
 			if (!props.getRace().equals(ID.RACE_CYBORG))
 			{
 				extraHP = (int) Math.pow(Math.log(props.getDoriki() + 1), 3) / 4 + 5;
@@ -162,7 +168,7 @@ public class EventsPersistence
 			}
 			
 			if (props.getUsedFruit().equals("gomugomu") || props.getUsedFruit().equals("banebane") || props.isLogia() || (player.getHeldItem() != null 
-					|| (player.getHeldItem() != null && player.getHeldItem().getItem() == RokushikiAbilities.abilitiesArray[2])) )
+					|| (player.getHeldItem() != null)) )
 				player.fallDistance = 0;
 
 			if (props.getUsedFruit().equals("dokudoku"))
@@ -214,31 +220,7 @@ public class EventsPersistence
 			}
 			
 		}
-	}
-	
-	/** XXX onPlayerDrinkMilk */
-	@SubscribeEvent
-	public void onPlayerDrinkMilk(PlayerInteractEvent event)
-	{
-		if (event.entityPlayer != null && event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().getItem() == Items.milk_bucket && !event.world.isRemote)
-		{ 
-			ExtendedEntityStats props = ExtendedEntityStats.get(event.entityPlayer);
-			
-			for (ItemStack is : event.entityPlayer.inventory.mainInventory)
-			{
-				if(is != null && is.getItem() instanceof AbilityItem && !isSpecialAbility((AbilityItem) is.getItem()))
-				{
-					WyHelper.removeStackFromInventory(event.entityPlayer, is);
-				}
-			}
-			
-			props.setUsedFruit("N/A");
-			props.setIsLogia(false);
-
-			WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) event.entityPlayer);
-		}
-	}
-	
+	}	
 
 	/** XXX onLivingDeath */
 	@SubscribeEvent
@@ -247,9 +229,7 @@ public class EventsPersistence
 		if (event.entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.entity;
-			for (ItemStack is : player.inventory.mainInventory)
-				if (is != null && is.getItem() instanceof AbilityItem)
-					WyHelper.removeStackFromInventory(player, is);
+			ExtendedEntityStats props = ExtendedEntityStats.get(player);
 		}
 
 		if (event.source.getEntity() instanceof EntityPlayer)
@@ -420,10 +400,14 @@ public class EventsPersistence
 			ability(event.player, 1500, RokushikiAbilities.TEKKAI);
 			ability(event.player, 3000, RokushikiAbilities.SHIGAN);
 			ability(event.player, 4500, RokushikiAbilities.GEPPO);
+			//KENBOSHOUKU - 5000
 			ability(event.player, 6000, RokushikiAbilities.KAMIE);
 			ability(event.player, 8500, RokushikiAbilities.RANKYAKU);
+			//BUSOSHOKU - 9000
+			//HAOSHOKU - 9000 + other
+			
 		}
-		else if (event.props.getRace().equals(ID.RACE_FISHMAN))
+		/*else if (event.props.getRace().equals(ID.RACE_FISHMAN))
 		{
 			ability(event.player, 500, FishKarateAbilities.UCHIMIZU);
 			ability(event.player, 1500, FishKarateAbilities.YARINAMI);
@@ -431,27 +415,16 @@ public class EventsPersistence
 			ability(event.player, 4500, FishKarateAbilities.SOSHARK);
 			ability(event.player, 6000, FishKarateAbilities.MURASAME);
 			ability(event.player, 8500, FishKarateAbilities.KARAKUSAGAWARASEIKEN);
-		}
+		}*/
 	}	
 
-	public boolean isSpecialAbility(AbilityItem i)
+	private void ability(EntityPlayer player, int doriki, Ability ability)
 	{
-		if (i == RokushikiAbilities.SORU || i == RokushikiAbilities.TEKKAI || i == RokushikiAbilities.GEPPO || i == RokushikiAbilities.RANKYAKU || i == RokushikiAbilities.KAMIE || i == RokushikiAbilities.SHIGAN
-				|| i == FishKarateAbilities.UCHIMIZU || i == FishKarateAbilities.YARINAMI || i == FishKarateAbilities.SAMEHADASHOTEI || i == FishKarateAbilities.SOSHARK || i == FishKarateAbilities.MURASAME
-				|| i == FishKarateAbilities.KARAKUSAGAWARASEIKEN || i == HakiAbilities.KENBUNSHOKUHAKI || i == HakiAbilities.BUSOSHOKUHAKI || i == HakiAbilities.HAOSHOKUHAKI || i == WeaponsAbilities.BISETO || i == WeaponsAbilities.MARINESWORD
-				|| i == WeaponsAbilities.PIRATECUTLASS || i == WeaponsAbilities.SCISSORS || i == WeaponsAbilities.PIPE || i == WeaponsAbilities.JITTE || i == WeaponsAbilities.BOSTICK || i == WeaponsAbilities.KIKOKU || i == WeaponsAbilities.KIRIBACHI || i == WeaponsAbilities.HOOK
-				|| i == WeaponsAbilities.YORU || i == WeaponsAbilities.UMBRELLA || i == ListMisc.Flintlock)
-			return true;
-		return false;
-	}
-
-	private void ability(EntityPlayer player, int doriki, Item ability)
-	{
-		ExtendedEntityStats props = ExtendedEntityStats.get(player);
-		if (props.getDoriki() >= doriki && !player.inventory.hasItemStack(new ItemStack(ability)))
-			player.inventory.addItemStackToInventory(new ItemStack(ability));
-		if (props.getDoriki() < doriki && player.inventory.hasItemStack(new ItemStack(ability)))
-			WyHelper.removeStackFromInventory(player, new ItemStack(ability));
+		ExtendedEntityStats props = ExtendedEntityStats.get(player);	
+		if (props.getDoriki() >= doriki && !props.hasRacialAbility(ability))
+			props.addRacialAbility(ability);
+		if (props.getDoriki() < doriki && props.hasRacialAbility(ability))
+			props.removeRacialAbility(ability);
 	}
 	
 }

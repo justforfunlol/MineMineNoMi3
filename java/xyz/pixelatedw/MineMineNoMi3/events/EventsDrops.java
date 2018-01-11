@@ -3,6 +3,7 @@ package xyz.pixelatedw.MineMineNoMi3.events;
 import java.util.Random;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -10,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import xyz.pixelatedw.MineMineNoMi3.MainConfig;
 import xyz.pixelatedw.MineMineNoMi3.Values;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
-import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityItem;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
 
 public class EventsDrops
@@ -37,17 +38,17 @@ public class EventsDrops
 	@SubscribeEvent	
 	public void onBreak(BreakEvent event)
 	{	
-		/*if(MainConfig.allowDFtoDrop_actual && (event.getState().getBlock() == Blocks.LEAVES || event.getState().getBlock() == Blocks.LEAVES2))
+		if(MainConfig.enableDFtoDrop && (event.block == Blocks.leaves || event.block == Blocks.leaves2))
 		{
 			Random rand = new Random();
 			double chance = rand.nextInt(100000) + rand.nextDouble();
 
-			if( 1/chance <= MainConfig.rateDFDrops_actual )
+			if( 1/chance <= MainConfig.rateDFDrops / 10000 )
 			{
 				ItemStack df = new ItemStack(Values.devilfruits.get(rand.nextInt(Values.devilfruits.size())));
 				event.getPlayer().inventory.addItemStackToInventory(df);
 			} 
-		}*/
+		}
 	}
 	
 	@SubscribeEvent
@@ -62,29 +63,6 @@ public class EventsDrops
 			
 			WyHelper.removeStackFromInventory(player, new ItemStack(ListMisc.CharacterCreator));
 
-			/*player.inventory.deleteStack(new ItemStack(ListAbilities.SORU));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.TEKKAI));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.GEPPO));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.SHIGAN));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.KAMIE));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.RANKYAKU));	
-			
-			player.inventory.deleteStack(new ItemStack(ListAbilities.UCHIMIZU));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.YARINAMI));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.SAMEHADASHOTEI));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.SOSHARK));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.MURASAME));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.KARAKUSAGAWARASEIKEN));	
-			
-			player.inventory.deleteStack(new ItemStack(ListAbilities.FRESHFIRE));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.MASTERNAIL));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.RADICALBEAM));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.COUPDEVENT));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.STRONGRIGHT));	
-			
-			player.inventory.deleteStack(new ItemStack(ListAbilities.BUSOSHOKUHAKI));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.KENBUNSHOKUHAKI));	
-			player.inventory.deleteStack(new ItemStack(ListAbilities.HAOSHOKUHAKI));*/
 		}
 	}
 }

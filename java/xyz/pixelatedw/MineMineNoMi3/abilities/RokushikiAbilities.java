@@ -6,46 +6,46 @@ import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper.Direction;
-import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityItem;
+import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.RokushikiProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
 
 public class RokushikiAbilities 
 {
 	
-	public static AbilityItem SORU = new Soru();
-	public static AbilityItem TEKKAI = new Tekkai();
-	public static AbilityItem GEPPO = new Geppo();
-	public static AbilityItem RANKYAKU = new Rankyaku();
-	public static AbilityItem SHIGAN = new Shigan();
-	public static AbilityItem KAMIE = new Kamie();
+	public static Ability SORU = new Soru();
+	public static Ability TEKKAI = new Tekkai();
+	public static Ability GEPPO = new Geppo();
+	public static Ability RANKYAKU = new Rankyaku();
+	public static Ability SHIGAN = new Shigan();
+	public static Ability KAMIE = new Kamie();
 	
-	public static AbilityItem[] abilitiesArray = new AbilityItem[] {SORU, TEKKAI, GEPPO, RANKYAKU, SHIGAN, KAMIE};
+	public static Ability[] abilitiesArray = new Ability[] {SORU, TEKKAI, GEPPO, RANKYAKU, SHIGAN, KAMIE};
 	
-	public static class Soru extends AbilityItem
+	public static class Soru extends Ability
 	{
 		public Soru() 
 		{
-			this.attr = ListAttributes.SORU; 
+			super(ListAttributes.SORU); 
 		}
 	}
 	
-	public static class Tekkai extends AbilityItem
+	public static class Tekkai extends Ability
 	{
 		public Tekkai() 
 		{
-			this.attr = ListAttributes.TEKKAI; 
+			super(ListAttributes.TEKKAI); 
 		}
 	}
 	
-	public static class Geppo extends AbilityItem
+	public static class Geppo extends Ability
 	{
 		public Geppo() 
 		{
-			this.attr = ListAttributes.TEKKAI; 
+			super(ListAttributes.GEPPO); 
 		}
 		
-		public void tasksUse(ItemStack itemStack, World world, EntityPlayer player)
+		public void use(EntityPlayer player)
 		{
 			Direction dir = WyHelper.get8Directions(player);
 			
@@ -79,46 +79,45 @@ public class RokushikiAbilities
 			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ + 0.2, 0, 0, 0);
 			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ - 0.5, 0, 0, 0);
 			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ - 0.2, 0, 0, 0);
+			
+			super.use(player);
 		};
 	}
 	
-	public static class Rankyaku extends AbilityItem
+	public static class Rankyaku extends Ability
 	{
 		public Rankyaku() 
 		{
-			this.attr = ListAttributes.RANKYAKU; 
+			super(ListAttributes.RANKYAKU); 
 		}
 		
-		public void tasksUse(ItemStack itemStack, World world, EntityPlayer player)
+		public void use(EntityPlayer player)
 		{
-			this.projectile = new RokushikiProjectiles.Rankyaku(world, player, attr);
+			this.projectile = new RokushikiProjectiles.Rankyaku(player.worldObj, player, ListAttributes.RANKYAKU);
+			super.use(player);
 		}
 	}
 	
 
-	public static class Shigan extends AbilityItem
+	public static class Shigan extends Ability
 	{
 		public Shigan() 
 		{
-			this.attr = ListAttributes.SHIGAN; 
+			super(ListAttributes.SHIGAN); 
 		}
 		
-		public void tasksUse(ItemStack itemStack, World world, EntityPlayer player)
+		public void use(EntityPlayer player)
 		{
-			this.projectile = new RokushikiProjectiles.Shigan(world, player, attr);
+			this.projectile = new RokushikiProjectiles.Shigan(player.worldObj, player, ListAttributes.SHIGAN);
+			super.use(player);
 		}
 	}
 	
-	public static class Kamie extends AbilityItem
+	public static class Kamie extends Ability
 	{
 		public Kamie() 
 		{
-			this.attr = ListAttributes.KAMIE; 
-		}
-		
-		public void tasksUse(ItemStack itemStack, World world, EntityPlayer player)
-		{
-			
+			super(ListAttributes.KAMIE); 
 		}
 	}
 }

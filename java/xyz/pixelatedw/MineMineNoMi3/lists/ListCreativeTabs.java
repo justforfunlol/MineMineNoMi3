@@ -13,7 +13,7 @@ public class ListCreativeTabs
 	public static void init()
 	{
 		WyRegistry.registerName("itemGroup.tab1", "Devil Fruits");
-		WyRegistry.registerName("itemGroup.tab2", "Weapons");
+		WyRegistry.registerName("itemGroup.tab2", "Equipment");
 		WyRegistry.registerName("itemGroup.tab3", "Speical Techniques");
 		WyRegistry.registerName("itemGroup.tab4", "Miscellaneous");
 	}
@@ -28,7 +28,7 @@ public class ListCreativeTabs
 	public static CreativeTabs tabWeapons = new CreativeTabs("tab2") {
 	    @SideOnly(Side.CLIENT)
 	    public Item getTabIconItem() {
-	        return Items.apple;
+	        return ListMisc.Yoru;
 	    }
 	};
 	

@@ -26,14 +26,14 @@ public class EntityPirate extends PirateData
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
 	}
-/*
-	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+
+    protected void addRandomArmor()
+    {
+        this.setCurrentItemOrArmor(0, new ItemStack(ListMisc.PirateCutlass));
+    }
+    
+	public double[] itemOffset() 
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		
-		this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(ListMisc.PirateCutlass));
-		
-		return livingdata;
-	}*/
+		return new double[] {0, 0, -0.1};
+	}
 }

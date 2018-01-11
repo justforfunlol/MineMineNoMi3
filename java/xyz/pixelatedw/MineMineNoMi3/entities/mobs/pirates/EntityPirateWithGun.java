@@ -1,22 +1,22 @@
 package xyz.pixelatedw.MineMineNoMi3.entities.mobs.pirates;
 
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.util.MathHelper;
+import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.world.World;
-import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
-import xyz.pixelatedw.MineMineNoMi3.api.WyHelper.Direction;
-import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityProjectile;
-import xyz.pixelatedw.MineMineNoMi3.lists.ListExtraAttributes;
+import xyz.pixelatedw.MineMineNoMi3.entities.mobs.ai.EntityAISharpshooter;
 
 public class EntityPirateWithGun extends PirateData
 {
 	private String[] textures = {"pirategun1", "pirategun2", "pirategun3"};
-	private int ticksBeforeShoot = 30, ticksBeforeEvade = 40;
 	
 	public EntityPirateWithGun(World world) 
 	{
 		super(world);
 		this.setTexture(textures[this.rand.nextInt(textures.length)]);
+		this.tasks.removeTask(entityAIMeleeAttack);
+		entityAIMeleeAttack = new EntityAIAttackOnCollide(this, 0.0D, false);
+		this.tasks.addTask(0, entityAIMeleeAttack);
+		this.tasks.addTask(0, new EntityAISharpshooter(this, 1.7f, 0));
  	} 
 	  
 	public void applyEntityAttributes()
@@ -24,15 +24,16 @@ public class EntityPirateWithGun extends PirateData
 		super.applyEntityAttributes(); 
 		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
 	}
 
 	public void onEntityUpdate() 
 	{	
-		Direction dir = WyHelper.get4Directions(this);		
 
-		if(this.getAttackTarget() != null)
+/*		Direction dir = WyHelper.get4Directions(this);		
+
+		if(this.getAttackTarget() != null && !this.worldObj.isRemote)
 		{
 			this.getLookHelper().setLookPositionWithEntity(this.getAttackTarget(), 10, 10);
 			
@@ -64,7 +65,7 @@ public class EntityPirateWithGun extends PirateData
 			}
 			else
 				ticksBeforeEvade--;
-		}
+		}*/
 		
 		super.onEntityUpdate();
 	}

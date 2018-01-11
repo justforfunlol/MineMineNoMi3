@@ -18,6 +18,8 @@ public class GoroProjectiles
 	static
 	{
 		abilitiesClassesArray.add(new Object[] {Sango.class, ListAttributes.SANGO});
+		abilitiesClassesArray.add(new Object[] {Raigo.class, ListAttributes.RAIGO});
+		abilitiesClassesArray.add(new Object[] {VoltVari.class, ListAttributes.VOLTVARI});
 	}
 	
 	public static class Sango extends AbilityProjectile
@@ -34,5 +36,32 @@ public class GoroProjectiles
 		}
 	}	
 	
+	public static class Raigo extends AbilityProjectile
+	{
+		public Raigo(World world)
+		{super(world);}
+		
+		public Raigo(World world, double x, double y, double z)
+		{super(world, x, y, z);}
+		
+		public Raigo(World world, EntityLivingBase player, AbilityAttribute attr) 
+		{		
+			super(world, player, attr);		
+		}
+	}
+	
+	public static class VoltVari extends AbilityProjectile
+	{
+		public VoltVari(World world)
+		{super(world);}
+		
+		public VoltVari(World world, double x, double y, double z)
+		{super(world, x, y, z);}
+		
+		public VoltVari(World world, EntityLivingBase player, AbilityAttribute attr) 
+		{		
+			super(world, player, attr);		
+		}
+	}
 	
 }

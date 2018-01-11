@@ -27,4 +27,5 @@ public class Values
 	
 	//public static Block[] BANNED_BLOCKS = new Block[] {Blocks.bedrock, ListMisc.Ope, ListMisc.OpeMid};	
 
+	//ReflectionHelper
 }

@@ -7,7 +7,6 @@ import xyz.pixelatedw.MineMineNoMi3.MainKeys;
 import xyz.pixelatedw.MineMineNoMi3.events.EventExtendedProperties;
 import xyz.pixelatedw.MineMineNoMi3.events.EventsDrops;
 import xyz.pixelatedw.MineMineNoMi3.events.EventsEnchantments;
-import xyz.pixelatedw.MineMineNoMi3.events.EventsExtras;
 import xyz.pixelatedw.MineMineNoMi3.events.EventsMenus;
 import xyz.pixelatedw.MineMineNoMi3.events.EventsPersistence;
 import xyz.pixelatedw.MineMineNoMi3.gui.GUICombatMode;
@@ -20,10 +19,10 @@ public class ListForge
 		MinecraftForge.EVENT_BUS.register(new EventExtendedProperties());
 		MinecraftForge.EVENT_BUS.register(new EventsDrops());
 		MinecraftForge.EVENT_BUS.register(new EventsEnchantments());
-		MinecraftForge.EVENT_BUS.register(new EventsExtras());
 		MinecraftForge.EVENT_BUS.register(new EventsMenus());
 		MinecraftForge.EVENT_BUS.register(new EventsPersistence());
-		  
+		//FMLCommonHandler.instance().bus().register(new EventTicks());  
+		
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
 		{
 			MinecraftForge.EVENT_BUS.register(new GUICombatMode(Minecraft.getMinecraft()));

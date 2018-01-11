@@ -10,13 +10,22 @@ import xyz.pixelatedw.MineMineNoMi3.EnumFruitType;
 import xyz.pixelatedw.MineMineNoMi3.Values;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.math.WyMathHelper;
+import xyz.pixelatedw.MineMineNoMi3.lists.ListDevilFruits;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
 
 public class AkumaNoMiBox extends Item
 {
 	
 	private int tier;
-	
+	private AkumaNoMi[] tier1Fruits = new AkumaNoMi[] 
+			{ListDevilFruits.BaneBaneNoMi, ListDevilFruits.SukeSukeNoMi, ListDevilFruits.NoroNoroNoMi, ListDevilFruits.DoruDoruNoMi};
+	private AkumaNoMi[] tier2Fruits = new AkumaNoMi[] 
+			{ListDevilFruits.OpeOpeNoMi, ListDevilFruits.MokuMokuNoMi, ListDevilFruits.NikyuNikyuNoMi, ListDevilFruits.BomuBomuNoMi, ListDevilFruits.GuraGuraNoMi, ListDevilFruits.KageKageNoMi, ListDevilFruits.DokuDokuNoMi,
+			ListDevilFruits.YukiYukiNoMi};
+	private AkumaNoMi[] tier3Fruits = new AkumaNoMi[] 
+			{ListDevilFruits.MeraMeraNoMi, ListDevilFruits.MaguMaguNoMi, ListDevilFruits.HieHieNoMi, ListDevilFruits.PikaPikaNoMi, ListDevilFruits.OpeOpeNoMi, ListDevilFruits.GoroGoroNoMi, ListDevilFruits.SunaSunaNoMi,
+			ListDevilFruits.GasuGasuNoMi};
+		
 	public AkumaNoMiBox(int tier)
 	{
 		this.tier = tier;
@@ -52,7 +61,30 @@ public class AkumaNoMiBox extends Item
 	private AkumaNoMi roulette()
 	{
 		Random rand = new Random();
-		int fruitListId = (int) WyMathHelper.randomWithRange(0, Values.devilfruits.size() - 1);
+		
+		if(rand.nextInt(100) + rand.nextDouble() <= 95)
+		{
+			if(tier == 1)
+			{
+				if(rand.nextInt(100) + rand.nextDouble() < 1)
+					return tier2Fruits[rand.nextInt(tier2Fruits.length - 1)];				
+				else
+					return tier1Fruits[rand.nextInt(tier1Fruits.length - 1)];
+			}
+			else if(tier == 2)
+			{
+				if(rand.nextInt(100) + rand.nextDouble() < 1)
+					return tier3Fruits[rand.nextInt(tier3Fruits.length - 1)];				
+				else
+					return tier2Fruits[rand.nextInt(tier2Fruits.length - 1)];
+			}
+			else if(tier == 3)
+			{
+				return tier3Fruits[rand.nextInt(tier3Fruits.length - 1)];
+			}
+		}
+		
+/*		int fruitListId = (int) WyMathHelper.randomWithRange(0, Values.devilfruits.size() - 1);
 		
 		if(rand.nextInt(100) + rand.nextDouble() <= 95)
 		{
@@ -77,7 +109,7 @@ public class AkumaNoMiBox extends Item
 				else
 					return roulette();
 			}
-		}
+		}*/
 		
 		return null;
 	}

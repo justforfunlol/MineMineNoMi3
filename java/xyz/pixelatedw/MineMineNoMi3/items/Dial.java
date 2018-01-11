@@ -1,23 +1,6 @@
 package xyz.pixelatedw.MineMineNoMi3.items;
 
-import com.sun.javafx.geom.Vec3d;
-
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import xyz.pixelatedw.MineMineNoMi3.Values;
-import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
-import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityProjectile;
-import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
-import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
 
 public class Dial extends Item
 {

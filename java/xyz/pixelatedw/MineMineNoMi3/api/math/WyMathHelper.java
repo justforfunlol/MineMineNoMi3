@@ -8,4 +8,9 @@ public class WyMathHelper
 	
     public static double randomWithRange (double min, double max) { return (Math.random() * Math.abs(max - min) + 1) + (min <= max ? min : max); }
 
+    public static float clampf(float val, float min, float max) { return Math.max(min, Math.min(max, val)); }
+    
+    public static double clampd(double val, double min, double max) { return Math.max(min, Math.min(max, val)); }
+    
+    public static int clampi(int val, int min, int max) { return Math.max(min, Math.min(max, val)); }
 }

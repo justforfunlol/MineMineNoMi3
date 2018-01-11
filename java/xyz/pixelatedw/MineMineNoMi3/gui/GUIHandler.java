@@ -16,6 +16,7 @@ public class GUIHandler implements IGuiHandler
 			case 1: return id == 1 ? new GUIPlayer(player) : null;
 			case 2: return id == 2 ? new GUICC(player) : null;
 			case 4: return id == 4 ? new GUISelectHotbarAbilities(player) : null;
+			case 5: return id == 5 ? new GUIEditAbilities(player) : null;
 		}
 		return null;
 	}

@@ -14,6 +14,7 @@ import xyz.pixelatedw.MineMineNoMi3.MainMod;
 import xyz.pixelatedw.MineMineNoMi3.Values;
 import xyz.pixelatedw.MineMineNoMi3.abilities.MeraAbilities;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
+import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListCreativeTabs;
 import xyz.pixelatedw.MineMineNoMi3.packets.PacketSync;
@@ -58,6 +59,7 @@ public class AkumaNoMi extends ItemFood
 		{
 			props.addDevilFruitAbility(a);
 		}
+	
 	}
 	
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4)

@@ -22,9 +22,8 @@ public class ID
 	PROJECT_ID = "mineminenomi",
 	PROJECT_NAME = "Mine Mine no Mi",
 	PROJECT_VERSION = "0.3.0",
-	
-	CONFIG_BASIC = "Basic Configurations",
-	
+	PROJECT_SOURCEFOLDER = "D:/Programming/Minecraft Modding/Mine Mine no Mi/src/main/resources/",
+
 	FACTION_PIRATE = "Pirate",
 	FACTION_MARINE = "Marine",
 	FACTION_BOUNTYHUNTER = "Bounty Hunter",

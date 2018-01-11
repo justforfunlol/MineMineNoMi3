@@ -17,6 +17,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import xyz.pixelatedw.MineMineNoMi3.ID;
 import xyz.pixelatedw.MineMineNoMi3.MainMod;
+import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.WyRenderHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.extra.AbilityManager;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
@@ -53,6 +54,10 @@ public class GUICombatMode extends Gui
 	            GL11.glEnable(GL11.GL_BLEND);
 	            if(props.getAbilityFromSlot(i) != null && props.getAbilityFromSlot(i).isOnCooldown())
 	            	this.drawTexturedModalRect((xPos - 200 + (i * 50)) / 2, yPos - 23, 24, 0, 23, 23);
+	            else if(props.getAbilityFromSlot(i) != null && props.getAbilityFromSlot(i).isCharging())
+	            	this.drawTexturedModalRect((xPos - 200 + (i * 50)) / 2, yPos - 23, 72, 0, 23, 23);
+	            else if(props.getAbilityFromSlot(i) != null && props.getAbilityFromSlot(i).isPassiveActive())
+	            	this.drawTexturedModalRect((xPos - 200 + (i * 50)) / 2, yPos - 23, 48, 0, 23, 23);
 	            else
 	            	this.drawTexturedModalRect((xPos - 200 + (i * 50)) / 2, yPos - 23, 0, 0, 23, 23);
 			}
@@ -61,7 +66,7 @@ public class GUICombatMode extends Gui
 			{
 	            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 	            if(props.getAbilityFromSlot(i) != null)
-            		WyRenderHelper.drawAbilityIcon(props.getAbilityFromSlot(i).getAttribute().getAttributeName(), (xPos - 192 + (i * 50)) / 2, yPos - 19, 16, 16);	           
+            		WyRenderHelper.drawAbilityIcon(WyHelper.getFancyName(props.getAbilityFromSlot(i).getAttribute().getAttributeName()), (xPos - 192 + (i * 50)) / 2, yPos - 19, 16, 16);	           
             }
 			
 			GL11.glDisable(GL11.GL_BLEND);

@@ -16,65 +16,54 @@ import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.Doppelman;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.EntityNewMob;
+import xyz.pixelatedw.MineMineNoMi3.entities.mobs.pirates.EntityPirate;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.pirates.PirateData;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
 
 public class MarineData extends EntityNewMob
 {
+	protected EntityAIBase entityAIMeleeAttack = new EntityAIAttackOnCollide(this, 1.0D, false);
 	
-	private EntityAIBase attackMelee = new EntityAIAttackOnCollide(this, 1.0D, true), 
-						nearestAttableTarget = new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true),
-						nearestAttableTargetDopp = new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true),
-						nearestAttableTargetPirate = new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true);
-					
-	public MarineData(World world) 
-	{	
-		super(world); 
+	public MarineData(World world)
+	{
+		super(world);
+		this.tasks.addTask(0, entityAIMeleeAttack);
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIOpenDoor(this, true));
-		this.tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1.0D));
-		this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(5, new EntityAILookIdle(this));
-		this.tasks.addTask(6, new EntityAIHurtByTarget(this, true));
-		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-	} 
+		this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(4, new EntityAILookIdle(this));
+		this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, true));
+		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, PirateData.class, 0, true));
+	}
   
 	public void onEntityUpdate() 
 	{
-		for(EntityLivingBase entity : WyHelper.getEntitiesNear(this, 45))
+/*		if(this.getAttackTarget() != null)
 		{
-			if(entity instanceof EntityPlayer)
+			if(this.getAttackTarget() instanceof EntityPlayer)
 			{
-				ExtendedEntityStats props = ExtendedEntityStats.get(entity);
+				ExtendedEntityStats props = ExtendedEntityStats.get(((EntityPlayer)this.getAttackTarget()));
 				
-				if(!((EntityPlayer)entity).capabilities.isCreativeMode)
+				if(!(((EntityPlayer)this.getAttackTarget()).capabilities.isCreativeMode))
 				{
 					if(!props.getFaction().equals("Marine"))
 					{
-						if(this.getCombatType() == 0 || this.getCombatType() == 2)
-							this.tasks.addTask(1, attackMelee);
-						this.targetTasks.addTask(1, nearestAttableTarget);
+						this.targetTasks.addTask(1, attackMelee);
+						this.targetTasks.addTask(2, nearestTarget);
 					}
 					else
 					{
-						this.tasks.removeTask(attackMelee);
-						this.targetTasks.removeTask(nearestAttableTarget);	
+						this.targetTasks.removeTask(attackMelee);
+						this.targetTasks.removeTask(nearestTarget);	
 					}
-				}
+				}	
 			}
-			else if(entity instanceof PirateData)
+			else
 			{
-				if(this.getCombatType() == 0 || this.getCombatType() == 2)
-					this.tasks.addTask(1, attackMelee);
-				this.targetTasks.addTask(1, nearestAttableTargetPirate);
+				this.targetTasks.addTask(1, attackMelee);			
 			}
-			else if(entity instanceof Doppelman)
-			{
-				if(this.getCombatType() == 0 || this.getCombatType() == 2)
-					this.tasks.addTask(1, attackMelee);
-				this.targetTasks.addTask(1, nearestAttableTargetDopp);
-			}
-		}
+		}*/
+		
 		super.onEntityUpdate();
 	}
 

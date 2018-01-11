@@ -3,16 +3,12 @@ package xyz.pixelatedw.MineMineNoMi3.abilities;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
-import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityItem;
 import xyz.pixelatedw.MineMineNoMi3.api.math.ISphere;
 import xyz.pixelatedw.MineMineNoMi3.api.math.Sphere;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.MeraProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
-import xyz.pixelatedw.MineMineNoMi3.lists.Tasks;
 
 public class MeraAbilities
 {
@@ -39,9 +35,9 @@ public class MeraAbilities
 			super(ListAttributes.HIGAN); 
 		}
 		
-		public void tasksUse(ItemStack itemStack, World world, EntityPlayer player)
+		public void use(EntityPlayer player)
 		{
-			this.projectile = new MeraProjectiles.Higan(world, player, ListAttributes.HIGAN);
+			this.projectile = new MeraProjectiles.Higan(player.worldObj, player, ListAttributes.HIGAN);
 			super.use(player);
 		};			
 	}
@@ -53,11 +49,12 @@ public class MeraAbilities
 			super(ListAttributes.DAIENKAIENTEI); 
 		}
 		
-		public void tasksAfterUse(ItemStack itemStack, World world, EntityPlayer player, int timeLeft)
+		public void endCharging(EntityPlayer player)
 		{						
-			this.projectile = new MeraProjectiles.DaiEnkaiEntei(world, player, Tasks.requestNewChargedAttribute(itemStack, player, timeLeft));
-			super.use(player);
+			this.projectile = new MeraProjectiles.DaiEnkaiEntei(player.worldObj, player, ListAttributes.DAIENKAIENTEI);
+			super.endCharging(player);
 		};	
+	
 	}
 
 	public static class Hidaruma extends Ability
@@ -67,9 +64,10 @@ public class MeraAbilities
 			super(ListAttributes.HIDARUMA); 
 		}
 		
-		public void tasksUse(ItemStack itemStack, World world, EntityPlayer player)
+		public void use(EntityPlayer player)
 		{
-			this.projectile = new MeraProjectiles.Hidaruma(world, player, ListAttributes.HIDARUMA);
+			this.projectile = new MeraProjectiles.Hidaruma(player.worldObj, player, ListAttributes.HIDARUMA);
+			super.use(player);
 		};			
 	}
 
@@ -80,9 +78,9 @@ public class MeraAbilities
 			super(ListAttributes.JUJIKA); 
 		}
 		
-		public void tasksUse(ItemStack itemStack, World world, EntityPlayer player)
+		public void use(EntityPlayer player)
 		{
-			this.projectile = new MeraProjectiles.Jujika(world, player, ListAttributes.JUJIKA);
+			this.projectile = new MeraProjectiles.Jujika(player.worldObj, player, ListAttributes.JUJIKA);
 			super.use(player);
 		};			
 	}
@@ -114,7 +112,7 @@ public class MeraAbilities
 					{l.setFire(20);}
 					
 					isOnCooldown = true;
-					cooldown();
+					startCooldown();
 				}
 			}
 		};			

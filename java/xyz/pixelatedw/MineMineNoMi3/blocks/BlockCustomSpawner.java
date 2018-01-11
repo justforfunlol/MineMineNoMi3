@@ -11,6 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import xyz.pixelatedw.MineMineNoMi3.ID;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.blocks.tileentities.TileEntityCustomSpawner;
@@ -23,23 +24,26 @@ public class BlockCustomSpawner extends BlockContainer
 	
 	public BlockCustomSpawner()
 	{
-		super(Material.air);
+		super(Material.iron);
+		this.setTickRandomly(true);
 	} 
 
 	public BlockCustomSpawner setSpawnerMob(String toSpawn) { entityToSpawn = toSpawn; return this; }
 	public BlockCustomSpawner setSpawnerLimit(int limit) { spawnLimit = limit; return this; }
 	
-	public TileEntity createNewTileEntity(World world, int i) {return new TileEntityCustomSpawner(entityToSpawn, spawnLimit);}
+	public TileEntity createNewTileEntity(World world, int i) {return new TileEntityCustomSpawner(entityToSpawn, spawnLimit);} //entityToSpawn, spawnLimit
 	
-	public AxisAlignedBB getCollisionBoundingBoxxFromPool(World world, int x, int y, int z) {return WyHelper.NULL_AABB;} 
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {return WyHelper.NULL_AABB;} 
 	
 	public boolean isOpaqueCube() {return false;}
 
     @SideOnly(Side.CLIENT)
-    public int getRenderBlockPass() { return 0; }
+    public int getRenderBlockPass() { return 1; }
 
     public boolean renderAsNormalBlock() { return false; }
-
+      
+    public int getRenderType() { return 0; }
+    
     public void randomDisplayTick(World world, int x, int y, int z, Random rand)
     {
     	if(world.getBlock(x, y - 1, z) == Blocks.air)

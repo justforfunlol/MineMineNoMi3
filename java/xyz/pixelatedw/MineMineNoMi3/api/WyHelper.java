@@ -1,7 +1,15 @@
 package xyz.pixelatedw.MineMineNoMi3.api;
 
 import java.awt.Color;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -15,6 +23,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import xyz.pixelatedw.MineMineNoMi3.ID;
+import xyz.pixelatedw.MineMineNoMi3.MainMod;
 import xyz.pixelatedw.MineMineNoMi3.api.math.ISphere;
 import xyz.pixelatedw.MineMineNoMi3.api.math.Sphere;
 
@@ -24,6 +34,31 @@ public class WyHelper
 	public static enum Direction {SOUTH, SOUTH_EAST, EAST, NORTH, NORTH_EAST, NORTH_WEST, WEST, SOUTH_WEST;}
 	
 	public static AxisAlignedBB NULL_AABB = AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0);
+	
+	
+	public static void generateLangFiles()
+	{
+		Set set = WyRegistry.getLangMap().entrySet();
+		Iterator i = set.iterator();
+		
+		File langFolder = new File(ID.PROJECT_SOURCEFOLDER + "/assets/" + ID.PROJECT_ID + "/lang/");
+		langFolder.mkdirs();
+		
+		if(langFolder.exists())
+		{			
+			try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(ID.PROJECT_SOURCEFOLDER + "/assets/" + ID.PROJECT_ID + "/lang/en_US.lang"), "UTF-8"))) 
+			{
+				while(i.hasNext())
+				{
+					Map.Entry entry = (Map.Entry)i.next();
+					 
+					writer.write(entry.getKey() + "=" + entry.getValue() + "\n");
+				}
+				writer.close();
+			}
+			catch(Exception e) {e.getStackTrace();}
+		}
+	}
 	
 	public static Color hexToRGB(String hexColor)
 	{return Color.decode("#"+hexColor);} 

@@ -1,6 +1,5 @@
 package xyz.pixelatedw.MineMineNoMi3.lists;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -12,31 +11,24 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import xyz.pixelatedw.MineMineNoMi3.DevilFruitsBoosts;
-import xyz.pixelatedw.MineMineNoMi3.MainKeys;
-import xyz.pixelatedw.MineMineNoMi3.MainMod;
-import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper.Direction;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityAttribute;
-import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityItem;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityProjectile;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityTask;
 import xyz.pixelatedw.MineMineNoMi3.api.math.ISphere;
 import xyz.pixelatedw.MineMineNoMi3.api.math.Sphere;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
-import xyz.pixelatedw.MineMineNoMi3.items.Heart;
 
 public class Tasks 
 {
-
-	public static AbilityAttribute requestNewChargedAttribute(ItemStack itemStack, EntityPlayer player, int timeLeft)
-	{
-		AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
-		int power = (timeLeft - ((AbilityItem)itemStack.getItem()).getAttribute().getItemMaxCharges()) * -1;
+/*
+	public static AbilityAttribute requestNewChargedAttribute(AbilityAttribute aa, EntityPlayer player, int timeLeft)
+	{	
+		int power = (timeLeft - aa.getItemMaxCharges()) * -1;
 		
 		if(power == 0) power = aa.getItemMaxCharges();
 		
@@ -50,7 +42,7 @@ public class Tasks
 
 		AbilityAttribute newAA = new AbilityAttribute(aa.getAttributeName()).setProjectileModel(aa.getProjectileModel()).setProjectileColor(aa.getProjectileColor()).setProjectileDamage(newDamage).setProjectileExplosion(newExplosion, newHasFire, newHasSmoke);	
 		return newAA;
-	}
+	}*/
 	
 	public static AbilityTask changeItemForm = new AbilityTask()
 	{
@@ -388,21 +380,6 @@ public class Tasks
 			target.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) attacker), 10);
 		};
 	};
-	
-	public static AbilityTask chloroball = new AbilityTask()
-	{
-		public void onProjectileHit(AbilityProjectile abilityProjectile, MovingObjectPosition hit) 
-		{
-			if(!abilityProjectile.worldObj.isRemote)
-			{
-				for(int i = -1; i < 1; i++)
-				for(int j = -1; j < 0; j++)
-				for(int k = -1; k < 1; k++)
-					abilityProjectile.worldObj.setBlock((int)abilityProjectile.posX + i, (int)abilityProjectile.posY + j, (int)abilityProjectile.posZ + k, ListMisc.Poison);
-				
-			}
-		};
-	};
 
 	public static AbilityTask kenbunshokuhaki = new AbilityTask()
 	{
@@ -412,235 +389,8 @@ public class Tasks
 			//	target.addPotionEffect(new PotionEffect(Potion.GLOWING, 100, 1));
 		}
 	};
-	
-	public static AbilityTask fubuki = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, final EntityPlayer player)
-		{
-			for(EntityLivingBase e : WyHelper.getEntitiesNear(player, 25))
-			{
-				e.attackEntityFrom(DamageSource.causePlayerDamage(player), 10);
-				e.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 2));
-				
-				Sphere.generate((int)(int) player.posX, (int)(int) player.posY, (int)(int) player.posZ, 25, new ISphere()
-			    { 
-					public void call(int x, int y, int z)
-					{
-		    			for(int i = -4; i <= 4; i++)
-				    		if(player.worldObj.isAirBlock(x, y, z) && player.worldObj.getBlock(x, y - 1, z) != Blocks.air && player.worldObj.getBlock(x, y - 1, z) != Blocks.snow_layer)
-				    			player.worldObj.setBlock(x, y, z, Blocks.snow_layer);
-					}
-			    });
-			}
-		}
-	};
-	
+
 	public static AbilityTask tabirayuki = new AbilityTask() {public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) { target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1, 60));; }};
-	
-	public static AbilityTask kamakurajusshoshi = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
-			if(!player.worldObj.isRemote)
-			{
-				
-				if(WyHelper.rayTrace(player).entityHit != null && WyHelper.rayTrace(player).entityHit instanceof EntityLivingBase)
-				{
-					WyHelper.createSphere(WyHelper.rayTrace(player).entityHit, 4, Blocks.snow);
-					WyHelper.createSphere(WyHelper.rayTrace(player).entityHit, 6, Blocks.snow);
-					WyHelper.createSphere(WyHelper.rayTrace(player).entityHit, 8, Blocks.snow);
-				}
-				else
-				{
-					WyHelper.createSphere(player, 4, Blocks.snow);
-					WyHelper.createSphere(player, 6, Blocks.snow);
-					WyHelper.createSphere(player, 8, Blocks.snow);
-				}
-			}
-		}		
-	};
-	
-	public static AbilityTask kamakura = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
-			if(!player.worldObj.isRemote)
-			{
-				if(WyHelper.rayTrace(player).entityHit != null && WyHelper.rayTrace(player).entityHit instanceof EntityLivingBase)
-					WyHelper.createSphere(WyHelper.rayTrace(player).entityHit, 4, Blocks.snow);
-				else
-					WyHelper.createSphere(player, 4, Blocks.snow);
-			}
-		}		
-	};
-	
-	public static AbilityTask bakuretsukazan = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
-			if(!player.worldObj.isRemote)
-			{
-				for(int i = -7; i < 7; i++)
-				for(int j = -5; j < 0; j++)
-				for(int k = -7; k < 7; k++)
-					player.worldObj.setBlock((int) (int) player.posX + i, (int) (int) player.posY + j, (int) (int) player.posZ + k, Blocks.flowing_lava);
-			}
-		}
-	};
-	
-	public static AbilityTask candleHouse = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
-			if(!player.worldObj.isRemote)
-			{
-				for(int y = 0; y <= 3; y++)
-				{
-					for(int x = 0; x < 1; x++)
-						for(int z = -5; z < 5; z++)
-							player.worldObj.setBlock(((int) player.posX + 6) - x, (int) player.posY + y, (int) player.posZ - z, Blocks.clay);
-					for(int x = 0; x < 1; x++)
-						for(int z = -5; z < 5; z++)
-							player.worldObj.setBlock(((int) player.posX - 5) - x, (int) player.posY + y, (int) player.posZ - z, Blocks.clay);
-					for(int x = -5; x < 5; x++)
-						for(int z = 0; z < 1; z++)
-							player.worldObj.setBlock((int) player.posX - x, (int) player.posY + y, ((int) player.posZ + 6) - z, Blocks.clay);
-					for(int x = -5; x < 5; x++)
-						for(int z = 0; z < 1; z++)
-							player.worldObj.setBlock((int) player.posX - x, (int) player.posY + y, ((int) player.posZ - 5) - z, Blocks.clay);
-				}
-				for(int x = -5; x < 5; x++)
-					for(int y = 0; y < 1; y++)
-						for(int z = -5; z < 5; z++)
-					  		player.worldObj.setBlock((int) player.posX - x, ((int) player.posY + 4) + y, (int) player.posZ - z, Blocks.clay);
-			}
-		}
-	};
-	
-	public static AbilityTask candleWall = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
-			if(!player.worldObj.isRemote)
-			{
-				if(WyHelper.get4Directions(player) == WyHelper.Direction.NORTH)
-				{
-					for(int x = -3; x <  3; x++)
-					for(int y = 0; y <= 3; y++)
-					for(int z = -1; z <= 1; z++)
-						player.worldObj.setBlock((int) player.posX - x, (int) player.posY + y, ((int) player.posZ - 3) - z, Blocks.clay);
-				}
-				if(WyHelper.get4Directions(player) == WyHelper.Direction.SOUTH)
-				{
-					for(int x = -3; x <  3; x++)
-					for(int y = 0; y <= 3; y++)
-					for(int z = -1; z <= 1; z++)
-						player.worldObj.setBlock((int) player.posX - x, (int) player.posY + y, ((int) player.posZ + 2) - z, Blocks.clay);
-				}
-				if(WyHelper.get4Directions(player) == WyHelper.Direction.EAST)
-				{
-					for(int x = -1; x < 1; x++)
-					for(int y = 0; y <= 3; y++)
-					for(int z = -3; z <= 3; z++)
-						player.worldObj.setBlock(((int) player.posX + 2) - x, (int) player.posY + y, (int) player.posZ - z, Blocks.clay);
-				}
-				if(WyHelper.get4Directions(player) == WyHelper.Direction.WEST)
-				{
-					for(int x = -1; x < 1; x++)
-					for(int y = 0; y <= 3; y++)
-					for(int z = -3; z <= 3; z++)
-						player.worldObj.setBlock(((int) player.posX - 3) - x, (int) player.posY + y, (int) player.posZ - z, Blocks.clay);
-				}
-			}
-		}
-	};
-	
-	public static AbilityTask groundDeath = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
-			for(EntityLivingBase l : WyHelper.getEntitiesNear(player, 25))
-			{
-				for(int i = -2; i < 2; i++)
-				for(int j = -3; j < 3; j++)
-				for(int k = -2; k < 2; k++)
-				{
-					l.worldObj.setBlock((int) l.posX + k, (int) l.posY - j, (int) l.posZ + i, Blocks.air);
-					l.worldObj.setBlock((int) l.posX + k, (int) l.posY + j, (int) l.posZ + i, Blocks.sand);
-				}
-			}
-		}
-	};
-	
-	public static AbilityTask desertSpada = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
-			if(WyHelper.get4Directions(player) == WyHelper.Direction.NORTH)
-			{
-				for(int i = -3; i < 3; i++)
-				for(int j = 0; j < 5; j++)
-				for(int k = 0; k < 12; k++)		
-				{
-					player.worldObj.setBlock((int) player.posX + i, (int) player.posY - (j + 2), (int) player.posZ - (k + 2), Blocks.air);
-					player.worldObj.setBlock((int) player.posX + i, (int) player.posY + (j + 2), (int) player.posZ - (k + 2), Blocks.sand);
-				}
-			}
-			else if(WyHelper.get4Directions(player) == WyHelper.Direction.SOUTH)
-			{
-				for(int i = -3; i < 3; i++)
-				for(int j = 0; j < 5; j++)
-				for(int k = 0; k < 12; k++)		
-				{
-					player.worldObj.setBlock((int) player.posX + i, (int) player.posY - (j + 2), (int) player.posZ + (k + 2), Blocks.air);
-					player.worldObj.setBlock((int) player.posX + i, (int) player.posY + (j + 2), (int) player.posZ + (k + 2), Blocks.sand);
-				}
-			}
-			else if(WyHelper.get4Directions(player) == WyHelper.Direction.EAST)
-			{
-				for(int i = 0; i < 12; i++)
-				for(int j = 0; j < 5; j++)
-				for(int k = -3; k < 3; k++)		
-				{
-					player.worldObj.setBlock((int) player.posX + (i + 2), (int) player.posY - (j + 2), (int) player.posZ + k, Blocks.air);
-					player.worldObj.setBlock((int) player.posX + (i + 2), (int) player.posY + (j + 2), (int) player.posZ + k, Blocks.sand);
-				}
-			}
-			else if(WyHelper.get4Directions(player) == WyHelper.Direction.WEST)
-			{
-				for(int i = 0; i < 12; i++)
-				for(int j = 0; j < 5; j++)
-				for(int k = -3; k < 3; k++)		
-				{
-					player.worldObj.setBlock((int) player.posX - (i + 2), (int) player.posY - (j + 2), (int) player.posZ + k, Blocks.air);
-					player.worldObj.setBlock((int) player.posX - (i + 2), (int) player.posY + (j + 2), (int) player.posZ + k, Blocks.sand);
-				}
-			}
-		}
-	};
-
-	public static AbilityTask venomroad = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)  
-		{
-			if(WyHelper.rayTrace(player) != null)
-			{
-				MovingObjectPosition mop = WyHelper.rayTrace(player);
-				 
-				int x = mop.blockX;
-				int y = mop.blockY;
-				int z = mop.blockZ;
-
-				EnderTeleportEvent event = new EnderTeleportEvent(player, x, y, z, 0.0F);
-				if(!MinecraftForge.EVENT_BUS.post(event))
-				{
-					if (player.isRiding())
-						player.dismountEntity((Entity)null);
-					player.setPositionAndRotation(x, y, z, player.rotationYaw, player.rotationPitch);
-				}			
-			}	
-		}		
-	};
 	
 	public static AbilityTask milkydial = new AbilityTask()
 	{
@@ -663,18 +413,6 @@ public class Tasks
 				a.worldObj.setBlock((int)a.posX - 1, 	(int)a.posY - 1, (int)a.posZ - 1, 	ListMisc.SkyBlock);
 			}			
 		};
-	};
-	
-	public static AbilityTask karakuni = new AbilityTask()
-	{ 	
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
-			for(EntityLivingBase e : WyHelper.getEntitiesNear(player, 25))
-			{
-				e.attackEntityFrom(DamageSource.causePlayerDamage(player), 20);
-				e.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1000, 2));
-			}
-		}
 	};
 	
 	public static AbilityTask gear = new AbilityTask()
@@ -721,13 +459,13 @@ public class Tasks
 		{
 			if(!player.worldObj.isRemote)
 			{
-				AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
+				/*AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
 				int power = (timeLeft - ((AbilityItem)itemStack.getItem()).getAttribute().getItemMaxCharges()) * -1;
 				ExtendedEntityStats props = ExtendedEntityStats.get(player);
 				
 				if(power == 0) power = aa.getItemMaxCharges();
 	
-				AbilityProjectile proj = null;
+				AbilityProjectile proj = null;*/
 	
 				/*if(props.getGear() == 1)
 					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOBAZOOKA.setProjectileDamage(5 + (power/3)) );				
@@ -738,11 +476,11 @@ public class Tasks
 				else if(props.getGear() == 4)
 					proj = new AbilityProjectile(player.worldObj, player, ListExtraAttributes.GOMUGOMUNOLEOBAZOOKA.setProjectileDamage(15 + power) );
 				*/
-				if(proj != null)
+				/*if(proj != null)
 				{
 					//proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
 					player.worldObj.spawnEntityInWorld(proj);
-				}
+				}*/
 			}
 		}
 		
@@ -826,12 +564,12 @@ public class Tasks
 		{
 			if(!player.worldObj.isRemote)
 			{
-				AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
+				/*AbilityAttribute aa = ((AbilityItem)itemStack.getItem()).getAttribute();
 				int power = (timeLeft - ((AbilityItem)itemStack.getItem()).getAttribute().getItemMaxCharges()) * -1;
 				ExtendedEntityStats props = ExtendedEntityStats.get(player);
 				
 				if(power == 0) power = aa.getItemMaxCharges();
-	
+	*/
 				AbilityProjectile proj = null;
 	
 				/*if(props.getGear() == 1)
@@ -1004,63 +742,6 @@ public class Tasks
 			else if(dir == WyHelper.Direction.WEST)  
 				target.motionZ -= 10;	
 		}			
-	};
-		
-	public static AbilityTask whitelauncher = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
-		{
-			double mX = (double)(-MathHelper.sin(player.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(player.rotationPitch / 180.0F * (float)Math.PI) * 0.4);
-			double mZ = (double)(MathHelper.cos(player.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(player.rotationPitch / 180.0F * (float)Math.PI) * 0.4);
-			double mY = (double)(-MathHelper.sin((player.rotationPitch + 0) / 180.0F * (float)Math.PI) * 0.4);
-
-			double f2 = MathHelper.sqrt_double(mX * mX + mY * mY + mZ * mZ);
-			mX /= (double)f2;
-			mY /= (double)f2;
-			mZ /= (double)f2;
-			mX += player.worldObj.rand.nextGaussian() * 0.007499999832361937D * 1.0;
-			mY += player.worldObj.rand.nextGaussian() * 0.007499999832361937D * 1.0;
-			mZ += player.worldObj.rand.nextGaussian() * 0.007499999832361937D * 1.0;
-			mX *= 5;
-			mY *= 1.5;
-			mZ *= 5;
-
-			player.motionX = mX;
-			player.motionY = mY;
-			player.motionZ = mZ;
-		}
-		public void onItemCooldown(ItemStack itemStack, EntityPlayer entity) 
-		{
-			if(itemStack.getTagCompound().getInteger("ticks") > 120)
-			{
-				for(EntityLivingBase e : WyHelper.getEntitiesNear(entity, 1.6))
-					e.attackEntityFrom(DamageSource.causePlayerDamage(entity), 10);
-			}
-					
-		}
-	};
-		 
-	public static AbilityTask elthor = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player) 
-		{
-			MovingObjectPosition mop = WyHelper.rayTrace(player);
-				
-			if(mop != null)
-			{
-				double i = mop.blockX;
-				double j = mop.blockY;
-				double k = mop.blockZ;
-					
-				if(!player.worldObj.isRemote)      		 
-					player.worldObj.newExplosion(new EntityLightningBolt(player.worldObj, i, j, k), i, j, k, 6, true, true);
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i, j, k));
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i+1, j, k));
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i, j, k+1));
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i-1, j, k));
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i, j, k-1));
-			}
-		}		
 	};
 
 	public static AbilityTask bluesword = new AbilityTask() {public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) {target.setFire(100);}};

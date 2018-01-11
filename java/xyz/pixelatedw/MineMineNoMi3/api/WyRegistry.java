@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import xyz.pixelatedw.MineMineNoMi3.ID;
 import xyz.pixelatedw.MineMineNoMi3.MainMod;
 
 public class WyRegistry
@@ -28,25 +29,16 @@ public class WyRegistry
 	{
 		getLangMap().put(key, localizedName);
 	}  
-	
-	public static void registerTileEntity(Block block, Class<? extends TileEntity> tile, String localizedName)
-	{
-		GameRegistry.registerTileEntity(tile, localizedName);
-	}
-	
-	public static void registerBlock(Block block, String localizedName, float hard)
-	{	
-		registerBlock(block, localizedName, hard, null);
-	}
 	 
-	public static void registerBlock(Block block, String localizedName, float hard, CreativeTabs tab)
+	public static void registerBlock(Block block, String localizedName, float hard, CreativeTabs tab, Class<? extends TileEntity> tile)
 	{	
 		String truename = WyHelper.getFancyName(localizedName);
 		block.setBlockName(truename).setBlockTextureName(MainMod.getMineMineNoMi().getModId() + ":" + truename).setHardness(hard);
+		GameRegistry.registerBlock(block, truename);
 		if(tab != null)
 			block.setCreativeTab(tab);
-		GameRegistry.registerBlock(block, truename);
-		//GameRegistry.registerItem(new ItemBlock(block).setUnlocalizedName(truename), truename);
+		if(tile != null)
+			GameRegistry.registerTileEntity(tile, truename);		
 		getItemsMap().put(block, localizedName);
 		registerName("tile." + truename + ".name", localizedName);
 	}
@@ -77,7 +69,7 @@ public class WyRegistry
 		EntityRegistry.registerModEntity(entity, name, entityID++, MainMod.getMineMineNoMi(), 64, 3, true);
 		if(color1 != -1 && color2 != -1)
 			EntityList.addMapping(entity, name, entityID++, color2, color2);
-		registerName("entity." + MainMod.getMineMineNoMi().getModId() + "." + name + ".name", name);
+		registerName("entity." + name + ".name", name);
 	}
 
 	/*public void registerEnchantment(Enchantment enc, String name)

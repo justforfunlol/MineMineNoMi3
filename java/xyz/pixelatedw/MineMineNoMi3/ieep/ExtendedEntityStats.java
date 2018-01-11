@@ -26,22 +26,17 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 	private boolean isLogia, hasShadow = true, hasHeart = true, firstTime = true, hasHakiActive = false, kilo = false;
 	
 	private String[] hotbarAbilities = new String[8];
-	private List<String> allAbilities = new ArrayList<String>();
-	private List<String> devilFruitAbilities = new ArrayList<String>();
-	private List<String> racialAbilities = new ArrayList<String>();
-	private List<String> hakiAbilities = new ArrayList<String>();
-	/*private String[] allAbilities = new String[128];
-	private String[] devilFruitAbilities = new String[32];
-	private String[] racialAbilities = new String[8];
-	private String[] hakiAbilities = new String[3];*/
+	private String[] devilFruitAbilities = new String[16];
+	private String[] racialAbilities = new String[16];
+	private String[] hakiAbilities = new String[3];
 	
 	public ExtendedEntityStats(EntityLivingBase entity) 
 	{
 		this.entity = entity;	
-		for(int i = 0; i < hotbarAbilities.length; i++)
-		{
-			hotbarAbilities[i] = "n/a";
-		}
+		for(int i = 0; i < hotbarAbilities.length; i++) { hotbarAbilities[i] = "n/a"; }
+		for(int i = 0; i < devilFruitAbilities.length; i++) { devilFruitAbilities[i] = "n/a"; }
+		for(int i = 0; i < racialAbilities.length; i++) { racialAbilities[i] = "n/a"; }
+		for(int i = 0; i < hakiAbilities.length; i++) { hakiAbilities[i] = "n/a"; }
 	}
 	
 	public static final void register(EntityLivingBase entity) 
@@ -87,21 +82,17 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 		{
 			props.setString("ability" + i, hotbarAbilities[i]);
 		}
-		for(int i = 0; i < allAbilities.size() - 1; i++)
+		for(int i = 0; i < devilFruitAbilities.length - 1; i++)
 		{
-			props.setString("available_AllAbilities" + i, allAbilities.get(i));
+			props.setString("available_DevilFruitAbilities" + i, devilFruitAbilities[i]);
 		}
-		for(int i = 0; i < devilFruitAbilities.size() - 1; i++)
+		for(int i = 0; i < racialAbilities.length - 1; i++)
 		{
-			props.setString("available_DevilFruitAbilities" + i, devilFruitAbilities.get(i));
+			props.setString("available_RacialAbilities" + i, racialAbilities[i]);
 		}
-		for(int i = 0; i < racialAbilities.size() - 1; i++)
+		for(int i = 0; i < hakiAbilities.length - 1; i++)
 		{
-			props.setString("available_RacialAbilities" + i, racialAbilities.get(i));
-		}
-		for(int i = 0; i < hakiAbilities.size() - 1; i++)
-		{
-			props.setString("available_HakiAbilities" + i, hakiAbilities.get(i));
+			props.setString("available_HakiAbilities" + i, hakiAbilities[i]);
 		}
 		
 		compound.setTag(EXT_PROP_NAME, props);
@@ -140,54 +131,178 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 		{
 			this.hotbarAbilities[i] = props.getString("ability" + i);
 		}
-		for(int i = 0; i < allAbilities.size() - 1; i++)
+		for(int i = 0; i < devilFruitAbilities.length - 1; i++)
 		{
-			this.allAbilities.set(i, props.getString("available_AllAbilities" + i));
+			devilFruitAbilities[i] = props.getString("available_DevilFruitAbilities" + i);
 		}
-		for(int i = 0; i < devilFruitAbilities.size() - 1; i++)
+		for(int i = 0; i < racialAbilities.length - 1; i++)
 		{
-			this.devilFruitAbilities.set(i, props.getString("available_DevilFruitAbilities" + i));
+			racialAbilities[i] = props.getString("available_RacialAbilities" + i);
 		}
-		for(int i = 0; i < racialAbilities.size() - 1; i++)
+		for(int i = 0; i < hakiAbilities.length - 1; i++)
 		{
-			this.racialAbilities.set(i, props.getString("available_RacialAbilities" + i));
-		}
-		for(int i = 0; i < hakiAbilities.size() - 1; i++)
-		{
-			this.hakiAbilities.set(i, props.getString("available_HakiAbilities" + i));
+			this.hakiAbilities[i] = props.getString("available_HakiAbilities" + i);
 		}
 	}
 
 	public void init(Entity entity, World world) {}
-
+	
 	// #REGION AVAILABLE DEVIL FRUITS ABILITIES
+	int devilFruitIndex = 0;
+	
 	public void addDevilFruitAbility(Ability abl)
 	{
-		if(!this.devilFruitAbilities.contains(WyHelper.getFancyName(abl.getAttribute().getAttributeName())))
-			this.devilFruitAbilities.add(WyHelper.getFancyName(abl.getAttribute().getAttributeName()));
+		if(this.devilFruitAbilities[devilFruitIndex] == null || this.devilFruitAbilities[devilFruitIndex].equals("n/a"))
+			this.devilFruitAbilities[devilFruitIndex] = WyHelper.getFancyName(abl.getAttribute().getAttributeName());
+		else
+		{
+			if(devilFruitIndex < 16)
+				devilFruitIndex++;
+			else
+				devilFruitIndex = 0;
+			this.addDevilFruitAbility(abl);
+		}
 	}
+	
 	public void removeDevilFruitAbility(Ability abl)
 	{
-		if(this.devilFruitAbilities.contains(WyHelper.getFancyName(abl.getAttribute().getAttributeName())))
-			this.devilFruitAbilities.remove(WyHelper.getFancyName(abl.getAttribute().getAttributeName()));
+		if(this.devilFruitAbilities[devilFruitIndex] != null || this.devilFruitAbilities[devilFruitIndex].equals("n/a"))
+			this.devilFruitAbilities[devilFruitIndex] = "n/a";
+		else
+		{
+			if(devilFruitIndex < 16)
+				devilFruitIndex++;
+			else
+				devilFruitIndex = 0;
+			this.removeDevilFruitAbility(abl);			
+		}	
 	}
-	public List<String> getDevilFruitAbilities()
+	public boolean hasDevilFruitAbility(Ability abl)
+	{
+		if((this.devilFruitAbilities[devilFruitIndex] != null || !this.devilFruitAbilities[devilFruitIndex].equals("n/a")) && this.devilFruitAbilities[devilFruitIndex].equals(WyHelper.getFancyName(abl.getAttribute().getAttributeName())))
+			return true;
+		else
+			return false;
+	}
+	public String[] getDevilFruitAbilities()
 	{ 
 		return this.devilFruitAbilities; 
 	}
 	public void clearDevilFruitAbilities()
 	{
-		this.devilFruitAbilities.clear();
+		for(int j = 0; j < this.devilFruitAbilities.length - 1; j++)
+			this.devilFruitAbilities[j] = "n/a";
+	}
+	//	#END REGION
+	
+	// #REGION AVAILABLE RACIAL ABILITIES
+	int racialIndex = 0;
+	
+	public void addRacialAbility(Ability abl)
+	{
+		if(this.racialAbilities[racialIndex] == null || this.racialAbilities[racialIndex].equals("n/a"))
+			this.racialAbilities[racialIndex] = WyHelper.getFancyName(abl.getAttribute().getAttributeName());
+		else
+		{
+			if(racialIndex < 16)
+				racialIndex++;
+			else
+				racialIndex = 0;
+			this.addRacialAbility(abl);
+		}
+	}
+	public boolean hasRacialAbility(Ability abl)
+	{
+		if((this.racialAbilities[racialIndex] != null || !this.racialAbilities[racialIndex].equals("n/a")) && this.racialAbilities[racialIndex].equals(WyHelper.getFancyName(abl.getAttribute().getAttributeName())))
+			return true;
+		else
+			return false;
+	}
+	public void removeRacialAbility(Ability abl)
+	{
+		if(this.racialAbilities[racialIndex] != null || !this.racialAbilities[racialIndex].equals("n/a"))
+			this.racialAbilities[racialIndex] = "n/a";
+		else
+		{
+			if(racialIndex < 16)
+				racialIndex++;
+			else
+				racialIndex = 0;
+			this.removeRacialAbility(abl);			
+		}
+	}
+	public String[] getRacialAbilities()
+	{ 
+		return this.racialAbilities; 
+	}
+	public void clearRacialAbilities()
+	{
+		for(int j = 0; j < this.racialAbilities.length - 1; j++)
+			this.racialAbilities[j] = "n/a";
+	}
+	//	#END REGION
+	
+	// #REGION AVAILABLE HAKI ABILITIES
+	int hakiIndex = 0;
+	
+	public void addHakiAbility(Ability abl)
+	{
+		if(this.hakiAbilities[hakiIndex] == null || this.hakiAbilities[hakiIndex].equals("n/a"))
+			this.hakiAbilities[hakiIndex] = WyHelper.getFancyName(abl.getAttribute().getAttributeName());
+		else
+		{
+			if(hakiIndex < 3)
+				hakiIndex++;
+			else
+				hakiIndex = 0;
+			this.addHakiAbility(abl);
+		}
+	}
+	public boolean hasHakiAbility(Ability abl)
+	{
+		if((this.hakiAbilities[hakiIndex] != null || !this.hakiAbilities[hakiIndex].equals("n/a")) && this.hakiAbilities[hakiIndex].equals(WyHelper.getFancyName(abl.getAttribute().getAttributeName())))
+			return true;
+		else
+			return false;
+	}
+	public void removeHakiAbility(Ability abl)
+	{
+		if(this.hakiAbilities[hakiIndex] != null || !this.hakiAbilities[hakiIndex].equals("n/a"))
+			this.hakiAbilities[hakiIndex] = "n/a";
+		else
+		{
+			if(hakiIndex < 16)
+				hakiIndex++;
+			else
+				hakiIndex = 0;
+			this.removeHakiAbility(abl);			
+		}
+	}
+	public String[] getHakiAbilities()
+	{ 
+		return this.hakiAbilities; 
+	}
+	public void clearHakiAbilities()
+	{
+		for(int j = 0; j < this.hakiAbilities.length - 1; j++)
+			this.hakiAbilities[j] = "n/a";
 	}
 	//	#END REGION
 	
 	public void setAbilityInSlot(int slot, Ability abl)
 	{
-		this.hotbarAbilities[slot] = WyHelper.getFancyName(abl.getAttribute().getAttributeName());
+		if(abl != null)
+			this.hotbarAbilities[slot] = WyHelper.getFancyName(abl.getAttribute().getAttributeName());
+		else
+			this.hotbarAbilities[slot] = "n/a";
 	}
 	public Ability getAbilityFromSlot(int slot)
 	{
 		return AbilityManager.instance().getAbilityByName(this.hotbarAbilities[slot]);
+	}
+	public int getAbilitiesInHotbar()
+	{
+		return this.hotbarAbilities.length;
 	}
 	
 	public void setCombatMode(boolean value) { this.isInCombatMode = value; }

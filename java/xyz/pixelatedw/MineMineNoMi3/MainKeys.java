@@ -27,7 +27,6 @@ public class MainKeys
 		
 		enterCombatMode = new KeyBinding(ID.LANG_KEY_COMBATMODE, Keyboard.KEY_LMENU, ID.LANG_KEYS_CATEGORY);
 		ClientRegistry.registerKeyBinding(enterCombatMode);
-		
 	}
 	    
 	public static boolean isShiftKeyDown()
@@ -38,11 +37,13 @@ public class MainKeys
 	@SubscribeEvent
 	public void onKeyInput(KeyInputEvent event) 
 	{		
+    	Minecraft minecraft = Minecraft.getMinecraft();
+    	EntityPlayer player = minecraft.thePlayer; 
+    	WorldClient world = minecraft.theWorld;  
+    	ExtendedEntityStats props = ExtendedEntityStats.get(player);
+    	
 		if(guiPlayer.isPressed())
 		{
-        	Minecraft minecraft = Minecraft.getMinecraft();
-        	EntityPlayer player = minecraft.thePlayer; 
-        	WorldClient world = minecraft.theWorld;  
         	player.openGui(MainMod.getMineMineNoMi(), 1, world, (int)player.posX, (int)player.posY, (int)player.posZ);
         	
         	WyNetworkHelper.sendToServer(new PacketPlayer("forcesync"));
@@ -50,16 +51,14 @@ public class MainKeys
 		
 		if(enterCombatMode.isPressed()) 
 		{
+			props.setCombatMode(!props.isInCombatMode());
         	WyNetworkHelper.sendToServer(new PacketPlayer("enterCombatMode"));
 		}
-		
+			
 		for(int i = 0; i < 8; i++)
 		{
 			if(Minecraft.getMinecraft().gameSettings.keyBindsHotbar[i].isPressed())
 			{
-	        	Minecraft minecraft = Minecraft.getMinecraft();
-	        	EntityPlayer player = minecraft.thePlayer; 
-	        	ExtendedEntityStats props = ExtendedEntityStats.get(player);
 	        	if(props.isInCombatMode())
 	        	{
 	        		WyNetworkHelper.sendToServer(new PacketPlayer("useAbility" + i));
@@ -73,9 +72,9 @@ public class MainKeys
 	@SubscribeEvent
 	public void onMoseInput(MouseInputEvent event)
 	{
-    	Minecraft minecraft = Minecraft.getMinecraft();
-    	EntityPlayer player = minecraft.thePlayer; 
-    	ExtendedEntityStats props = ExtendedEntityStats.get(player);
+		Minecraft minecraft = Minecraft.getMinecraft();
+		EntityPlayer player = minecraft.thePlayer; 
+		ExtendedEntityStats props = ExtendedEntityStats.get(player);
 	}
 	
 }

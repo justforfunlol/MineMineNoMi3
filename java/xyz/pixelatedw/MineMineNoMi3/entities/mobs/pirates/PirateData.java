@@ -23,27 +23,26 @@ import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
 
 public class PirateData extends EntityNewMob
 {
-
-	private EntityAIBase attackMelee = new EntityAIAttackOnCollide(this, 1.0D, true), 
-					nearestAttableTarget = new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true),
-					nearestAttableTargetDopp = new EntityAINearestAttackableTarget(this, Doppelman.class, 0, true),
-					nearestAttableTargetMarine = new EntityAINearestAttackableTarget(this, MarineData.class, 0, true);
-
+	protected EntityAIBase entityAIMeleeAttack = new EntityAIAttackOnCollide(this, 1.0D, false);
+	
 	public PirateData(World world)
 	{
 		super(world);
-		this.tasks.addTask(0, new EntityAISwimming(this));
+		this.tasks.addTask(0, entityAIMeleeAttack);
+		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIOpenDoor(this, true));
-		this.tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1.0D));
-		this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(5, new EntityAILookIdle(this));
-		this.tasks.addTask(6, new EntityAIHurtByTarget(this, false));
-		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(4, new EntityAILookIdle(this));
+		this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, true));
+		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, MarineData.class, 0, true));
 	}
 
 	public void onEntityUpdate()
 	{
-		for (EntityLivingBase entity : WyHelper.getEntitiesNear(this, 45))
+/*		if(!this.worldObj.isRemote)
+			System.out.println(this.getAttackTarget());*/
+		
+/*		for (EntityLivingBase entity : WyHelper.getEntitiesNear(this, 100))
 		{
 			if (entity instanceof EntityPlayer)
 			{
@@ -55,7 +54,7 @@ public class PirateData extends EntityNewMob
 					if (!(this instanceof IRangedAttackMob))
 						this.tasks.addTask(1, attackMelee);
 					this.targetTasks.addTask(1, nearestAttableTarget);
-
+*/
 					/*
 					 * if(!props.getCrew().equals(propz.getCrew()) &&
 					 * (!props.getCrew().equals("N/A") ||
@@ -65,7 +64,7 @@ public class PirateData extends EntityNewMob
 					 * { this.tasks.removeTask(attackMelee);
 					 * this.targetTasks.removeTask(nearestAttableTarget); }
 					 */
-				}
+/*				}
 			}
 			else if (entity instanceof MarineData)
 			{
@@ -79,28 +78,16 @@ public class PirateData extends EntityNewMob
 					this.tasks.addTask(1, attackMelee);
 				this.targetTasks.addTask(1, nearestAttableTargetDopp);
 			}
-		}
+		}*/
 		super.onEntityUpdate();
 	}
 
-	protected boolean isValidLightLevel()
-	{
-		return true;
-	}
+	protected boolean isValidLightLevel() { return true; }
 
-	protected boolean canDespawn()
-	{
-		return true;
-	}
+	protected boolean canDespawn() { return true; }
 
-	public boolean isAIEnabled()
-	{
-		return true;
-	}
+	public boolean isAIEnabled() { return true; }
 
-	public boolean getCanSpawnHere()
-	{
-		return true;
-	}
+	public boolean getCanSpawnHere() { return true; }
 
 }

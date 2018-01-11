@@ -12,39 +12,31 @@ import xyz.pixelatedw.MineMineNoMi3.api.abilities.extra.EffectType;
 public class AbilityAttribute 
 {	
 	private String attributeName = "N/A";
-	private boolean hasFire = true, hasExplosion = true, canBeDropped = true, canBeCharged = false, isRepeater = false, itemExplosionHasFire = true, itemExplosionHasSmoke = true;
-	private int itemTicks = 0, entityTicks = 60, entityDamage = 1, entitySpeed = 1, entityExplosion = 0, itemMaxStackSize = 1, potionEffectAoeRadius = 0, itemDamage = 0, itemMaxCharge = 0, entityOnFire = 0, itemMaxDamage = 2
-			, itemExplosion = 0;
-	private float projectileAlpha = 255;
+	private boolean projectileExplosionHasFire = true, projectileExplosionHasSmoke = true, canBeCharged = false, isRepeater = false, itemExplosionHasFire = true, itemExplosionHasSmoke = true, isPassive = false;
+	private int itemTicks = 0, entityTicks = 60, entitySpeed = 1, entityExplosion = 0, potionEffectAoeRadius = 0, itemMaxCharge = 0, itemExplosion = 0;
+	private float projectileAlpha = 255, entityDamage = 1;
 	private Color entityColor = Color.decode("#FFFFFF");
 	private double[] entityScale = new double[] {1, 1, 1}, entityPos = new double[] {0, 0, 0}, entityRotation = new double[] {0, 0, 0, 0}, entityMotion = new double[] {0, 0, 0};
 	private ModelBase entityModel = null;
 	private PotionEffect[] potionEffectsForProjectile = null, potionEffectsForUser = null, potionEffectsForAoE = null;
 	private ResourceLocation entityTexture = null;
-	private EnumAction itemAction = EnumAction.none;
 	private Object[] entityTrailType = null, itemTrailType = null;
-	private EnumRarity abilityRarity = null;
 	
 	public AbilityAttribute() {}	
 	public AbilityAttribute(String name) {this.attributeName = name;}
 	
 	public AbilityAttribute setAttributeName(String name) { this.attributeName = name; return this; }
 		//Item
-	public AbilityAttribute setItemCooldown(int i) {this.itemTicks = i;return this;}	
-	public AbilityAttribute setItemAction(EnumAction action) {this.itemAction = action;return this;}
-	public AbilityAttribute setItemDamage(int swordDamage) {this.itemDamage = swordDamage; return this;} 
-	public AbilityAttribute setItemCanBeDropped() {this.canBeDropped = true;return this;}
-	public AbilityAttribute setItemCharge(int ticks) {this.itemAction = EnumAction.bow;this.canBeCharged = true;this.itemMaxCharge = ticks;return this;}
-	public AbilityAttribute setItemRepeater() {this.isRepeater = true;return this;}
-	public AbilityAttribute setItemMaxStack(int stackSize) {this.itemMaxStackSize = stackSize;return this;}	
-	public AbilityAttribute setItemMaxDamage(int maxDmg) { this.itemMaxDamage = maxDmg; return this; }
-	public AbilityAttribute setItemRarity(EnumRarity rarity) { this.abilityRarity = rarity; return this; }
-	public AbilityAttribute setItemExplosion(int i, boolean fire, boolean explosion) {this.itemExplosion = i;this.itemExplosionHasFire = fire;this.itemExplosionHasSmoke = explosion;return this;}
-	public AbilityAttribute setItemExplosion(int i, boolean fire) {this.itemExplosion = i;this.itemExplosionHasFire = fire;return this;}
-	public AbilityAttribute setItemExplosion(int i) {this.itemExplosion = i;return this;}
+	public AbilityAttribute setAbilityCooldown(int i) { this.itemTicks = i; return this; }	
+	public AbilityAttribute setAbilityCharges(int ticks) { this.canBeCharged = true; this.itemMaxCharge = ticks; return this; }
+	public AbilityAttribute setAbilityExplosion(int i, boolean fire, boolean explosion) { this.itemExplosion = i; this.itemExplosionHasFire = fire; this.itemExplosionHasSmoke = explosion; return this; }
+	public AbilityAttribute setAbilityExplosion(int i, boolean fire) { this.itemExplosion = i; this.itemExplosionHasFire = fire; return this; }
+	public AbilityAttribute setAbilityExplosion(int i) { this.itemExplosion = i; return this; }
+	public AbilityAttribute setAbilityPassive() { this.isPassive = true; return this;}
+	public AbilityAttribute setAbilityRepeater() { this.isRepeater = true; return this; }
 		//Projectile
 	public AbilityAttribute setProjectileTicks(int i) {this.entityTicks = i;return this;}
-	public AbilityAttribute setProjectileDamage(int i) {this.entityDamage = i;return this;}
+	public AbilityAttribute setProjectileDamage(float i) {this.entityDamage = i;return this;}
 	public AbilityAttribute setProjectileModel(ModelBase i) {this.entityModel = i;return this;}
 	public AbilityAttribute setProjectileColor(Color i) {this.entityColor = i;return this;}
 	public AbilityAttribute setProjectileColor(int i) {this.entityColor = new Color(i);return this;}
@@ -53,8 +45,8 @@ public class AbilityAttribute
 	public AbilityAttribute setProjectileSize(double x, double y, double z) { this.entityScale = new double[] {x, y, z}; return this; }
 	public AbilityAttribute setProjectileSize(double i[]) { this.entityScale = i; return this; }
 	public AbilityAttribute setProjectilePosition(double i[]) { this.entityPos = i; return this; }
-	public AbilityAttribute setProjectileExplosion(int i, boolean fire, boolean explosion) {this.entityExplosion = i;this.hasFire = fire;this.hasExplosion = explosion;return this;}
-	public AbilityAttribute setProjectileExplosion(int i, boolean fire) {this.entityExplosion = i;this.hasFire = fire;return this;}
+	public AbilityAttribute setProjectileExplosion(int i, boolean fire, boolean explosion) {this.entityExplosion = i;this.projectileExplosionHasFire = fire;this.itemExplosionHasSmoke = explosion;return this;}
+	public AbilityAttribute setProjectileExplosion(int i, boolean fire) {this.entityExplosion = i;this.projectileExplosionHasFire = fire;return this;}
 	public AbilityAttribute setProjectileExplosion(int i) {this.entityExplosion = i;return this;}
 	public AbilityAttribute setProjectileSpeed(int i) {this.entitySpeed = i;return this;}
 		//Potion Effects
@@ -73,31 +65,26 @@ public class AbilityAttribute
 	
 
 		//Item
-	public int getItemCooldown() {return itemTicks;}
-	public int getItemStackSize() {return this.itemMaxStackSize;}
-	public EnumAction getItemAction() {return this.itemAction;}
-	public boolean canItemBeDropped() {return this.canBeDropped;}
-	public int getItemDamage() {return this.itemDamage;}
-	public boolean isItemRepeater() {return this.isRepeater;}
-	public int getItemMaxDamage() {return itemMaxDamage;}
-	public boolean canItemBeCharged() {return this.canBeCharged;}
-	public EnumRarity getItemRarity() { return this.abilityRarity; }
-	public int getItemExplosionPower() {return this.itemExplosion;}
-	public boolean getItemExplosionHasFire() {return this.itemExplosionHasFire; }
-	public boolean getItemExplosionHasSmoke() {return this.itemExplosionHasSmoke; }
+	public int getAbilityCooldown() { return itemTicks; }
+	public boolean isRepeater() { return this.isRepeater; }
+	public boolean canAbilityBeCharged() { return this.canBeCharged;}
+	public int getAbilityExplosionPower() { return this.itemExplosion; }
+	public int getAbilityCharges() {return this.itemMaxCharge;}	
+	public boolean canAbilityExplosionSetFire() { return this.itemExplosionHasFire; }
+	public boolean canAbilityExplosionDestroyBlocks() { return this.itemExplosionHasSmoke; }
+	public boolean isPassive() { return this.isPassive; }
 		//Projectile
 	public boolean hasProjectile() {return this.entityTicks > 0 && this.entityModel != null;}
 	public int getProjectileTicks() {return entityTicks;}
-	public int getProjectileDamage() {return entityDamage;}
+	public float getProjectileDamage() {return entityDamage;}
 	public Color getProjectileColor() {return entityColor;}
 	public ModelBase getProjectileModel() {return entityModel;}
 	public double[] getProjectileSize() {return entityScale;}
 	public double[] getProjectilePosition() { return entityPos; }
 	public int getProjectileSpeed() {return entitySpeed;}
 	public int getProjectileExplosionPower() {return entityExplosion;}		
-	public boolean canExplosionSetFire() {return hasFire;}
-	public boolean canExplosionDestroyBlocks() {return hasExplosion;}	
-	public int getItemMaxCharges() {return this.itemMaxCharge;}	
+	public boolean canExplosionSetFire() {return projectileExplosionHasFire;}
+	public boolean canExplosionDestroyBlocks() {return itemExplosionHasSmoke;}	
 	public float getProjectileAlpha() { return this.projectileAlpha; }
 		//Potion Effects
 	public PotionEffect[] getPotionEffectsForProjectile() {return this.potionEffectsForProjectile;}
