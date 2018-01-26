@@ -1,9 +1,11 @@
 package xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
+import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityAttribute;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityProjectile;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.GasuProjectiles.GasRobe;
@@ -32,6 +34,20 @@ public class YukiProjectiles
 		{		
 			super(world, player, attr);		
 		}	
+		
+		public void onUpdate()
+		{	
+			for (int i = 0; i < 10; i++)
+			{
+				double offsetX = (new Random().nextInt(10) + 2.0D - 5.0D) / 2.0D;
+				double offsetY = (new Random().nextInt(10) + 2.0D - 5.0D) / 2.0D;
+				double offsetZ = (new Random().nextInt(10) + 2.0D - 5.0D) / 2.0D;
+		      
+				this.worldObj.spawnParticle(EnumParticleTypes.SNOW_SHOVEL.getParticleName(), this.posX, this.posY, this.posZ, 0.0D, 0.2D, 0.0D);		
+			}
+			
+			super.onUpdate();
+		}
 	}
 	
 

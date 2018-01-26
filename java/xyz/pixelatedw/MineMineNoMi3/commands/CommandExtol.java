@@ -36,7 +36,7 @@ public class CommandExtol extends CommandBase
 			if(str[0].equals("+"))
 			{
 				if(Integer.decode(str[1]) + props.getExtol() <= Values.MAX_GENERAL)
-					props.addExtol(Integer.decode(str[1]));
+					props.alterExtol(Integer.decode(str[1]));
 				else
 					props.setExtol(Values.MAX_GENERAL);
 			}
@@ -45,7 +45,7 @@ public class CommandExtol extends CommandBase
 				if(props.getExtol() - Integer.decode(str[1]) <= 0)
 					props.setExtol(0);
 				else
-					props.decExtol(Integer.decode(str[1]));		
+					props.alterExtol(-Integer.decode(str[1]));		
 			}
 			else if(str[0].equals("="))
 			{

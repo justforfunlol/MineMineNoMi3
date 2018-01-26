@@ -381,15 +381,6 @@ public class Tasks
 		};
 	};
 
-	public static AbilityTask kenbunshokuhaki = new AbilityTask()
-	{
-		public void onItemUse(ItemStack itemStack, EntityPlayer player)
-		{
-			//for(EntityLivingBase target : WyHelper.getEntitiesNear(player, 100))
-			//	target.addPotionEffect(new PotionEffect(Potion.GLOWING, 100, 1));
-		}
-	};
-
 	public static AbilityTask tabirayuki = new AbilityTask() {public void onItemHit(ItemStack itemStack, EntityLivingBase target, EntityLivingBase attacker) { target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1, 60));; }};
 	
 	public static AbilityTask milkydial = new AbilityTask()

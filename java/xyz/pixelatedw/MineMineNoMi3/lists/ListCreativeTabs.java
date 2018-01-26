@@ -14,8 +14,7 @@ public class ListCreativeTabs
 	{
 		WyRegistry.registerName("itemGroup.tab1", "Devil Fruits");
 		WyRegistry.registerName("itemGroup.tab2", "Equipment");
-		WyRegistry.registerName("itemGroup.tab3", "Speical Techniques");
-		WyRegistry.registerName("itemGroup.tab4", "Miscellaneous");
+		WyRegistry.registerName("itemGroup.tab3", "Miscellaneous");
 	}
 	
 	public static CreativeTabs tabDevilFruits = new CreativeTabs("tab1") {
@@ -32,14 +31,7 @@ public class ListCreativeTabs
 	    }
 	};
 	
-	public static CreativeTabs tabHaki = new CreativeTabs("tab3") {
-	    @SideOnly(Side.CLIENT)
-	    public Item getTabIconItem() {
-	        return Items.apple;
-	    }
-	};
-	
-	public static CreativeTabs tabMisc = new CreativeTabs("tab4") {
+	public static CreativeTabs tabMisc = new CreativeTabs("tab3") {
 	    @SideOnly(Side.CLIENT)
 	    public Item getTabIconItem() {
 	        return ListMisc.Kairoseki;

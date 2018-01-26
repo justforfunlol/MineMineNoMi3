@@ -7,14 +7,15 @@ public class ID
 	
 	public static final ResourceLocation
 	
-	TEXTURE_BOUNTYPOSTER = new ResourceLocation(MainMod.getMineMineNoMi().getModId(), "textures/gui/gui_bounty.png"),
-	TEXTURE_WIDGETS = new ResourceLocation(MainMod.getMineMineNoMi().getModId(), "textures/gui/widgets.png"),
-	TEXTURE_CURRENCIES = new ResourceLocation(MainMod.getMineMineNoMi().getModId(), "textures/gui/currencies.png"),
-	TEXTURE_BLANK = new ResourceLocation(MainMod.getMineMineNoMi().getModId(), "textures/gui/gui_blank.png"),
-	TEXTURE_JOB = new ResourceLocation(MainMod.getMineMineNoMi().getModId(), "textures/gui/gui_job.png"),
-	TEXTURE_RACE = new ResourceLocation(MainMod.getMineMineNoMi().getModId(), "textures/gui/gui_race.png"),
-	TEXTURE_FACTION = new ResourceLocation(MainMod.getMineMineNoMi().getModId(), "textures/gui/gui_fac.png"),
-	TEXTURE_COMBATMODE = new ResourceLocation(MainMod.getMineMineNoMi().getModId(), "textures/gui/combatmode.png");
+	SHADER_HAKI = new ResourceLocation(ID.PROJECT_ID, "shaders/haki.json"),
+	TEXTURE_BOUNTYPOSTER = new ResourceLocation(ID.PROJECT_ID, "textures/gui/gui_bounty.png"),
+	TEXTURE_WIDGETS = new ResourceLocation(ID.PROJECT_ID, "textures/gui/widgets.png"),
+	TEXTURE_CURRENCIES = new ResourceLocation(ID.PROJECT_ID, "textures/gui/currencies.png"),
+	TEXTURE_BLANK = new ResourceLocation(ID.PROJECT_ID, "textures/gui/gui_blank.png"),
+	TEXTURE_JOB = new ResourceLocation(ID.PROJECT_ID, "textures/gui/gui_job.png"),
+	TEXTURE_RACE = new ResourceLocation(ID.PROJECT_ID, "textures/gui/gui_race.png"),
+	TEXTURE_FACTION = new ResourceLocation(ID.PROJECT_ID, "textures/gui/gui_fac.png"),
+	TEXTURE_COMBATMODE = new ResourceLocation(ID.PROJECT_ID, "textures/gui/combatmode.png");
 	
 	
 	public static final String

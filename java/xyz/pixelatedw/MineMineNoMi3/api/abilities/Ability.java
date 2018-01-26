@@ -69,6 +69,8 @@ public class Ability
 			if(this.attr.getPotionEffectsForUser() != null)
 				for(PotionEffect p : this.attr.getPotionEffectsForUser())	
 					player.removePotionEffect(p.getPotionID());
+			
+			endPassive(player);
 		}
 		else
 		{
@@ -76,8 +78,14 @@ public class Ability
 			if(this.attr.getPotionEffectsForUser() != null)
 				for(PotionEffect p : this.attr.getPotionEffectsForUser())				
 					player.addPotionEffect(new PotionEffect(p.getPotionID(), Integer.MAX_VALUE, p.getAmplifier(), true));
+			
+			duringPassive(player);
 		}
 	}
+	
+	public void endPassive(EntityPlayer player) {}
+	
+	public void duringPassive(EntityPlayer player) {}
 	
 	public boolean isPassiveActive()
 	{
@@ -95,7 +103,7 @@ public class Ability
 			isCharging = true;
 	}
 	
-	public void endCharging(EntityPlayer player) 
+	public void endCharging(EntityPlayer player)
 	{
 		isCharging = false;
 		isOnCooldown = true;
@@ -135,7 +143,7 @@ public class Ability
 				if(isRepeating)
 				{
 					ticksForRepeater--;
-					if(ticksForRepeater > this.attr.getAbilityCooldown() - (this.attr.getAbilityCooldown()/4) && projectile != null)
+					if(ticksForRepeater > this.attr.getAbilityCooldown() - (this.attr.getAbilityCooldown() / 6) && projectile != null)
 					{
 						try 
 						{
@@ -170,5 +178,13 @@ public class Ability
 				endCharging(player);
 			}
 		}
+	}
+	
+	public void reset()
+	{
+		isOnCooldown = false;
+		isCharging = false;
+		isRepeating = false;
+		passiveActive = false;			
 	}
 }

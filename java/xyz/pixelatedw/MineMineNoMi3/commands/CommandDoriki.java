@@ -7,8 +7,10 @@ import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.MinecraftForge;
 import xyz.pixelatedw.MineMineNoMi3.Values;
 import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
+import xyz.pixelatedw.MineMineNoMi3.events.customevents.DorikiEvent;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
 import xyz.pixelatedw.MineMineNoMi3.packets.PacketSync;
 
@@ -36,7 +38,7 @@ public class CommandDoriki extends CommandBase
 			if(str[0].equals("+"))
 			{
 				if(Integer.decode(str[1]) + props.getDoriki() <= Values.MAX_DORIKI)
-					props.addDoriki(Integer.decode(str[1]));
+					props.alterDoriki(Integer.decode(str[1]));
 				else
 					props.setDoriki(Values.MAX_DORIKI);
 			}
@@ -45,7 +47,7 @@ public class CommandDoriki extends CommandBase
 				if(props.getDoriki() - Integer.decode(str[1]) <= 0)
 					props.setDoriki(0);
 				else
-					props.decDoriki(Integer.decode(str[1]));		
+					props.alterDoriki(-Integer.decode(str[1]));		
 			}
 			else if(str[0].equals("="))
 			{
@@ -55,6 +57,9 @@ public class CommandDoriki extends CommandBase
 					props.setDoriki(Integer.decode(str[1]));
 			}
 			 
+			DorikiEvent e = new DorikiEvent(player);
+			if (MinecraftForge.EVENT_BUS.post(e))
+				return;
 			WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP)player);
 		}		
 	}

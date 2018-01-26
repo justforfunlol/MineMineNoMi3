@@ -58,9 +58,6 @@ public class BaneAbilities
 			mZ *= 8;
 
 			motion("=", mX, mY, mZ, player);
-			//player.motionX = mX;
-			//player.motionY = mY;
-			//player.motionZ = mZ;
 			
 			super.endCharging(player);
 	    }

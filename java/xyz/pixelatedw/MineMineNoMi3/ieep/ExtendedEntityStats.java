@@ -211,6 +211,7 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 			this.addRacialAbility(abl);
 		}
 	}
+	
 	public boolean hasRacialAbility(Ability abl)
 	{
 		if((this.racialAbilities[racialIndex] != null || !this.racialAbilities[racialIndex].equals("n/a")) && this.racialAbilities[racialIndex].equals(WyHelper.getFancyName(abl.getAttribute().getAttributeName())))
@@ -218,6 +219,7 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 		else
 			return false;
 	}
+	
 	public void removeRacialAbility(Ability abl)
 	{
 		if(this.racialAbilities[racialIndex] != null || !this.racialAbilities[racialIndex].equals("n/a"))
@@ -231,10 +233,12 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 			this.removeRacialAbility(abl);			
 		}
 	}
+	
 	public String[] getRacialAbilities()
 	{ 
 		return this.racialAbilities; 
 	}
+	
 	public void clearRacialAbilities()
 	{
 		for(int j = 0; j < this.racialAbilities.length - 1; j++)
@@ -309,29 +313,45 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 	public boolean isInCombatMode() { return this.isInCombatMode; }
 	
 	public int getDoriki() {return doriki;}
-	public void addDoriki(int i) {doriki += i;}	
-	public void decDoriki(int i) {doriki -= i;}	
+	public void alterDoriki(int i)
+	{
+		if(doriki + i < 0) doriki = 0;
+		else doriki = doriki + i;
+	}
 	public void setDoriki(int i) {doriki = i;}
 	
 	public int getExtol() {return this.extol;}
+	public void alterExtol(int i)
+	{
+		if(extol + i < 0) extol = 0;
+		else extol = extol + i;
+	}
 	public void setExtol(int i) {this.extol = i;}
-	public void addExtol(int i) {this.extol += i;}
-	public void decExtol(int i) {this.extol -= i;}
 	
 	public int getBelly() {return this.belly;}
-	public void setBelly(int i) {this.belly = i;}
-	public void addBelly(int i) {this.belly += i;}
-	public void decBelly(int i)	{this.belly -= i;}
+	public void alterBelly(int i)
+	{
+		if(belly + i < 0) belly = 0;
+		else belly = belly + i;
+	}
+	public void setBelly(int i)	{this.belly = i;}
 	
 	public int getBounty() {return this.bounty;}
+	public void alterBounty(int i)
+	{
+		if(bounty + i < 0) bounty = 0;
+		else bounty = bounty + i;
+	}
 	public void setBounty(int i) {this.bounty = i;}
-	public void addBounty(int i) {this.bounty += i;}
-	public void decBounty(int i) {this.bounty -= i;}
 
 	public int getCola() {return this.cola;}
+	public void alterCola(int i)
+	{
+		if(cola + i < 0) cola = 0;
+		else if(cola + i > getMaxCola()) cola = getMaxCola();
+		else cola = cola + i;
+	}
 	public void setCola(int i) {this.cola = i;}
-	public void addCola(int i) {this.cola += i;}
-	public void decCola(int i) {this.cola -= i;}	
 	
 	public int getUltraColaConsumed() { return this.ultraCola; }
 	public void setUltraCola(int i) { this.ultraCola = i; }

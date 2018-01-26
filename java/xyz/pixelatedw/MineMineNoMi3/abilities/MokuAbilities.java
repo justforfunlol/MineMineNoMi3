@@ -45,20 +45,20 @@ public class MokuAbilities
 			mX *= 5;
 			mY *= 1.5;
 			mZ *= 5;
-
+		
 			motion("=", mX, mY, mZ, player);
-			//player.motionX = mX;
-			//player.motionY = mY;
-			//player.motionZ = mZ;
-			
+
 			super.endCharging(player);
 	    }
 		
 	    public void duringCooldown(EntityPlayer player, int currentCooldown)
 	    {
-			if(currentCooldown > 120)
+			if(currentCooldown > 130)
+			{
 				for(EntityLivingBase e : WyHelper.getEntitiesNear(player, 1.6))
 					e.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player), 2);
+		    	WyNetworkHelper.sendTo(new PacketPlayer("particles_whiteLauncher"), (EntityPlayerMP) player);
+			}
 	    }
 	}
 	

@@ -84,7 +84,7 @@ public class GUISelectHotbarAbilities extends GuiScreen
 		if(props.getHakiAbilities()[0] != null && !props.getHakiAbilities()[0].equals("n/a"))
 		{
 			this.drawTexturedModalRect((posX - 280) / 2, posY - 160, 0, 23, 27, 26);
-			WyRenderHelper.drawAbilityIcon(props.getRacialAbilities()[0], (posX - 268) / 2, posY - 154, 16, 16);	
+			WyRenderHelper.drawAbilityIcon(props.getHakiAbilities()[0], (posX - 268) / 2, posY - 154, 16, 16);	
 			this.mc.getTextureManager().bindTexture(ID.TEXTURE_COMBATMODE);	
 		}
 		
@@ -105,9 +105,9 @@ public class GUISelectHotbarAbilities extends GuiScreen
 		
 		if(props.getUsedFruit() != null && !props.getUsedFruit().toLowerCase().equals("n/a"))
 			this.buttonList.add(new GUIButtonNoTexture(10, (posX - 280) / 2, posY - 220, 27, 25, ""));
-		if(props.getDoriki() >= 500 && props.getRacialAbilities()[0] != null && !props.getRacialAbilities()[0].equals("n/a"))
+		if(props.getRacialAbilities()[0] != null && !props.getRacialAbilities()[0].equals("n/a"))
 			this.buttonList.add(new GUIButtonNoTexture(11, (posX - 280) / 2, posY - 190, 27, 25, ""));
-		if(props.getDoriki() >= 5000 && props.getHakiAbilities()[0] != null && !props.getHakiAbilities()[0].equals("n/a"))
+		if(props.getHakiAbilities()[0] != null && !props.getHakiAbilities()[0].equals("n/a"))
 			this.buttonList.add(new GUIButtonNoTexture(12, (posX - 280) / 2, posY - 160, 27, 25, ""));
 		
 		for(int i = 0; i < 8; i++)
@@ -128,9 +128,9 @@ public class GUISelectHotbarAbilities extends GuiScreen
 		}
 		
 		for(int i = 0; i < props.getRacialAbilities().length - 1; i++)
-		{
+		{		
 			if(AbilityManager.instance().getAbilityByName(props.getRacialAbilities()[i]) != null)
-			{
+			{	
 				if( i % 2 == 0)
 					this.buttonList.add(new GuiButton(150 + i, posX - 325, (posY - 180 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getRacialAbilities()[i]).getAttribute().getAttributeName() ));
 				else

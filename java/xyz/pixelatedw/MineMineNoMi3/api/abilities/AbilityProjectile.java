@@ -54,14 +54,11 @@ public class AbilityProjectile extends EntityThrowable
 	{return this.attr;}
 
 	public void tasksImapct(MovingObjectPosition hit){};
-	public void tasksUpdate(AbilityProjectile p){};
 	
 	public void onEntityUpdate()
 	{			
 		if(this.attr != null)
 		{
-			tasksUpdate(this);
-
 			if(ticks <= 0)
 			{
 				ticks = maxticks;

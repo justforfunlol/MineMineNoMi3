@@ -36,7 +36,7 @@ public class CommandBounty extends CommandBase
 			if(str[0].equals("+"))
 			{
 				if(Integer.decode(str[1]) + props.getBounty() <= Values.MAX_GENERAL)
-					props.addBounty(Integer.decode(str[1]));
+					props.alterBounty(Integer.decode(str[1]));
 				else
 					props.setBounty(Values.MAX_GENERAL);
 			}
@@ -45,7 +45,7 @@ public class CommandBounty extends CommandBase
 				if(props.getBounty() - Integer.decode(str[1]) <= 0)
 					props.setBounty(0);
 				else
-					props.decBounty(Integer.decode(str[1]));		
+					props.alterBounty(-Integer.decode(str[1]));		
 			}
 			else if(str[0].equals("="))
 			{

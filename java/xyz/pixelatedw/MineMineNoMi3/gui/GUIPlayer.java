@@ -36,11 +36,11 @@ public class GUIPlayer extends GuiScreen
 		
 		int posX = (this.width - 256) / 2;
 		int posY = (this.height - 256) / 2;
-
+		
 		if(!props.getRace().equals(ID.RACE_CYBORG))
 			mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "DORIKI: " + EnumChatFormatting.RESET + "" + props.getDoriki(), posX - 30, posY + 70, -1);
 		else
-			mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "COLA: " + EnumChatFormatting.RESET + "" + props.getCola(), posX - 30, posY + 70, -1);
+			mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "COLA: " + EnumChatFormatting.RESET + "" + props.getCola() + " / " + props.getMaxCola(), posX - 30, posY + 70, -1) ;
 		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "FACTION: " + EnumChatFormatting.RESET + "" + props.getFaction(), posX - 30, posY + 90, -1);
 		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "RACE: " + EnumChatFormatting.RESET + "" + props.getRace(), posX - 30, posY + 110, -1);
 		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "ROLE: " + EnumChatFormatting.RESET + "" + props.getJob(), posX - 30, posY + 130, -1);

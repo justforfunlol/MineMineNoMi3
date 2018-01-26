@@ -42,14 +42,6 @@ public class SukeAbilities
 		{
 			super(ListAttributes.SKATTING); 
 		}	
-
-		public void use(EntityPlayer player)
-		{
-			if(player.getActivePotionEffect(Potion.invisibility) != null)
-				player.removePotionEffect(Potion.invisibility.id);
-			else
-				player.addPotionEffect(new PotionEffect(Potion.invisibility.id, Integer.MAX_VALUE, Integer.MAX_VALUE, false));		
-		}
 	}
 
 }

@@ -35,10 +35,10 @@ public class Cola extends ItemFood
 			
 			if(props.getRace().equals(ID.RACE_CYBORG))
 			{
-				if(props.getCola() <= Values.MAX_COLA - 15) 
-					props.addCola(15);
+				if(props.getCola() <= props.getMaxCola() - 15) 
+					props.alterCola(15);
 				else 
-					props.setCola(Values.MAX_COLA);
+					props.setCola(props.getMaxCola());
 			}
 			
 			WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);

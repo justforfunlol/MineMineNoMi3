@@ -5,6 +5,7 @@ import com.google.common.collect.Iterables;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -27,9 +28,15 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import scala.Int;
 import xyz.pixelatedw.MineMineNoMi3.ID;
 import xyz.pixelatedw.MineMineNoMi3.Values;
+import xyz.pixelatedw.MineMineNoMi3.abilities.FishKarateAbilities;
+import xyz.pixelatedw.MineMineNoMi3.abilities.HakiAbilities;
+import xyz.pixelatedw.MineMineNoMi3.abilities.HakiAbilities.BusoshokuHaki;
+import xyz.pixelatedw.MineMineNoMi3.abilities.HakiAbilities.KenbunshokuHaki;
 import xyz.pixelatedw.MineMineNoMi3.abilities.RokushikiAbilities;
+import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
 import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.EntityNewMob;
@@ -55,9 +62,6 @@ public class EventsPersistence
 	 * > Kilo gliding & falling
 	 * > Buso Haki Timer
 	 * 
-	 * onPlayerDrinkMilk 
-	 * > Removes abilities & persistance from user when milk is used
-	 * 
 	 * onEntityDeath 
 	 * > Removing abilities when the user dies 
 	 * > Doriki, Bounty & Belly rewards for killing players/mobs
@@ -72,8 +76,7 @@ public class EventsPersistence
 	 * 
 	 * onDorikiGained 
 	 * > Rewards the user with rokushiki/fishman karate based on doriki
-	 */
-
+	 */	
 
 	/** XXX onEntityUpdate */
 	@SubscribeEvent
@@ -106,7 +109,7 @@ public class EventsPersistence
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
 			ItemStack heldItem = player.getHeldItem();
 			IAttributeInstance maxHp = player.getEntityAttribute(SharedMonsterAttributes.maxHealth);
-			int extraHP;
+			int extraHP = 0;					
 			
 			if(!player.worldObj.isRemote)
 			{
@@ -121,7 +124,8 @@ public class EventsPersistence
 			
 			if (!props.getRace().equals(ID.RACE_CYBORG))
 			{
-				extraHP = (int) Math.pow(Math.log(props.getDoriki() + 1), 3) / 4 + 5;
+				extraHP = (int) Math.log((props.getDoriki()) + 1) * 19;
+
 				if (extraHP < 20)
 					player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20);
 				else
@@ -130,10 +134,11 @@ public class EventsPersistence
 			else
 			{
 				extraHP = (int) props.getUltraColaConsumed() * 20;
+
 				if (extraHP < 20)
 					player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20);
 				else
-					player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(extraHP);				
+					player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(extraHP);
 			}
 			
 			if (heldItem != null)
@@ -152,10 +157,10 @@ public class EventsPersistence
 
 				}
 				
-				/*if(heldItem.getItem() == ListMisc.Umbrella && player.worldObj.getBlock((int)player.posX, (int)player.posY - 4, (int)player.posZ) == Blocks.air && !player.capabilities.isCreativeMode)
+				if(heldItem.getItem() == ListMisc.Umbrella && player.worldObj.getBlock((int)player.posX, (int)player.posY - 4, (int)player.posZ) == Blocks.air && !player.capabilities.isCreativeMode)
 					player.motionY = -0.05;
 				
-				if(props.getUsedFruit().equals("kilokilo") && heldItem.getItem() == ListAbilities.KILOPRESS)
+				/*if(props.getUsedFruit().equals("kilokilo") && heldItem.getItem() == ListAbilities.KILOPRESS)
 				{
 					if (props.getKilo())
 					{
@@ -211,12 +216,14 @@ public class EventsPersistence
 			else
 				props.resetHakiTimer();
 			
-			if(props.getHakiTimer() > 2400)
+			if(props.getHakiTimer() > 1000)
 			{
-				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 1000, 0));
-				player.addPotionEffect(new PotionEffect(Potion.weakness.id, 1000, 0));
-				props.triggerActiveHaki();
-				props.resetHakiTimer();
+				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 100, 0));
+				player.addPotionEffect(new PotionEffect(Potion.weakness.id, 100, 0));
+				if(props.getHakiTimer() > 1500 + (props.getDoriki() / 15))
+				{
+					player.attackEntityFrom(DamageSource.generic, Integer.MAX_VALUE);
+				}
 			}
 			
 		}
@@ -230,6 +237,12 @@ public class EventsPersistence
 		{
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
+
+			for(int i = 0; i < 8; i++)
+			{
+				if(props.getAbilityFromSlot(i) != null)
+					props.getAbilityFromSlot(i).reset();
+			}
 		}
 
 		if (event.source.getEntity() instanceof EntityPlayer)
@@ -253,13 +266,13 @@ public class EventsPersistence
 					ExtendedEntityStats targetprops = ExtendedEntityStats.get(player);
 
 					if (props.getDoriki() < Values.MAX_DORIKI && !props.getRace().equals(ID.RACE_CYBORG))
-						props.addDoriki((targetprops.getDoriki() / 3) + rng);
+						props.alterDoriki((targetprops.getDoriki() / 3) + rng);
 					if (props.getBelly() < Values.MAX_GENERAL)
-						props.addBelly(targetprops.getBelly());
+						props.alterBelly(targetprops.getBelly());
 					if ((props.getFaction().equals(ID.FACTION_PIRATE) || props.getFaction().equals(ID.FACTION_REVOLUTIONARY))
 							&& (targetprops.getFaction().equals(ID.FACTION_PIRATE) || targetprops.getFaction().equals(ID.FACTION_REVOLUTIONARY)))
 						if (props.getBounty() < Values.MAX_GENERAL)
-							props.addBounty(targetprops.getBounty() / 2);
+							props.alterBounty(targetprops.getBounty() / 2);
 				}
 				else
 				{
@@ -269,7 +282,7 @@ public class EventsPersistence
 					if ((int) Math.round(((i + j) / 10) / Math.PI) + rng > 0)
 						if (props.getDoriki() < Values.MAX_DORIKI && !props.getRace().equals(ID.RACE_CYBORG))
 						{
-							props.addDoriki((int) Math.round(((i + j) / 10) / Math.PI) + rng);
+							props.alterDoriki((int) Math.round(((i + j) / 10) / Math.PI) + rng);
 							DorikiEvent e = new DorikiEvent(player);
 							if (MinecraftForge.EVENT_BUS.post(e))
 								return;
@@ -277,7 +290,7 @@ public class EventsPersistence
 					if (props.getFaction().equals(ID.FACTION_PIRATE) || props.getFaction().equals(ID.FACTION_REVOLUTIONARY))
 						if ((int) Math.round((i + j) / 10) + rng > 0)
 							if (props.getBounty() < Values.MAX_GENERAL)
-								props.addBounty((int) Math.round(((i + j) / 10) / Math.PI));
+								props.alterBounty((int) Math.round(((i + j) / 10) / Math.PI));
 				}
 
 				WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
@@ -300,8 +313,7 @@ public class EventsPersistence
 						return;
 		
 		if (sourceOfDamage instanceof EntityPlayer)
-		{
-			
+		{			
 			ExtendedEntityStats propz = ExtendedEntityStats.get((EntityLivingBase) sourceOfDamage);
 			ItemStack heldItem = ((EntityLivingBase) sourceOfDamage).getHeldItem();
 
@@ -332,10 +344,11 @@ public class EventsPersistence
 			}
 		}
 
-		if (sourceOfDamage instanceof EntityLivingBase)
+		if (sourceOfDamage instanceof EntityLivingBase && !(sourceOfDamage instanceof EntityPlayer))
 		{
 			boolean hasKairosekiWeapon;
 			boolean hasHaki;
+
 			if (sourceOfDamage instanceof EntityNewMob)
 				hasHaki = ((EntityNewMob) sourceOfDamage).hasHaki();
 			else
@@ -400,31 +413,42 @@ public class EventsPersistence
 			ability(event.player, 1500, RokushikiAbilities.TEKKAI);
 			ability(event.player, 3000, RokushikiAbilities.SHIGAN);
 			ability(event.player, 4500, RokushikiAbilities.GEPPO);
-			//KENBOSHOUKU - 5000
+			ability(event.player, 5000, HakiAbilities.KENBUNSHOKUHAKI);
 			ability(event.player, 6000, RokushikiAbilities.KAMIE);
 			ability(event.player, 8500, RokushikiAbilities.RANKYAKU);
-			//BUSOSHOKU - 9000
-			//HAOSHOKU - 9000 + other
-			
+			ability(event.player, 9000, HakiAbilities.BUSOSHOKUHAKI);
+			//HAOSHOKU - 9000 + other			
 		}
-		/*else if (event.props.getRace().equals(ID.RACE_FISHMAN))
+		else if (event.props.getRace().equals(ID.RACE_FISHMAN))
 		{
 			ability(event.player, 500, FishKarateAbilities.UCHIMIZU);
-			ability(event.player, 1500, FishKarateAbilities.YARINAMI);
+			ability(event.player, 2000, FishKarateAbilities.SOSHARK);
+			ability(event.player, 2500, FishKarateAbilities.KACHIAGEHAISOKU);
 			ability(event.player, 3000, FishKarateAbilities.SAMEHADASHOTEI);
-			ability(event.player, 4500, FishKarateAbilities.SOSHARK);
-			ability(event.player, 6000, FishKarateAbilities.MURASAME);
-			ability(event.player, 8500, FishKarateAbilities.KARAKUSAGAWARASEIKEN);
-		}*/
+			ability(event.player, 4000, HakiAbilities.KENBUNSHOKUHAKI);
+			ability(event.player, 7500, FishKarateAbilities.KARAKUSAGAWARASEIKEN);
+			ability(event.player, 9000, HakiAbilities.BUSOSHOKUHAKI);
+		}
 	}	
 
 	private void ability(EntityPlayer player, int doriki, Ability ability)
 	{
 		ExtendedEntityStats props = ExtendedEntityStats.get(player);	
-		if (props.getDoriki() >= doriki && !props.hasRacialAbility(ability))
-			props.addRacialAbility(ability);
-		if (props.getDoriki() < doriki && props.hasRacialAbility(ability))
-			props.removeRacialAbility(ability);
+			
+		if(ability instanceof KenbunshokuHaki || ability instanceof BusoshokuHaki)
+		{
+			if (props.getDoriki() >= doriki && !props.hasHakiAbility(ability))
+				props.addHakiAbility(ability);
+			if (props.getDoriki() < doriki && props.hasHakiAbility(ability))
+				props.removeHakiAbility(ability);
+		}
+		else
+		{
+			if (props.getDoriki() >= doriki && !props.hasRacialAbility(ability))
+				props.addRacialAbility(ability);
+			if (props.getDoriki() < doriki && props.hasRacialAbility(ability))
+				props.removeRacialAbility(ability);		
+		}
 	}
 	
 }

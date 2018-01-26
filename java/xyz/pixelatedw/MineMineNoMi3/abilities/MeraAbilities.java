@@ -2,13 +2,17 @@ package xyz.pixelatedw.MineMineNoMi3.abilities;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import xyz.pixelatedw.MineMineNoMi3.MainMod;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
 import xyz.pixelatedw.MineMineNoMi3.api.math.ISphere;
 import xyz.pixelatedw.MineMineNoMi3.api.math.Sphere;
+import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.MeraProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.packets.PacketPlayer;
 
 public class MeraAbilities
 {
@@ -22,9 +26,9 @@ public class MeraAbilities
 		}
 		
 		public void use(EntityPlayer player)
-		{
+		{			
 			this.projectile = new MeraProjectiles.Hiken(player.worldObj, player, ListAttributes.HIKEN);			
-			super.use(player);
+			super.use(player);		
 		}
 	}
 	
@@ -37,6 +41,7 @@ public class MeraAbilities
 		
 		public void use(EntityPlayer player)
 		{
+			//WyNetworkHelper.sendTo(new PacketPlayer("particles_test"), (EntityPlayerMP) player);
 			this.projectile = new MeraProjectiles.Higan(player.worldObj, player, ListAttributes.HIGAN);
 			super.use(player);
 		};			
@@ -47,6 +52,11 @@ public class MeraAbilities
 		public DaiEnkaiEntei() 
 		{
 			super(ListAttributes.DAIENKAIENTEI); 
+		}
+		
+		public void duringCharging(EntityPlayer player, int currentCharge)
+		{
+			WyNetworkHelper.sendTo(new PacketPlayer("particles_daienkaiCharge"), (EntityPlayerMP) player);
 		}
 		
 		public void endCharging(EntityPlayer player)
@@ -110,7 +120,7 @@ public class MeraAbilities
 					
 					for(EntityLivingBase l : WyHelper.getEntitiesNear(player, 12))
 					{l.setFire(20);}
-					
+													
 					isOnCooldown = true;
 					startCooldown();
 				}

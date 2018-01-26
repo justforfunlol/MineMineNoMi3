@@ -36,7 +36,7 @@ public class CommandBelly extends CommandBase
 			if(str[0].equals("+"))
 			{
 				if(Integer.decode(str[1]) + props.getBelly() <= Values.MAX_GENERAL)
-					props.addBelly(Integer.decode(str[1]));
+					props.alterBelly(Integer.decode(str[1]));
 				else
 					props.setBelly(Values.MAX_GENERAL);
 			}
@@ -45,7 +45,7 @@ public class CommandBelly extends CommandBase
 				if(props.getBelly() - Integer.decode(str[1]) <= 0)
 					props.setBelly(0);
 				else
-					props.decBelly(Integer.decode(str[1]));		
+					props.alterBelly(-Integer.decode(str[1]));		
 			}
 			else if(str[0].equals("="))
 			{

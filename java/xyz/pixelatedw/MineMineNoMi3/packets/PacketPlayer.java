@@ -1,5 +1,8 @@
 package xyz.pixelatedw.MineMineNoMi3.packets;
 
+import java.util.Random;
+import java.util.Timer;
+
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -11,10 +14,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import xyz.pixelatedw.MineMineNoMi3.ID;
+import xyz.pixelatedw.MineMineNoMi3.abilities.CyborgAbilities;
+import xyz.pixelatedw.MineMineNoMi3.abilities.RokushikiAbilities;
+import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
 import xyz.pixelatedw.MineMineNoMi3.items.CharacterCreator;
+import xyz.pixelatedw.MineMineNoMi3.lists.ListParticleEffects;
 
 public class PacketPlayer implements IMessage
 {
@@ -57,7 +65,7 @@ public class PacketPlayer implements IMessage
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(PacketPlayer message, MessageContext ctx) 
 		{
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
 			
 			if(message.cmd.contains("motion+"))
@@ -89,6 +97,48 @@ public class PacketPlayer implements IMessage
 				player.setPositionAndRotation(message.mX, message.mY, message.mZ, player.rotationYaw, player.rotationPitch);
 			}
 			
+			if(message.cmd.equals("particles_daienkaiCharge"))
+			{
+				for (int i = 0; i < 20; i++)
+				{
+					double offsetX = (new Random().nextInt(40) + 1.0D - 20.0D) / 20.0D;
+					double offsetY = (new Random().nextInt(40) + 1.0D - 20.0D) / 20.0D;
+					double offsetZ = (new Random().nextInt(40) + 1.0D - 20.0D) / 20.0D;
+			      
+					player.worldObj.spawnParticle(EnumParticleTypes.FLAME.getParticleName(), player.posX + offsetX, player.posY + offsetY, player.posZ + offsetZ, 0.0D, 0.1D, 0.0D);
+				}		
+			}
+			if(message.cmd.equals("particles_fubukiUse"))
+			{
+				for (int i = 0; i < 1024 * 15; i++)
+				{
+					double offsetX = (new Random().nextInt(50) + 1.0D - 25.0D) / 1.0D;
+					double offsetY = (new Random().nextInt(50) + 1.0D - 25.0D) / 1.0D;
+					double offsetZ = (new Random().nextInt(50) + 1.0D - 25.0D) / 1.0D;
+			      
+					player.worldObj.spawnParticle(EnumParticleTypes.SNOW_SHOVEL.getParticleName(), player.posX + offsetX, (player.posY + offsetY) + 3, player.posZ + offsetZ, 0.0D, 0.0D, 0.0D);
+				}		
+			}
+			if(message.cmd.equals("particles_whiteLauncher"))
+			{
+				for (int i = 0; i < 20; i++)
+				{
+					double offsetX = (new Random().nextInt(20) + 1.0D - 10.0D) / 15.0D;
+					double offsetY = (new Random().nextInt(20) + 1.0D - 10.0D) / 15.0D;
+					double offsetZ = (new Random().nextInt(20) + 1.0D - 10.0D) / 15.0D;
+			      
+					player.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL.getParticleName(), player.posX + offsetX, player.posY + offsetY, player.posZ + offsetZ, 0.0D, 0.1D, 0.0D);
+				}	
+			}
+			if(message.cmd.equals("particles_test"))
+			{	
+								
+				Timer timer = new Timer(true);
+				timer.schedule(ListParticleEffects.createSphereFX(player, EnumParticleTypes.FLAME.getParticleName(), 2, 20, 2), 0);
+
+			}
+			
+			
 			return null;		
 		}
 	}
@@ -101,9 +151,23 @@ public class PacketPlayer implements IMessage
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
 	
 			if(message.cmd.equals("delete_book"))
+			{
+				if(props.getRace().equals(ID.RACE_CYBORG))
+				{
+					props.addRacialAbility(CyborgAbilities.FRESHFIRE);
+					props.addRacialAbility(CyborgAbilities.COLAOVERDRIVE);
+					props.addRacialAbility(CyborgAbilities.RADICALBEAM);
+					props.addRacialAbility(CyborgAbilities.STRONGRIGHT);
+					props.addRacialAbility(CyborgAbilities.COUPDEVENT);
+					props.setDoriki(500);
+				}
+				
 				for(ItemStack is : player.inventory.mainInventory)
 					if(is != null && is.getItem() instanceof CharacterCreator)
-						WyHelper.removeStackFromInventory(player, is);
+						WyHelper.removeStackFromInventory(player, is);	
+				
+				WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
+			}
 			if(message.cmd.equals("forcesync"))
 				WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
 			if(message.cmd.contains("msg"))

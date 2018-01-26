@@ -41,13 +41,20 @@ public class UltraCola extends ItemFood
 				{
 					props.addUltraCola();
 					props.setMaxCola(props.getMaxCola() + 15);
-					props.setCola(props.getMaxCola());
+					if(props.getCola() + 10 > props.getMaxCola())
+						props.setCola(props.getMaxCola());
+					else						
+						props.alterCola(10);
 				}
 				else
 				{
 					player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 100, 0));
 					player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 200, 0));
 					player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 200, 0));
+					if(props.getCola() <= props.getMaxCola() - 30) 
+						props.alterCola(30);
+					else 
+						props.setCola(props.getMaxCola());
 				}
 			}
 			else

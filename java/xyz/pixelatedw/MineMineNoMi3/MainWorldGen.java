@@ -70,7 +70,7 @@ public class MainWorldGen implements IWorldGenerator
 			
 			if( (biome.biomeName.equals("Ocean") || biome.biomeName.equals("Deep Ocean") ) && checkForShipSpawn(s, world, posX, posY, posZ))
 			{
-				System.out.println(s.getName() + " spawned at x:" + posX + " y:" + posY + " z:" + posZ);
+				System.out.println("[MainWorldGen-73] " + s.getName() + " spawned at x:" + posX + " y:" + posY + " z:" + posZ);
 				if(s.getName().equals("marineShip") || s.getName().equals("pyrateShip"))		
 				{
 					WySchematicHelper.build(s, world, posX, posY, posZ);

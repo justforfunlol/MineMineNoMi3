@@ -2,6 +2,7 @@ package xyz.pixelatedw.MineMineNoMi3.abilities;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -10,8 +11,10 @@ import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
 import xyz.pixelatedw.MineMineNoMi3.api.math.ISphere;
 import xyz.pixelatedw.MineMineNoMi3.api.math.Sphere;
+import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.YukiProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.packets.PacketPlayer;
 
 public class YukiAbilities 
 {
@@ -27,31 +30,28 @@ public class YukiAbilities
 		}
 		
 		public void use(final EntityPlayer player)
-		{	
-			if(!player.worldObj.isRemote)
+		{				
+			if(!isOnCooldown)
 			{
-				if(!isOnCooldown)
+				for(EntityLivingBase e : WyHelper.getEntitiesNear(player, 25))
 				{
-					for(EntityLivingBase e : WyHelper.getEntitiesNear(player, 25))
-					{
-						e.attackEntityFrom(DamageSource.causePlayerDamage(player), 10);
-						e.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 2));
-						
-						Sphere.generate((int)(int) player.posX, (int)(int) player.posY, (int)(int) player.posZ, 25, new ISphere()
-					    { 
-							public void call(int x, int y, int z)
-							{
-				    			for(int i = -4; i <= 4; i++)
-						    		if(player.worldObj.isAirBlock(x, y, z) && player.worldObj.getBlock(x, y - 1, z) != Blocks.air && player.worldObj.getBlock(x, y - 1, z) != Blocks.snow_layer)
-						    			player.worldObj.setBlock(x, y, z, Blocks.snow_layer);
-							}
-					    });
-					}
+					e.attackEntityFrom(DamageSource.causePlayerDamage(player), 8);
+					e.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 2));
 					
-					isOnCooldown = true;
-					startCooldown();
+					Sphere.generate((int)(int) player.posX, (int)(int) player.posY, (int)(int) player.posZ, 25, new ISphere()
+				    { 
+						public void call(int x, int y, int z)
+						{
+			    			for(int i = -4; i <= 4; i++)
+					    		if(player.worldObj.isAirBlock(x, y, z) && player.worldObj.getBlock(x, y - 1, z) != Blocks.air && player.worldObj.getBlock(x, y - 1, z) != Blocks.snow_layer)
+					    			player.worldObj.setBlock(x, y, z, Blocks.snow_layer);
+						}
+				    });
 				}
+				
+				WyNetworkHelper.sendTo(new PacketPlayer("particles_fubukiUse"), (EntityPlayerMP) player);
 			}
+			super.use(player);
 		}
 	}
 	

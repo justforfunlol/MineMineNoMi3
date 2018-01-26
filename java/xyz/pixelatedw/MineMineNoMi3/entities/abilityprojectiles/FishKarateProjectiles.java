@@ -18,8 +18,7 @@ public class FishKarateProjectiles
 	static
 	{
 		abilitiesClassesArray.add(new Object[] {Uchimizu.class, ListAttributes.UCHIMIZU});
-		abilitiesClassesArray.add(new Object[] {Yarinami.class, ListAttributes.YARINAMI});
-		abilitiesClassesArray.add(new Object[] {Murasame.class, ListAttributes.MURASAME});
+		abilitiesClassesArray.add(new Object[] {Soshark.class, ListAttributes.SOSHARK});
 	}
 	
 	public static class Uchimizu extends AbilityProjectile
@@ -35,30 +34,16 @@ public class FishKarateProjectiles
 			super(world, player, attr);		
 		}
 	}
-	
-	public static class Yarinami extends AbilityProjectile
+
+	public static class Soshark extends AbilityProjectile
 	{
-		public Yarinami(World world)
+		public Soshark(World world)
 		{super(world);}
 		
-		public Yarinami(World world, double x, double y, double z)
+		public Soshark(World world, double x, double y, double z)
 		{super(world, x, y, z);}
 		
-		public Yarinami(World world, EntityLivingBase player, AbilityAttribute attr) 
-		{		
-			super(world, player, attr);		
-		}
-	}
-	
-	public static class Murasame extends AbilityProjectile
-	{
-		public Murasame(World world)
-		{super(world);}
-		
-		public Murasame(World world, double x, double y, double z)
-		{super(world, x, y, z);}
-		
-		public Murasame(World world, EntityLivingBase player, AbilityAttribute attr) 
+		public Soshark(World world, EntityLivingBase player, AbilityAttribute attr) 
 		{		
 			super(world, player, attr);		
 		}

@@ -17,13 +17,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
+import xyz.pixelatedw.MineMineNoMi3.ID;
 import xyz.pixelatedw.MineMineNoMi3.MainMod;
 
 public class WyRenderHelper
 {	
 	public static void drawAbilityIcon(String iconName, int x, int y, int u, int v)
 	{
-        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(MainMod.getMineMineNoMi().getModId(), "textures/items/" + iconName + ".png"));        
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(ID.PROJECT_ID, "textures/items/" + iconName + ".png"));        
 		Tessellator tessellator = Tessellator.instance;
 	    tessellator.startDrawingQuads();    
 	    tessellator.addVertexWithUV(x			, y + v			, 0, 0.0, 1.0);

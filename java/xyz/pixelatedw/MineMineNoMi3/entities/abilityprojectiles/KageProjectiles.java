@@ -25,6 +25,7 @@ public class KageProjectiles
 	
 	static
 	{
+		abilitiesClassesArray.add(new Object[] {Tsunotokage.class, ListAttributes.TSUNOTOKAGE});
 		abilitiesClassesArray.add(new Object[] {BlackBox.class, ListAttributes.BLACKBOX});
 		abilitiesClassesArray.add(new Object[] {BrickBat.class, ListAttributes.BRICKBAT});
 	}

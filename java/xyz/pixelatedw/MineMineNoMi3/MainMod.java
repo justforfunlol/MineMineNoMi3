@@ -84,5 +84,4 @@ public class MainMod
 	}
 	
 	public static MainMod getMineMineNoMi() {return instance;}
-	public String getModId() { return "mineminenomi"; }
 }

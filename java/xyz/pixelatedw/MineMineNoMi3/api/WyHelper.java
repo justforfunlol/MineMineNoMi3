@@ -127,7 +127,7 @@ public class WyHelper
 		double d3 = 5000D;
 		
 		Vec3 vec3 = vec3d.addVector((double)f7 * d3, (double)f6 * d3, (double)f9 * d3);
-		MovingObjectPosition ray = e.worldObj.rayTraceBlocks(vec3d, vec3, false);	
+		MovingObjectPosition ray = e.worldObj.rayTraceBlocks(vec3d, vec3, false);
 
 		return ray;
 	}

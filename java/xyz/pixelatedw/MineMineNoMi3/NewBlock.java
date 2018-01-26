@@ -14,6 +14,6 @@ public class NewBlock extends Block
 
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		this.blockIcon = reg.registerIcon(MainMod.getMineMineNoMi().getModId() + ":" + this.getUnlocalizedName().substring(5));
+		this.blockIcon = reg.registerIcon(ID.PROJECT_ID + ":" + this.getUnlocalizedName().substring(5));
 	}
 }

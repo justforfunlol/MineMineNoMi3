@@ -4,11 +4,14 @@ import xyz.pixelatedw.MineMineNoMi3.EnumFruitType;
 import xyz.pixelatedw.MineMineNoMi3.Values;
 import xyz.pixelatedw.MineMineNoMi3.abilities.BaneAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.BomuAbilities;
+import xyz.pixelatedw.MineMineNoMi3.abilities.CyborgAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.DokuAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.DoruAbilities;
+import xyz.pixelatedw.MineMineNoMi3.abilities.FishKarateAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.GasuAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.GoroAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.GuraAbilities;
+import xyz.pixelatedw.MineMineNoMi3.abilities.HakiAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.HieAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.ItoAbilities;
 import xyz.pixelatedw.MineMineNoMi3.abilities.KageAbilities;
@@ -28,8 +31,10 @@ import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.extra.AbilityManager;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.BaneProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.BomuProjectiles;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.CyborgProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.DokuProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.DoruProjectiles;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.FishKarateProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.GasuProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.GoroProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.GuraProjectiles;
@@ -63,14 +68,14 @@ public class ListDevilFruits
 		{RokushikiAbilities.abilitiesArray, MeraAbilities.abilitiesArray, HieAbilities.abilitiesArray, BaneAbilities.abilitiesArray, PikaAbilities.abilitiesArray, SukeAbilities.abilitiesArray, 
 				OpeAbilities.abilitiesArray, GoroAbilities.abilitiesArray, MokuAbilities.abilitiesArray, NikyuAbilities.abilitiesArray, BomuAbilities.abilitiesArray, GuraAbilities.abilitiesArray,
 				KageAbilities.abilitiesArray, SunaAbilities.abilitiesArray, MaguAbilities.abilitiesArray, DoruAbilities.abilitiesArray, DokuAbilities.abilitiesArray, GasuAbilities.abilitiesArray,
-				YukiAbilities.abilitiesArray, ItoAbilities.abilitiesArray};
+				YukiAbilities.abilitiesArray, ItoAbilities.abilitiesArray, FishKarateAbilities.abilitiesArray, HakiAbilities.abilitiesArray, CyborgAbilities.abilitiesArray};
 	
 	public static final Object[] ALL_ENTITIES = new Object[] 
 		{RokushikiProjectiles.abilitiesClassesArray, MeraProjectiles.abilitiesClassesArray, HieProjectiles.abilitiesClassesArray, BaneProjectiles.abilitiesClassesArray, PikaProjectiles.abilitiesClassesArray, 
 				NoroProjectiles.abilitiesClassesArray, SukeProjectiles.abilitiesClassesArray, OpeProjectiles.abilitiesClassesArray, GoroProjectiles.abilitiesClassesArray, MokuProjectiles.abilitiesClassesArray, 
 				NikyuProjectiles.abilitiesClassesArray, BomuProjectiles.abilitiesClassesArray, GuraProjectiles.abilitiesClassesArray, KageProjectiles.abilitiesClassesArray, SunaProjectiles.abilitiesClassesArray,
 				MaguProjectiles.abilitiesClassesArray, DoruProjectiles.abilitiesClassesArray, DokuProjectiles.abilitiesClassesArray, GasuProjectiles.abilitiesClassesArray, YukiProjectiles.abilitiesClassesArray,
-				ItoProjectiles.abilitiesClassesArray};
+				ItoProjectiles.abilitiesClassesArray, FishKarateProjectiles.abilitiesClassesArray, CyborgProjectiles.abilitiesClassesArray};
 	
 	public static void init() 
 	{

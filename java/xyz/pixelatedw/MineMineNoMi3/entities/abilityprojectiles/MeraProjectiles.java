@@ -1,11 +1,16 @@
 package xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFireworkSparkFX;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
+import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityAttribute;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityProjectile;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
@@ -25,6 +30,8 @@ public class MeraProjectiles
 	
 	public static class Hiken extends AbilityProjectile
 	{
+		private Random r = new Random();
+		
 		public Hiken(World world)
 		{super(world);}
 		
@@ -35,6 +42,22 @@ public class MeraProjectiles
 		{		
 			super(world, player, attr);		
 		}
+		
+		public void onUpdate()
+		{				
+			for (int i = 0; i < 25; i++)
+			{
+				double offsetX = (new Random().nextInt(50) + 1.0D - 25.0D) / 30.0D;
+				double offsetY = (new Random().nextInt(50) + 1.0D - 25.0D) / 30.0D;
+				double offsetZ = (new Random().nextInt(50) + 1.0D - 25.0D) / 30.0D;
+		      
+				this.worldObj.spawnParticle(EnumParticleTypes.FLAME.getParticleName(), this.posX + offsetX, this.posY + offsetY, this.posZ + offsetZ, 0.0D, 0.03D, 0.0D);
+				this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL.getParticleName(), this.posX + offsetX, this.posY + offsetY, this.posZ + offsetZ, 0.0D, 0.03D, 0.0D);
+			}
+			
+			super.onUpdate();
+		}
+		
 	}
 	
 	public static class Higan extends AbilityProjectile
@@ -54,6 +77,14 @@ public class MeraProjectiles
 		{
 			this.worldObj.setBlock((int)this.posX, (int)this.posY, (int)this.posZ, Blocks.fire);
 		};
+		
+		public void onUpdate()
+		{	
+			this.worldObj.spawnParticle(EnumParticleTypes.FLAME.getParticleName(), this.posX, this.posY, this.posZ, 0.0D, 0.03D, 0.0D);
+			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL.getParticleName(), this.posX, this.posY, this.posZ, 0.0D, 0.03D, 0.0D);
+			
+			super.onUpdate();
+		}
 	}
 	
 	public static class DaiEnkaiEntei extends AbilityProjectile
@@ -67,6 +98,21 @@ public class MeraProjectiles
 		public DaiEnkaiEntei(World world, EntityLivingBase player, AbilityAttribute attr) 
 		{		
 			super(world, player, attr);		
+		}
+		
+		public void onUpdate()
+		{	
+			for (int i = 0; i < 50; i++)
+			{
+				double offsetX = (new Random().nextInt(40) + 2.0D - 20.0D) / 10.0D;
+				double offsetY = (new Random().nextInt(40) + 2.0D - 20.0D) / 10.0D;
+				double offsetZ = (new Random().nextInt(40) + 2.0D - 20.0D) / 10.0D;
+		      
+				this.worldObj.spawnParticle(EnumParticleTypes.FLAME.getParticleName(), this.posX + offsetX, this.posY + offsetY, this.posZ + offsetZ, 0.0D, 0.03D, 0.0D);
+				this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL.getParticleName(), this.posX + offsetX, this.posY + offsetY, this.posZ + offsetZ, 0.0D, 0.03D, 0.0D);
+			}
+			
+			super.onUpdate();
 		}
 	}
 	
@@ -90,6 +136,20 @@ public class MeraProjectiles
 
 			this.worldObj.setBlock((int)this.posX, (int)this.posY, (int)this.posZ, Blocks.fire);
 		};
+		
+		public void onUpdate()
+		{	
+			for (int i = 0; i < 25; i++)
+			{
+				double offsetX = (new Random().nextInt(10) + 1.0D - 5.0D) / 10.0D;
+				double offsetY = (new Random().nextInt(10) + 1.0D - 5.0D) / 10.0D;
+				double offsetZ = (new Random().nextInt(10) + 1.0D - 5.0D) / 10.0D;
+		      
+				this.worldObj.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY.getParticleName(), this.posX + offsetX, this.posY + offsetY, this.posZ + offsetZ, 0.0D, 0.05D, 0.0D);
+			}
+			
+			super.onUpdate();
+		}
 	}
 	
 	public static class Jujika extends AbilityProjectile

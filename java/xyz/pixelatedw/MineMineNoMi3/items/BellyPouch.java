@@ -33,7 +33,7 @@ public class BellyPouch extends Item
 			
 			if(props.getBelly() <= Values.MAX_GENERAL - amount)
 			{
-				props.addBelly(amount);
+				props.alterBelly(amount);
 				WyHelper.sendMsgToPlayer(player, "You've obtained " + amount + " belly !");
 				WyHelper.removeStackFromInventory(player, itemStack);
 			}

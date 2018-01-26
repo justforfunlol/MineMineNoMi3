@@ -1,14 +1,17 @@
 package xyz.pixelatedw.MineMineNoMi3.abilities;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper.Direction;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
+import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.RokushikiProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.packets.PacketPlayer;
 
 public class RokushikiAbilities 
 {
@@ -49,20 +52,26 @@ public class RokushikiAbilities
 		{
 			Direction dir = WyHelper.get8Directions(player);
 			
+			double mX = 0;
+			double mY = 0;
+			double mZ = 0;
+			
 			if(player.onGround)
-				player.motionY += 1.7;
+				mY += 1.7;
 			else
-				player.motionY += 1.86;
+				mY += 1.86;
 
-			if(dir == WyHelper.Direction.NORTH) player.motionZ -= 1;
-			if(dir == WyHelper.Direction.NORTH_WEST) {player.motionZ -= 1;player.motionX -= 1;}
-			if(dir == WyHelper.Direction.SOUTH) player.motionZ += 1;
-			if(dir == WyHelper.Direction.NORTH_EAST) {player.motionZ -= 1;player.motionX += 1;}
-			if(dir == WyHelper.Direction.WEST) player.motionX -= 1;
-			if(dir == WyHelper.Direction.SOUTH_WEST) {player.motionZ += 1;player.motionX -= 1;}
-			if(dir == WyHelper.Direction.EAST) player.motionX += 1;
-			if(dir == WyHelper.Direction.SOUTH_EAST) {player.motionZ += 1;player.motionX += 1;}
-							
+			if(dir == WyHelper.Direction.NORTH) mZ -= 1;
+			if(dir == WyHelper.Direction.NORTH_WEST) {mZ -= 1; mX -= 1;}
+			if(dir == WyHelper.Direction.SOUTH) mZ += 1;
+			if(dir == WyHelper.Direction.NORTH_EAST) {mZ -= 1; mX += 1;}
+			if(dir == WyHelper.Direction.WEST) mX -= 1;
+			if(dir == WyHelper.Direction.SOUTH_WEST) {mZ += 1; mX -= 1;}
+			if(dir == WyHelper.Direction.EAST) mX += 1;
+			if(dir == WyHelper.Direction.SOUTH_EAST) {mZ += 1; mX += 1;}
+			
+			motion("=", mX, mY, mZ, player);
+			
 			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ, 0, 0, 0);
 				
 			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX + 0.2, (int) player.posY, (int) player.posZ + 0.2, 0, 0, 0);
@@ -84,6 +93,11 @@ public class RokushikiAbilities
 		};
 	}
 	
+	private static void motion(String c, double x, double y, double z, EntityPlayer p)
+	{
+		WyNetworkHelper.sendTo(new PacketPlayer("motion" + c, x, y, z), (EntityPlayerMP) p);
+	}
+		
 	public static class Rankyaku extends Ability
 	{
 		public Rankyaku() 

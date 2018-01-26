@@ -20,7 +20,6 @@ public class Values
 	public static List<Object[]> customDFs = new ArrayList();
 	
 	public static final int MAX_DORIKI = 10000;
-	public static final int MAX_COLA = 100;
 	public static final int MAX_ULTRACOLA = 10;
 	public static final int MAX_GENERAL = 999999999; //Used by Bounty, Reputation, Belly & Extol
 	public static final int MAX_CREW = 50;

@@ -8,6 +8,7 @@ import xyz.pixelatedw.MineMineNoMi3.events.EventExtendedProperties;
 import xyz.pixelatedw.MineMineNoMi3.events.EventsDrops;
 import xyz.pixelatedw.MineMineNoMi3.events.EventsEnchantments;
 import xyz.pixelatedw.MineMineNoMi3.events.EventsMenus;
+import xyz.pixelatedw.MineMineNoMi3.events.EventsParticles;
 import xyz.pixelatedw.MineMineNoMi3.events.EventsPersistence;
 import xyz.pixelatedw.MineMineNoMi3.gui.GUICombatMode;
 
@@ -21,7 +22,8 @@ public class ListForge
 		MinecraftForge.EVENT_BUS.register(new EventsEnchantments());
 		MinecraftForge.EVENT_BUS.register(new EventsMenus());
 		MinecraftForge.EVENT_BUS.register(new EventsPersistence());
-		//FMLCommonHandler.instance().bus().register(new EventTicks());  
+		
+		FMLCommonHandler.instance().bus().register(new EventsParticles());  
 		
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
 		{
