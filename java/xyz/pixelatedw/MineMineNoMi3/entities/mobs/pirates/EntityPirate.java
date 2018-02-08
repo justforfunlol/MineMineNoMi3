@@ -36,4 +36,7 @@ public class EntityPirate extends PirateData
 	{
 		return new double[] {0, 0, -0.1};
 	}
+	
+	public int getDorikiPower() { return this.worldObj.rand.nextInt(3) + 1; }
+	public int getBellyInPockets() { return this.worldObj.rand.nextInt(10) + 1; }
 }

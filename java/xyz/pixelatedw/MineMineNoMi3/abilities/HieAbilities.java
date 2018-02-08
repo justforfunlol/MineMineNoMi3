@@ -37,14 +37,17 @@ public class HieAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			for (int i = -20; i < 20; i++) 
-			for (int j = -10; j < 10; j++) 
-			for (int k = -20; k < 20; k++)
-				if(!player.worldObj.isAirBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) && player.worldObj.getBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) != ListMisc.Ope
-						&& player.worldObj.getBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) != ListMisc.OpeMid && player.worldObj.getBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) != Blocks.bedrock)
-					player.worldObj.setBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k, Blocks.packed_ice);	
-			
-			super.use(player);
+			if(!this.isOnCooldown)
+			{
+				for (int i = -20; i < 20; i++) 
+				for (int j = -10; j < 10; j++) 
+				for (int k = -20; k < 20; k++)
+					if(!player.worldObj.isAirBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) && player.worldObj.getBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) != ListMisc.Ope
+							&& player.worldObj.getBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) != ListMisc.OpeMid && player.worldObj.getBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) != Blocks.bedrock)
+						player.worldObj.setBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k, Blocks.packed_ice);
+				
+				super.use(player);
+			}
 		};	
 	}
 	
@@ -85,11 +88,14 @@ public class HieAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			for(EntityLivingBase l : WyHelper.getEntitiesNear(player, 25))
+			if(!this.isOnCooldown)
 			{
-				WyHelper.createCube(l, new int[] {2, 4, 2}, Blocks.packed_ice);
+				for(EntityLivingBase l : WyHelper.getEntitiesNear(player, 25))
+				{
+					WyHelper.createCube(l, new int[] {2, 4, 2}, Blocks.packed_ice);
+				}
+				super.use(player);
 			}
-			super.use(player);
 		};	
 	}
 	

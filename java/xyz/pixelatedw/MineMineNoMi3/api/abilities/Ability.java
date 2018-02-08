@@ -1,11 +1,17 @@
 package xyz.pixelatedw.MineMineNoMi3.api.abilities;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
+import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.MeraProjectiles;
+import xyz.pixelatedw.MineMineNoMi3.packets.PacketPlayer;
 
 public class Ability 
 {
@@ -13,7 +19,7 @@ public class Ability
 	protected AbilityProjectile projectile;
 	protected AbilityAttribute attr;
 	protected boolean isOnCooldown = false, isCharging = false, isRepeating = false, passiveActive = false;
-	private int ticksForCooldown, ticksForCharge, ticksForRepeater;
+	private int ticksForCooldown, ticksForCharge, ticksForRepeater, slotId = -1;
 	
 	public Ability(AbilityAttribute attr)
 	{
@@ -21,6 +27,16 @@ public class Ability
 		ticksForCooldown = attr.getAbilityCooldown();
 		ticksForCharge = attr.getAbilityCharges();
 		ticksForRepeater = attr.getAbilityCooldown();
+	}
+	
+	public void setSlotId(int slot)
+	{
+		this.slotId = slot;
+	}
+	
+	public int getSlotId()
+	{
+		return this.slotId;
 	}
 	
 	public AbilityAttribute getAttribute() { return attr; }
@@ -50,6 +66,8 @@ public class Ability
 			if(!(this.attr.getAbilityCharges() > 0) && this.attr.getAbilityExplosionPower() > 0)
 				player.worldObj.newExplosion(player, player.posX, player.posY, player.posZ, this.attr.getAbilityExplosionPower(), this.attr.canAbilityExplosionSetFire(), this.attr.canAbilityExplosionDestroyBlocks());		
 			
+			if(!player.getDisplayName().equals(FMLCommonHandler.instance().getMinecraftServerInstance().getServerOwner()))	
+				WyNetworkHelper.sendTo(new PacketPlayer("clientUpdateIsCooldown" + this.getAttribute().getAttributeName(), true), (EntityPlayerMP) player);
 			startCooldown();
 		}
 	}
@@ -66,6 +84,8 @@ public class Ability
 		if(passiveActive)
 		{
 			passiveActive = false;
+			if(!player.getDisplayName().equals(FMLCommonHandler.instance().getMinecraftServerInstance().getServerOwner()))
+				WyNetworkHelper.sendTo(new PacketPlayer("clientUpdateIsPassive" + this.getAttribute().getAttributeName(), false), (EntityPlayerMP) player);
 			if(this.attr.getPotionEffectsForUser() != null)
 				for(PotionEffect p : this.attr.getPotionEffectsForUser())	
 					player.removePotionEffect(p.getPotionID());
@@ -75,6 +95,8 @@ public class Ability
 		else
 		{
 			passiveActive = true;
+			if(!player.getDisplayName().equals(FMLCommonHandler.instance().getMinecraftServerInstance().getServerOwner()))
+				WyNetworkHelper.sendTo(new PacketPlayer("clientUpdateIsPassive" + this.getAttribute().getAttributeName(), true), (EntityPlayerMP) player);
 			if(this.attr.getPotionEffectsForUser() != null)
 				for(PotionEffect p : this.attr.getPotionEffectsForUser())				
 					player.addPotionEffect(new PotionEffect(p.getPotionID(), Integer.MAX_VALUE, p.getAmplifier(), true));
@@ -91,6 +113,23 @@ public class Ability
 	{
 		return this.passiveActive;
 	}
+
+	public void setPassiveActive(boolean b)
+	{
+		this.passiveActive = b;
+	}
+	
+	public void setChargeActive(boolean b)
+	{
+		this.isCharging = b;
+	}
+	
+	public void setCooldownActive(boolean b)
+	{
+		this.isOnCooldown = b;
+	}
+	
+	
 	
 	public void duringCharging(EntityPlayer player, int currentCharge)
 	{
@@ -100,7 +139,11 @@ public class Ability
 	public void startCharging(EntityPlayer player)
 	{
 		if(!isOnCooldown)
+		{
 			isCharging = true;
+			if(!player.getDisplayName().equals(FMLCommonHandler.instance().getMinecraftServerInstance().getServerOwner()))
+				WyNetworkHelper.sendTo(new PacketPlayer("clientUpdateIsCharging" + this.getAttribute().getAttributeName(), true), (EntityPlayerMP) player);
+		}
 	}
 	
 	public void endCharging(EntityPlayer player)
@@ -112,7 +155,13 @@ public class Ability
 		{
 			player.worldObj.spawnEntityInWorld(projectile);
 		}
+		
 
+		if(!player.getDisplayName().equals(FMLCommonHandler.instance().getMinecraftServerInstance().getServerOwner()))
+		{
+			WyNetworkHelper.sendTo(new PacketPlayer("clientUpdateIsCharging" + this.getAttribute().getAttributeName(), false), (EntityPlayerMP) player);
+			WyNetworkHelper.sendTo(new PacketPlayer("clientUpdateIsCooldown" + this.getAttribute().getAttributeName(), true), (EntityPlayerMP) player);
+		}
 		startCooldown();
 	}
 	
@@ -163,6 +212,8 @@ public class Ability
 			{
 				ticksForCooldown = this.attr.getAbilityCooldown();
 				isOnCooldown = false;
+				if(!player.getDisplayName().equals(FMLCommonHandler.instance().getMinecraftServerInstance().getServerOwner()))
+					WyNetworkHelper.sendTo(new PacketPlayer("clientUpdateIsCooldown" + this.getAttribute().getAttributeName(), false), (EntityPlayerMP) player);
 			}
 		}
 		if(isCharging)

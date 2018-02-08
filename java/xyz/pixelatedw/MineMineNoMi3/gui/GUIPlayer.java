@@ -37,13 +37,13 @@ public class GUIPlayer extends GuiScreen
 		int posX = (this.width - 256) / 2;
 		int posY = (this.height - 256) / 2;
 		
-		if(!props.getRace().equals(ID.RACE_CYBORG))
-			mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "DORIKI: " + EnumChatFormatting.RESET + "" + props.getDoriki(), posX - 30, posY + 70, -1);
-		else
-			mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "COLA: " + EnumChatFormatting.RESET + "" + props.getCola() + " / " + props.getMaxCola(), posX - 30, posY + 70, -1) ;
+		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "COLA: " + EnumChatFormatting.RESET + "" + props.getCola() + " / " + props.getMaxCola(), posX - 30, posY + 50, -1) ;
+		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "DORIKI: " + EnumChatFormatting.RESET + "" + props.getDoriki(), posX - 30, posY + 70, -1);
 		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "FACTION: " + EnumChatFormatting.RESET + "" + props.getFaction(), posX - 30, posY + 90, -1);
 		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "RACE: " + EnumChatFormatting.RESET + "" + props.getRace(), posX - 30, posY + 110, -1);
-		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "ROLE: " + EnumChatFormatting.RESET + "" + props.getJob(), posX - 30, posY + 130, -1);
+		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "FIGHTING ", posX - 30, posY + 130, -1);
+		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + "STYLE ", posX - 5, posY + 140, -1);
+		mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + ": "+ EnumChatFormatting.RESET + "" + props.getFightStyle(), posX + 35, posY + 135, -1);
 
 		if(props.getBelly() > 0)
 		{
@@ -64,10 +64,28 @@ public class GUIPlayer extends GuiScreen
 			String model = "";
 			if(props.getUsedFruit().equals("ushiushibison"))
 				model = "bison";
+
+			ItemStack yamiFruit = new ItemStack(GameRegistry.findItem(ID.PROJECT_ID, "yamiyaminomi"));
+			ItemStack df;
+			if(!props.getUsedFruit().equals("yamidummy"))
+			{
+				df = new ItemStack(GameRegistry.findItem(ID.PROJECT_ID, props.getUsedFruit().replace(model, "") + "nomi" + model));
+				
+				if(props.hasYamiPower())
+					mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + yamiFruit.getDisplayName() + " + " + df.getDisplayName(), posX - 28, posY + 194, -1);
+				else
+					mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + df.getDisplayName(), posX - 28, posY + 194, -1);
+				
+				if(props.hasYamiPower())
+					this.drawItemStack(yamiFruit, posX - 56, posY + 187, "");
+				this.drawItemStack(df, posX - 50, posY + 190, "");
+			}
+			else
+			{
+				mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + yamiFruit.getDisplayName(), posX - 28, posY + 194, -1);
+				this.drawItemStack(yamiFruit, posX - 50, posY + 190, "");
+			}
 			
-			ItemStack df = new ItemStack(GameRegistry.findItem(ID.PROJECT_ID, props.getUsedFruit().replace(model, "") + "nomi" + model));
-			mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + df.getDisplayName(), posX - 28, posY + 194, -1);
-			this.drawItemStack(df, posX - 50, posY + 190, "");
 		}
 		 
 		WyRenderHelper.drawEntityOnScreen(posX + 140, posY + 180 , 68, 0, 0, this.player);

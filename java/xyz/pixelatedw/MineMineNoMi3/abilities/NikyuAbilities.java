@@ -1,5 +1,7 @@
 package xyz.pixelatedw.MineMineNoMi3.abilities;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+
 import net.minecraft.entity.player.EntityPlayer;
 import xyz.pixelatedw.MineMineNoMi3.abilities.MokuAbilities.WhiteLauncher;
 import xyz.pixelatedw.MineMineNoMi3.abilities.MokuAbilities.WhiteOut;
@@ -24,8 +26,8 @@ public class NikyuAbilities
 		
 		public void use(EntityPlayer player)
 		{		
-			super.use(player);
-			WyHelper.sendMsgToPlayer(player, "NOT YET IMPLEMENTED");
+			WyHelper.sendMsgToPlayer(player, ChatFormatting.RED + "NOT YET IMPLEMENTED");
+			//super.use(player);
 		}
 	}
 	

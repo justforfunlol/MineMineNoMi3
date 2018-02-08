@@ -9,6 +9,7 @@ import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityProjectile;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.HieProjectiles.IceBall;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.HieProjectiles.IceBlockPartisan;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.lists.ListExtraAttributes;
 
 public class GoroProjectiles 
 {
@@ -17,10 +18,25 @@ public class GoroProjectiles
 	
 	static
 	{
+		abilitiesClassesArray.add(new Object[] {ElThorThunder.class, ListExtraAttributes.ELTHORTHUNDER});
 		abilitiesClassesArray.add(new Object[] {Sango.class, ListAttributes.SANGO});
 		abilitiesClassesArray.add(new Object[] {Raigo.class, ListAttributes.RAIGO});
 		abilitiesClassesArray.add(new Object[] {VoltVari.class, ListAttributes.VOLTVARI});
 	}
+	
+	public static class ElThorThunder extends AbilityProjectile
+	{
+		public ElThorThunder(World world)
+		{super(world);}
+		
+		public ElThorThunder(World world, double x, double y, double z)
+		{super(world, x, y, z);}
+		
+		public ElThorThunder(World world, EntityLivingBase player, AbilityAttribute attr) 
+		{		
+			super(world, player, attr);		
+		}
+	}	
 	
 	public static class Sango extends AbilityProjectile
 	{

@@ -65,8 +65,8 @@ public class MainMod
 		
 		proxy.init();
 		
-		//if(WyDebug.isDebug())
-		//	WyHelper.generateLangFiles();
+		if(WyDebug.isDebug())
+			WyHelper.generateLangFiles();
 	}
 	
 	@EventHandler

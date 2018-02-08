@@ -18,7 +18,7 @@ public class BaneAbilities
 {
 
 	public static Ability[] abilitiesArray = new Ability[] {new SpringDeathKnock(), new SpringSnipe(), new SpringHopper()};
-	
+	 
 	public static class SpringDeathKnock extends Ability
 	{
 		public SpringDeathKnock() 

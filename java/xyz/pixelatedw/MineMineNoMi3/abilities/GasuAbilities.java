@@ -39,8 +39,7 @@ public class GasuAbilities
 						e.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1000, 2));
 					}
 					
-					isOnCooldown = true;
-					startCooldown();
+					super.use(player);
 				}
 			}
 		} 

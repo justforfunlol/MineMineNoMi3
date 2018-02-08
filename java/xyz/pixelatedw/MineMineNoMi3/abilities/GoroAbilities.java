@@ -2,11 +2,16 @@ package xyz.pixelatedw.MineMineNoMi3.abilities;
 
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.MovingObjectPosition;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
+import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.GoroProjectiles;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.GoroProjectiles.ElThorThunder;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.lists.ListExtraAttributes;
+import xyz.pixelatedw.MineMineNoMi3.packets.PacketPlayer;
 
 public class GoroAbilities
 {
@@ -22,23 +27,22 @@ public class GoroAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			MovingObjectPosition mop = WyHelper.rayTrace(player);
-			
-			if(mop != null)
+			if(!this.isOnCooldown)
 			{
-				double i = mop.blockX;
-				double j = mop.blockY;
-				double k = mop.blockZ;
-					
-				if(!player.worldObj.isRemote)      		 
+				MovingObjectPosition mop = WyHelper.rayTraceBlocks(player);	
+				
+				if(mop != null)
+				{
+					double i = mop.blockX;
+					double j = mop.blockY;
+					double k = mop.blockZ;
+
+					WyNetworkHelper.sendTo(new PacketPlayer("ElThorThunder", i, j, k), (EntityPlayerMP) player);
 					player.worldObj.newExplosion(new EntityLightningBolt(player.worldObj, i, j, k), i, j, k, 6, true, true);
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i, j, k));
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i+1, j, k));
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i, j, k+1));
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i-1, j, k));
-				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i, j, k-1));
-			}
-			super.use(player);
+				}		
+				
+				super.use(player);
+			}	
 		} 
 	}
 	

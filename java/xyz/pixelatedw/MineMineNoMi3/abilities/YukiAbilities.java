@@ -50,8 +50,8 @@ public class YukiAbilities
 				}
 				
 				WyNetworkHelper.sendTo(new PacketPlayer("particles_fubukiUse"), (EntityPlayerMP) player);
+				super.use(player);
 			}
-			super.use(player);
 		}
 	}
 	
@@ -64,26 +64,22 @@ public class YukiAbilities
 		
 		public void use(EntityPlayer player)
 		{	
-			if(!player.worldObj.isRemote)
+			if(!isOnCooldown)
 			{
-				if(!isOnCooldown)
+				if(WyHelper.rayTraceBlocks(player).entityHit != null && WyHelper.rayTraceBlocks(player).entityHit instanceof EntityLivingBase)
 				{
-					if(WyHelper.rayTrace(player).entityHit != null && WyHelper.rayTrace(player).entityHit instanceof EntityLivingBase)
-					{
-						WyHelper.createSphere(WyHelper.rayTrace(player).entityHit, 4, Blocks.snow);
-						WyHelper.createSphere(WyHelper.rayTrace(player).entityHit, 6, Blocks.snow);
-						WyHelper.createSphere(WyHelper.rayTrace(player).entityHit, 8, Blocks.snow);
-					}
-					else
-					{
-						WyHelper.createSphere(player, 4, Blocks.snow);
-						WyHelper.createSphere(player, 6, Blocks.snow);
-						WyHelper.createSphere(player, 8, Blocks.snow);
-					}
-					
-					isOnCooldown = true;
-					startCooldown();
+					WyHelper.createSphere(WyHelper.rayTraceBlocks(player).entityHit, 4, Blocks.snow);
+					WyHelper.createSphere(WyHelper.rayTraceBlocks(player).entityHit, 6, Blocks.snow);
+					WyHelper.createSphere(WyHelper.rayTraceBlocks(player).entityHit, 8, Blocks.snow);
 				}
+				else
+				{
+					WyHelper.createSphere(player, 4, Blocks.snow);
+					WyHelper.createSphere(player, 6, Blocks.snow);
+					WyHelper.createSphere(player, 8, Blocks.snow);
+				}	
+				
+				super.use(player);
 			}
 		}
 	}
@@ -111,18 +107,14 @@ public class YukiAbilities
 		
 		public void use(EntityPlayer player)
 		{	
-			if(!player.worldObj.isRemote)
+			if(!isOnCooldown)
 			{
-				if(!isOnCooldown)
-				{
-					if(WyHelper.rayTrace(player).entityHit != null && WyHelper.rayTrace(player).entityHit instanceof EntityLivingBase)
-						WyHelper.createSphere(WyHelper.rayTrace(player).entityHit, 4, Blocks.snow);
-					else
-						WyHelper.createSphere(player, 4, Blocks.snow);
-					
-					isOnCooldown = true;
-					startCooldown();
-				}
+				if(WyHelper.rayTraceBlocks(player).entityHit != null && WyHelper.rayTraceBlocks(player).entityHit instanceof EntityLivingBase)
+					WyHelper.createSphere(WyHelper.rayTraceBlocks(player).entityHit, 4, Blocks.snow);
+				else
+					WyHelper.createSphere(player, 4, Blocks.snow);
+				
+				super.use(player);
 			}
 		} 
 	}

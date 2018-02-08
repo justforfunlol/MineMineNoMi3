@@ -104,28 +104,24 @@ public class MeraAbilities
 		
 		public void use(final EntityPlayer player)
 		{
-			if(!player.worldObj.isRemote)
+			if(!isOnCooldown)
 			{
-				if(!isOnCooldown)
-				{
-					Sphere.generate((int)(int) player.posX, (int)(int) player.posY, (int)(int) player.posZ, 12, new ISphere()
-				    { 
-						public void call(int x, int y, int z)
-						{
-			    			for(int i = -3; i <= 3; i++)
-					    		if(player.worldObj.isAirBlock(x, y + i, z))
-					    			player.worldObj.setBlock(x, y + i, z, Blocks.fire);
-						}
-				    });
+				Sphere.generate((int)(int) player.posX, (int)(int) player.posY, (int)(int) player.posZ, 12, new ISphere()
+				{ 
+					public void call(int x, int y, int z)
+					{
+						for(int i = -3; i <= 3; i++)
+							if(player.worldObj.isAirBlock(x, y + i, z))
+								player.worldObj.setBlock(x, y + i, z, Blocks.fire);
+					}
+				});
 					
-					for(EntityLivingBase l : WyHelper.getEntitiesNear(player, 12))
-					{l.setFire(20);}
-													
-					isOnCooldown = true;
-					startCooldown();
-				}
+				for(EntityLivingBase l : WyHelper.getEntitiesNear(player, 12))
+				{l.setFire(20);}
+											
+				super.use(player);
 			}
-		};			
+		}	
 	}
 
 }

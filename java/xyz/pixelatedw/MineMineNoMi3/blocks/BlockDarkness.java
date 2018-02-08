@@ -1,30 +1,55 @@
 package xyz.pixelatedw.MineMineNoMi3.blocks;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
+import xyz.pixelatedw.MineMineNoMi3.api.WyHelper.Direction;
+import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
+import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
 
 
 public class BlockDarkness extends Block
-{
-	private static final AxisAlignedBB BOUNDING_BOX = AxisAlignedBB.getBoundingBox(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
-	
+{	
 	public BlockDarkness()
 	{
 		super(Material.iron);
 	} 
 
-    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) { entity.setInWeb(); }
+    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) 
+    { 
+    	if(entity instanceof EntityLivingBase)
+    	{
+	    	ExtendedEntityStats props = ExtendedEntityStats.get((EntityLivingBase) entity);	    	
+
+	    	if(!props.getUsedFruit().equals("yamiyami"))
+	    		entity.setInWeb(); 
+    	}
+    	else 
+    		entity.setInWeb();
+    }
 	
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) { return BOUNDING_BOX; }
-		
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {return WyHelper.NULL_AABB;} 
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB mask, List list, Entity entity)
+    {
+    	if(entity instanceof EntityLivingBase)
+    	{
+	    	ExtendedEntityStats props = ExtendedEntityStats.get((EntityLivingBase) entity);	    	
+
+	    	if(props.getUsedFruit().equals("yamiyami"))
+	    	{
+	    		this.setBlockBounds(0, 0, 0, 1, 1, 1);
+	    		super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+	    	}
+    	}
+	}
 	
     public void randomDisplayTick(World world, int x, int y, int z, Random rand)
     {

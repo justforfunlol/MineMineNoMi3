@@ -1,5 +1,7 @@
 package xyz.pixelatedw.MineMineNoMi3.abilities;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -39,8 +41,8 @@ public class OpeAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			WyHelper.sendMsgToPlayer(player, "NOT YET IMPLEMENTED");
-			//possible implementation using either raycasting or area of effect
+			WyHelper.sendMsgToPlayer(player, ChatFormatting.RED + "NOT YET IMPLEMENTED");
+			//possible implementation using ~~raycasting~~ turning it passive and use the hand as means to activate Mes
 			super.use(player);
 		}
 	}
@@ -61,6 +63,8 @@ public class OpeAbilities
 	
 	public static class Room extends Ability
 	{
+		private boolean canSpawnRoom = true;
+		
 		public Room() 
 		{
 			super(ListAttributes.ROOM); 
@@ -68,19 +72,29 @@ public class OpeAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			final World world = player.worldObj;
-			Sphere.generate((int)player.posX, (int)player.posY, (int)player.posZ, 20, new ISphere()
+			if(!this.isOnCooldown && canSpawnRoom)
 			{
-				public void call(int x, int y, int z)
+				final World world = player.worldObj;
+				Sphere.generate((int)player.posX, (int)player.posY, (int)player.posZ, 20, new ISphere()
 				{
-					if(world.getBlock(x, y ,z) == Blocks.air || world.getBlock(x, y ,z) == Blocks.tallgrass || world.getBlock(x, y ,z) == Blocks.leaves2 
-							|| world.getBlock(x, y ,z) == Blocks.leaves || world.getBlock(x, y ,z) == Blocks.wheat || world.getBlock(x, y ,z) == Blocks.carrots)
-						world.setBlock(x, y ,z, ListMisc.Ope);
-				}
-			});
-			player.worldObj.setBlock((int) player.posX, (int) player.posY, (int) player.posZ, ListMisc.OpeMid);
-			super.use(player);
+					public void call(int x, int y, int z)
+					{
+						if(world.getBlock(x, y ,z) == Blocks.air || world.getBlock(x, y ,z) == Blocks.tallgrass || world.getBlock(x, y ,z) == Blocks.leaves2 
+								|| world.getBlock(x, y ,z) == Blocks.leaves || world.getBlock(x, y ,z) == Blocks.wheat || world.getBlock(x, y ,z) == Blocks.carrots)
+							world.setBlock(x, y ,z, ListMisc.Ope);
+					}
+				});
+				player.worldObj.setBlock((int) player.posX, (int) player.posY, (int) player.posZ, ListMisc.OpeMid);
+				
+				canSpawnRoom = false;
+				super.use(player);
+			}	
 		} 
+		
+		public void alterSpawnFlag(boolean flag)
+		{
+			canSpawnRoom = flag;
+		}
 	}
 
 

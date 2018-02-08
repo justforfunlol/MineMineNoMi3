@@ -7,6 +7,7 @@ import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.MaguProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
 
 public class MaguAbilities 
 {
@@ -22,21 +23,16 @@ public class MaguAbilities
 		
 		public void use(EntityPlayer player)
 		{		
-			if(!player.worldObj.isRemote)
+			if(!this.isOnCooldown)
 			{
-				if(!isOnCooldown)
-				{
-					if(!player.worldObj.isRemote)
-					{
-						for(int i = -7; i < 7; i++)
-						for(int j = -5; j < 0; j++)
-						for(int k = -7; k < 7; k++)
-							player.worldObj.setBlock((int) (int) player.posX + i, (int) (int) player.posY + j, (int) (int) player.posZ + k, Blocks.flowing_lava);
-					}
-					
-					isOnCooldown = true;
-					startCooldown();
-				}
+				for (int i = -10; i < 10; i++) 
+				for (int j = -5; j < 5; j++) 
+				for (int k = -10; k < 10; k++)
+					if(!player.worldObj.isAirBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) && player.worldObj.getBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) != ListMisc.Ope
+							&& player.worldObj.getBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) != ListMisc.OpeMid && player.worldObj.getBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k) != Blocks.bedrock)
+						player.worldObj.setBlock((int) player.posX + i, (int) player.posY + j, (int) player.posZ + k, Blocks.flowing_lava);	
+				
+				super.use(player);
 			}
 		} 
 	}

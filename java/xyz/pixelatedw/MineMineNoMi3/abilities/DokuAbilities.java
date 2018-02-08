@@ -1,5 +1,7 @@
 package xyz.pixelatedw.MineMineNoMi3.abilities;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
@@ -39,7 +41,8 @@ public class DokuAbilities
 		
 		public void use(EntityPlayer player)
 		{	
-			if(!player.worldObj.isRemote)
+			WyHelper.sendMsgToPlayer(player, ChatFormatting.RED + "NOT YET IMPLEMENTED");
+			/*if(!player.worldObj.isRemote)
 			{
 				if(!isOnCooldown)
 				{
@@ -63,7 +66,7 @@ public class DokuAbilities
 					isOnCooldown = true;
 					startCooldown();
 				}
-			}
+			}*/
 		} 
 	}
 	

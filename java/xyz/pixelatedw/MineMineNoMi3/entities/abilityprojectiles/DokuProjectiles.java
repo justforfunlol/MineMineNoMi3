@@ -1,6 +1,7 @@
 package xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MovingObjectPosition;
@@ -18,6 +19,7 @@ public class DokuProjectiles
 	
 	static
 	{
+		abilitiesClassesArray.add(new Object[] {ChloroBall.class, ListAttributes.CHLOROBALL});
 		abilitiesClassesArray.add(new Object[] {Hydra.class, ListAttributes.HYDRA});
 	}
 	
@@ -35,11 +37,14 @@ public class DokuProjectiles
 		}	
 		
 		public void tasksImapct(MovingObjectPosition hit)
-		{
-			for(int i = -1; i < 1; i++)
-			for(int j = -1; j < 0; j++)
-			for(int k = -1; k < 1; k++)
-				hit.entityHit.worldObj.setBlock(hit.blockX + i, hit.blockY + j, hit.blockZ + k, ListMisc.Poison);
+		{		
+			for (int i = 0; i < 20; i++)
+			{
+				double offsetX = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
+				double offsetZ = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
+				
+				this.worldObj.setBlock((int)(this.posX + offsetX), (int)this.posY, (int)(this.posZ + offsetZ), ListMisc.Poison);
+			}
 		};
 	}
 	

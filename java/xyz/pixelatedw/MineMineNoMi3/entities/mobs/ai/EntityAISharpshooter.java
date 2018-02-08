@@ -5,6 +5,7 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.MathHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityAttribute;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityProjectile;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.ExtraProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.EntityNewMob;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListExtraAttributes;
 
@@ -73,7 +74,11 @@ public class EntityAISharpshooter extends EntityAIBase
 	    		double d2 = theEntity.getAttackTarget().boundingBox.minY + (double)(theEntity.getAttackTarget().height / 2.0F) - (theEntity.posY + (double)(theEntity.height / 2.0F));
 	    		double d3 = theEntity.getAttackTarget().posZ - theEntity.posZ;
 	
-				AbilityProjectile proj = new AbilityProjectile(theEntity.worldObj, theEntity, bullet);
+				AbilityProjectile proj;
+				if(bullet == ListExtraAttributes.NORMALBULLET) proj = new ExtraProjectiles.NormalBullet(theEntity.worldObj, theEntity, bullet);
+				else if(bullet == ListExtraAttributes.KAIROSEKIBULLET) proj = new ExtraProjectiles.KairosekiBullet(theEntity.worldObj, theEntity, bullet);
+				else proj = new ExtraProjectiles.NormalBullet(theEntity.worldObj, theEntity, bullet);
+				
 				proj.posY = theEntity.posY + (double)(theEntity.height / 2.0F) + 0.5D;
 				proj.setThrowableHeading(d1 + theEntity.getRNG().nextGaussian(), d2, d3 + theEntity.getRNG().nextGaussian(), inaccuracy, 0);
 				theEntity.worldObj.spawnEntityInWorld(proj);

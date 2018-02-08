@@ -46,8 +46,7 @@ public class DoruAbilities
 							for(int z = -5; z < 5; z++)
 						  		player.worldObj.setBlock((int) player.posX - x, ((int) player.posY + 4) + y, (int) player.posZ - z, Blocks.clay);
 					
-					isOnCooldown = true;
-					startCooldown();
+					super.use(player);
 				}
 			}
 		} 
@@ -95,8 +94,7 @@ public class DoruAbilities
 							player.worldObj.setBlock(((int) player.posX - 3) - x, (int) player.posY + y, (int) player.posZ - z, Blocks.clay);
 					}
 					
-					isOnCooldown = true;
-					startCooldown();
+					super.use(player);
 				}
 			}
 		} 

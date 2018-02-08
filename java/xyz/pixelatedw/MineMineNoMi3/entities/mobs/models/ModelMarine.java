@@ -1,14 +1,14 @@
 package xyz.pixelatedw.MineMineNoMi3.entities.mobs.models;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.MathHelper;
 
 public class ModelMarine extends ModelBiped
 {
+	protected static final double CYCLES_PER_BLOCK = 1.0D; 
+    protected int cycleIndex = 0;
+    protected float[] cycle = new float[]
+        { 45F, 33.75F, 22.5F, 11.25F, 0F, -11.25F, -22.5F, -33.75F, -45F, -45F, -33.75F, -22.5F, -11.25F, 0F, 11.25F, 22.5F, 33.75F, 45F };
 
 	public ModelMarine()
 	{
@@ -16,11 +16,20 @@ public class ModelMarine extends ModelBiped
 		this.bipedHeadwear.showModel = false;
 	}
 	
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch, float scaleFactor, Entity entityIn)
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch, float scaleFactor, Entity ent)
     {
-		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, scaleFactor, entityIn);
+		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, scaleFactor, ent);
 				
-        float f6 = MathHelper.sin(this.onGround * (float)Math.PI);
+	    //cycleIndex = (int) (ent.ticksExisted % cycle.length);     
+	    //this.bipedBody.rotateAngleY = degToRad(cycle[cycleIndex]) ;
+	    //System.out.println("cycleIndex=" + cycleIndex);   
+	    
+		/*animator.setAnim(1);
+		animator.rotate(this.bipedBody, 0, 45, 0);
+		animator.rotate(this.bipedBody, 0, 0, 0);
+		animator.rotate(this.bipedBody, 0, -45, 0);*/
+		
+        /*float f6 = MathHelper.sin(this.onGround * (float)Math.PI);
         float f7 = MathHelper.sin((1.0F - (1.0F - this.onGround) * (1.0F - this.onGround)) * (float)Math.PI);
         this.bipedRightArm.rotateAngleZ = 0.0F;
         this.bipedLeftArm.rotateAngleZ = 0.0F;
@@ -33,7 +42,12 @@ public class ModelMarine extends ModelBiped
         this.bipedRightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
         this.bipedLeftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
         //this.bipedRightArm.rotateAngleX = -((float)Math.PI / 2F);
-        //this.bipedLeftArm.rotateAngleX = -((float)Math.PI / 2F);
+        //this.bipedLeftArm.rotateAngleX = -((float)Math.PI / 2F);*/
 	}
 
+    protected float degToRad(float degrees)
+    {
+        return degrees * (float)Math.PI / 180 ;
+    }
 }
+

@@ -3,7 +3,6 @@ package xyz.pixelatedw.MineMineNoMi3.lists;
 import java.util.TimerTask;
 
 import net.minecraft.entity.player.EntityPlayer;
-import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 
 public class ListParticleEffects 
 {

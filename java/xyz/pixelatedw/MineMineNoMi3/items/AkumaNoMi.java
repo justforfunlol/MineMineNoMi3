@@ -47,19 +47,58 @@ public class AkumaNoMi extends ItemFood
 	{
 		ExtendedEntityStats props = ExtendedEntityStats.get(player);
 		
-		if(!props.getUsedFruit().equals("N/A") && !player.capabilities.isCreativeMode)
-			player.attackEntityFrom(DamageSource.wither, Float.POSITIVE_INFINITY);
-		if(props.getUsedFruit().equals("N/A"))
-			props.setUsedFruit(this.getUnlocalizedName().substring(5).replace("nomi", "").replace(":", "").replace(",", "").replace("model", ""));
-		
-		if(this.type == EnumFruitType.LOGIA)
-			props.setIsLogia(true);
-		 
-		for(Ability a : abilities)
+		if(props.hasYamiPower())
 		{
-			props.addDevilFruitAbility(a);
+			if(!props.getUsedFruit().equals("yamidummy"))
+				player.attackEntityFrom(DamageSource.wither, Float.POSITIVE_INFINITY);
+			
+			if(this.getUnlocalizedName().substring(5).replace("nomi", "").equals("yamiyami"))
+				player.attackEntityFrom(DamageSource.wither, Float.POSITIVE_INFINITY);
+			
+			props.setUsedFruit(this.getUnlocalizedName().substring(5).replace("nomi", "").replace(":", "").replace(",", "").replace("model", ""));
+			
+			if(this.type == EnumFruitType.LOGIA)
+				props.setIsLogia(true);
+			 
+			for(Ability a : abilities)
+			{
+				props.addDevilFruitAbility(a);
+			}
 		}
-	
+		else
+		{	
+			if(this.getUnlocalizedName().substring(5).replace("nomi", "").equals("yamiyami"))
+			{
+				props.setYamiPower(true);
+				if(props.getUsedFruit().equals("N/A"))
+					props.setUsedFruit("yamidummy");
+					
+				props.setIsLogia(false);
+				
+				for(Ability a : abilities)
+				{
+					props.addDevilFruitAbility(a);
+				}
+			}
+			else
+			{
+				if(!props.getUsedFruit().equals("N/A") && !props.hasYamiPower())
+					player.attackEntityFrom(DamageSource.wither, Float.POSITIVE_INFINITY);			
+				
+				if(props.getUsedFruit().equals("N/A"))				
+					props.setUsedFruit(this.getUnlocalizedName().substring(5).replace("nomi", "").replace(":", "").replace(",", "").replace("model", ""));
+
+				if(this.type == EnumFruitType.LOGIA)
+					props.setIsLogia(true);
+				 
+				for(Ability a : abilities)
+				{
+					props.addDevilFruitAbility(a);
+				}
+			}
+			
+			System.out.println(props.getUsedFruit());
+		}
 	}
 	
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4)
@@ -73,4 +112,5 @@ public class AkumaNoMi extends ItemFood
 	}
 	
 	public EnumFruitType getType() { return type; }
+
 }

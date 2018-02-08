@@ -1,5 +1,7 @@
 package xyz.pixelatedw.MineMineNoMi3.abilities;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+
 import net.minecraft.entity.player.EntityPlayer;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
@@ -34,8 +36,8 @@ public class KageAbilities
 		
 		public void use(EntityPlayer player)
 		{		
-			WyHelper.sendMsgToPlayer(player, "NOT YET IMPLEMENTED");
-			super.use(player);
+			WyHelper.sendMsgToPlayer(player, ChatFormatting.RED + "NOT YET IMPLEMENTED");
+			//super.use(player);
 		} 
 	}
 	

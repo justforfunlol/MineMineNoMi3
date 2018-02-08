@@ -8,7 +8,7 @@ import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
 
 public class EventExtendedProperties 
 {
-
+ 
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event) 
 	{

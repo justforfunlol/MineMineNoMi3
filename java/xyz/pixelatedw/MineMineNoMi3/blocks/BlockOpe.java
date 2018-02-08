@@ -25,8 +25,8 @@ public class BlockOpe extends Block
 	public boolean isOpaqueCube() {return false;}
 
     @SideOnly(Side.CLIENT)
-    public int getRenderBlockPass() { return 0; }
-
+    public int getRenderBlockPass() { return 1; }
+    
     public boolean renderAsNormalBlock() { return false; }
 	
 }

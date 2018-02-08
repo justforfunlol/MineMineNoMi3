@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,6 +12,7 @@ import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.MainKeys;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityProjectile;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.ExtraProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListExtraAttributes;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
 
@@ -41,12 +43,14 @@ public class Flintlock extends Item
 				{				
 					int b = itemStack.getTagCompound().getInteger("bullets");
 					
-					//AbilityProjectile proj = new AbilityProjectile(player.worldObj, player, (itemStack.getTagCompound().getInteger("bulletType") == 0 ? ListExtraAttributes.NORMALBULLET : ListExtraAttributes.KAIROSEKIBULLET) );
-					//proj.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0, 1.5F, 1);
-					//player.worldObj.spawnEntityInWorld(proj);
+					AbilityProjectile proj = null;
+					if(itemStack.getTagCompound().getInteger("bulletType") == 0) proj = new ExtraProjectiles.NormalBullet(player.worldObj, player, ListExtraAttributes.NORMALBULLET);
+					else if(itemStack.getTagCompound().getInteger("bulletType") == 1) proj = new ExtraProjectiles.KairosekiBullet(player.worldObj, player, ListExtraAttributes.KAIROSEKIBULLET);
+					player.worldObj.spawnEntityInWorld(proj);
 					
 					b--;
 					itemStack.getTagCompound().setInteger("bullets", b);
+					itemStack.setStackDisplayName("§rFlintlock <" + (itemStack.getTagCompound().getInteger("bulletType") == 0 ? "Normal" : "Kairoseki") + "> <" + b + ">");
 				}
 				else
 				{
@@ -60,11 +64,15 @@ public class Flintlock extends Item
 							{
 								itemStack.getTagCompound().setInteger("bullets", 16);
 								player.inventory.decrStackSize(i, 16);
+								((EntityPlayerMP)player).sendContainerToPlayer(player.inventoryContainer);
+								itemStack.setStackDisplayName("§rFlintlock <" + (itemStack.getTagCompound().getInteger("bulletType") == 0 ? "Normal" : "Kairoseki") + "> <" + 16 + ">");
 							}
 							else
 							{
 								itemStack.getTagCompound().setInteger("bullets", is.stackSize);
-								WyHelper.removeStackFromSlot(player, i);
+								WyHelper.removeStackFromInventory(player, is);
+								((EntityPlayerMP)player).sendContainerToPlayer(player.inventoryContainer);
+								itemStack.setStackDisplayName("§rFlintlock <" + (itemStack.getTagCompound().getInteger("bulletType") == 0 ? "Normal" : "Kairoseki") + "> <" + is.stackSize + ">");
 							}
 						}
 					}

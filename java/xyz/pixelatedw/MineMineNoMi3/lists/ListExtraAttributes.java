@@ -13,9 +13,11 @@ import xyz.pixelatedw.MineMineNoMi3.entities.models.ModelGomuBazooka;
 public class ListExtraAttributes
 {
 
-	public static AbilityAttribute LIBERATION_BLOCK = new AbilityAttribute("Liberation Block").setProjectileModel(new ModelCube()).setProjectileColor(Color.BLACK).setProjectileDamage(5).setProjectileSize(3, 3, 3);
+	public static AbilityAttribute LIBERATIONBLOCK = new AbilityAttribute("Liberation Block").setProjectileModel(new ModelCube()).setProjectileColor(Color.BLACK).setProjectileDamage(20).setProjectileSize(3, 3, 3);
 	 
 	public static AbilityAttribute METEOR = new AbilityAttribute("Meteor").setProjectileTicks(500).setProjectileModel(new ModelSphere()).setProjectileSize(20, 20, 20).setProjectileColor("56494B").setProjectileExplosion(13);
+	
+	public static AbilityAttribute ELTHORTHUNDER = new AbilityAttribute("El Thor Thunder").setProjectileTicks(500).setProjectileModel(new ModelCube()).setProjectileSize(60, 10, 10).setProjectileColor("77abff").setProjectileExplosion(2);
 	
 	public static AbilityAttribute GOMUGOMUNOPISTOL = new AbilityAttribute("Gomu Gomu no Pistol").setProjectileModel(new ModelCube()).setProjectileColor("F5DEB3").setProjectileSize(3, 1, 1);
 	public static AbilityAttribute GOMUGOMUNOJETPISTOL = new AbilityAttribute("Gomu Gomu no Jet Pistol").setProjectileModel(new ModelCube()).setProjectileColor("F5DEB3").setProjectileSize(3, 1, 1).setProjectileSpeed(4);

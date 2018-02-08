@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
 import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.CyborgProjectiles;
@@ -38,6 +39,8 @@ public class CyborgAbilities
 
 			if(!isOnCooldown && props.getCola() >= 100)
 				isCharging = true;
+			else if(props.getCola() < 100)
+				WyHelper.sendMsgToPlayer(player, "Not enough Cola !");
 		}
 		
 		public void duringCharging(EntityPlayer player, int currentCharge)
@@ -88,11 +91,12 @@ public class CyborgAbilities
 					this.projectile = new CyborgProjectiles.StrongRight(player.worldObj, player, attr);
 					player.worldObj.spawnEntityInWorld(projectile);
 
-					props.alterCola(-10);
-					isOnCooldown = true;
-					startCooldown();
+					props.alterCola(-10);					
 					WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
+					super.use(player);
 				}
+				else if(props.getCola() < 10)
+					WyHelper.sendMsgToPlayer(player, "Not enough Cola !");
 			}
 		}			
 	}
@@ -116,10 +120,11 @@ public class CyborgAbilities
 					player.worldObj.spawnEntityInWorld(projectile);
 
 					props.alterCola(-15);
-					isOnCooldown = true;
-					startCooldown();
 					WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
+					super.use(player);
 				}
+				else if(props.getCola() < 15)
+					WyHelper.sendMsgToPlayer(player, "Not enough Cola !");
 			}
 		}			
 	}
@@ -134,30 +139,27 @@ public class CyborgAbilities
 		public void use(EntityPlayer player)
 		{
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
-			
-			if(!player.worldObj.isRemote)
+
+			if(!this.isOnCooldown && props.getCola() >= 5)
 			{
-				if(!this.isOnCooldown && props.getCola() >= 5)
+				for (int i = 0; i < 100; i++)
 				{
-					for (int i = 0; i < 100; i++)
-					{
-						double offsetX = (new Random().nextInt(50) + 1.0D - 25.0D) / 20.0D;
-						double offsetY = (new Random().nextInt(50) + 1.0D - 25.0D) / 20.0D;
-						double offsetZ = (new Random().nextInt(50) + 1.0D - 25.0D) / 20.0D;
+					double offsetX = (new Random().nextInt(50) + 1.0D - 25.0D) / 20.0D;
+					double offsetY = (new Random().nextInt(50) + 1.0D - 25.0D) / 20.0D;
+					double offsetZ = (new Random().nextInt(50) + 1.0D - 25.0D) / 20.0D;
 						
-						this.projectile = new CyborgProjectiles.FreshFire(player.worldObj, player, attr);
-						this.projectile.setLocationAndAngles(player.posX + offsetX, player.posY + 2 + offsetY, player.posZ + offsetZ, player.cameraPitch, player.cameraYaw);
-						player.worldObj.spawnEntityInWorld(projectile);
-					}
-					
-					props.alterCola(-5);
-					isOnCooldown = true;
-					startCooldown();
-					WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
+					this.projectile = new CyborgProjectiles.FreshFire(player.worldObj, player, attr);
+					this.projectile.setLocationAndAngles(player.posX + offsetX, player.posY + 2 + offsetY, player.posZ + offsetZ, player.cameraPitch, player.cameraYaw);
+					player.worldObj.spawnEntityInWorld(projectile);
 				}
+					
+				props.alterCola(-5);
+				WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
+				super.use(player);
 			}
-			//super.use(player);
-		}		
+			else if(props.getCola() < 5)
+				WyHelper.sendMsgToPlayer(player, "Not enough Cola !");
+		}	
 	}
 	
 	public static class ColaOverdrive extends Ability
@@ -181,11 +183,12 @@ public class CyborgAbilities
 					
 					player.setHealth((float) (player.getHealth() + ((r / 100) * player.getEntityAttribute(SharedMonsterAttributes.maxHealth).getBaseValue()) ));
 					
-					isOnCooldown = true;
-					startCooldown();
 					WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
+					super.use(player);
 				}
+				else if(props.getCola() <= 0)
+					WyHelper.sendMsgToPlayer(player, "Not enough Cola !");
 			} 
-		};			
+		}		
 	}
 }

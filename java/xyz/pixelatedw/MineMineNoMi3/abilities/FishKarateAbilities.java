@@ -60,7 +60,7 @@ public class FishKarateAbilities
 			
 		public void use(EntityPlayer player)
 		{
-			MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
+			/*MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
 			
 			if(mop != null && mop.entityHit != null)
 			{			
@@ -73,10 +73,9 @@ public class FishKarateAbilities
 						//elb.attackEntityFrom(DamageSource.causePlayerDamage(player), 8);					
 					}
 				}
-			}
+			}*/
 			
-			WyHelper.sendMsgToPlayer(player, ChatFormatting.RED + ListAttributes.KACHIAGEHAISOKU.getAttributeName() + " ability is still under development. ");
-			WyHelper.sendMsgToPlayer(player, ChatFormatting.RED + "Please don't report this !");
+			WyHelper.sendMsgToPlayer(player, ChatFormatting.RED + "NOT YET IMPLEMENTED");
 			//super.use(player);
 		}
 	}
@@ -109,8 +108,8 @@ public class FishKarateAbilities
 				{
 					elb.attackEntityFrom(DamageSource.causePlayerDamage(player), 20);
 				}
-			}
-			super.use(player);
+				super.use(player);
+			}			
 		}
 	}
 }

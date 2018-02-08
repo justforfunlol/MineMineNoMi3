@@ -3,11 +3,25 @@ package xyz.pixelatedw.MineMineNoMi3;
 import net.minecraft.util.ResourceLocation;
 
 public class ID 
-{
+{ 
 	
 	public static final ResourceLocation
 	
-	SHADER_HAKI = new ResourceLocation(ID.PROJECT_ID, "shaders/haki.json"),
+	SHADER_HAKI = new ResourceLocation(ID.PROJECT_ID, "shaders/post/haki.json"),
+	
+	ICON_PIRATE = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_pirate.png"),
+	ICON_MARINE = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_marine.png"),
+	ICON_BOUNTYHUNTER = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_bountyhunter.png"),
+	
+	ICON_HUMAN = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_human.png"),
+	ICON_FISHMAN = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_fishman.png"),
+	ICON_CYBORG = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_cyborg.png"),
+	
+	ICON_SWORDSMAN = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_swordsman.png"),
+	ICON_SNIPER = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_sniper.png"),
+	ICON_MEDIC = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_medic.png"),
+	 
+	TEXTURE_STRINGS1 = new ResourceLocation(ID.PROJECT_ID, "textures/gui/gui_strings.png"),
 	TEXTURE_BOUNTYPOSTER = new ResourceLocation(ID.PROJECT_ID, "textures/gui/gui_bounty.png"),
 	TEXTURE_WIDGETS = new ResourceLocation(ID.PROJECT_ID, "textures/gui/widgets.png"),
 	TEXTURE_CURRENCIES = new ResourceLocation(ID.PROJECT_ID, "textures/gui/currencies.png"),
@@ -35,23 +49,19 @@ public class ID
 	RACE_FISHMAN = "Fishman",
 	RACE_CYBORG = "Cyborg",
 	
-	JOB_SWORDSMAN = "Swordsman",
-	JOB_SNIPER = "Sniper",
-	JOB_DOCTOR = "Doctor",
-	JOB_THIEF = "Thief",
-	JOB_ARCHAEOLOGIST = "Archaeologist",
+	FSTYLE_SWORDSMAN = "Swordsman",
+	FSTYLE_SNIPER = "Sniper",
+	FSTYLE_DOCTOR = "Doctor",
+	FSTYLE_OKAMA = "Okama",
+	FSTYLE_HASSHOKEN = "Hasshoken",
 	
 	LANG_KEYS_CATEGORY = "category.mmnmkeys", //Mine Mine no Mi Keys
 	LANG_KEY_PLAYER = "key.playerui", //Player UI
 	LANG_KEY_COMBATMODE = "key.combatmode", //Combat Mode
 	
-	ACHIEVEMENT_EPIC_EQUIPMENT = "Epic Equipment",
-	ACHIEVEMENT_OVER_9000 = "Over 9000",
-	ACHIEVEMENT_RAIDER = "Raider",
-	ACHIEVEMENT_BECOME_A_USER = "The power of the Devil",
-	ACHIEVEMENT_GREEDY = "Greedy",
-	ACHIEVEMENT_ROKUSHIKI_MASTER = "Rokushiki Master";
 	
+	
+	NULL = "null";
 	
 	public static final int 
 	

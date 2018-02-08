@@ -1,6 +1,8 @@
 package xyz.pixelatedw.MineMineNoMi3.api;
 
 import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;

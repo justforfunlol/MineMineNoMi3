@@ -6,9 +6,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import net.minecraft.block.Block;
@@ -24,7 +29,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.ID;
-import xyz.pixelatedw.MineMineNoMi3.MainMod;
 import xyz.pixelatedw.MineMineNoMi3.api.math.ISphere;
 import xyz.pixelatedw.MineMineNoMi3.api.math.Sphere;
 
@@ -36,9 +40,32 @@ public class WyHelper
 	public static AxisAlignedBB NULL_AABB = AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0);
 	
 	
-	public static void generateLangFiles()
+	public static <K extends Comparable,V extends Comparable> Map<K,V> sortAlphabetically(Map<K,V> map)
 	{
-		Set set = WyRegistry.getLangMap().entrySet();
+	    List<Map.Entry<K,V>> entries = new LinkedList<Map.Entry<K,V>>(map.entrySet());
+
+	    Collections.sort(entries, new Comparator<Map.Entry<K,V>>() 
+	    {
+	        public int compare(Entry<K, V> o1, Entry<K, V> o2) 
+	        {
+	            return o1.getKey().compareTo(o2.getKey());
+	        }
+	    });
+
+	    Map<K,V> sortedMap = new LinkedHashMap<K,V>();
+
+	    for(Map.Entry<K,V> entry: entries)
+	    {
+	        sortedMap.put(entry.getKey(), entry.getValue());
+	    }
+
+	    return sortedMap;
+	}
+	
+	public static void generateLangFiles()
+	{		
+		Map<String, String> sorted = sortAlphabetically(WyRegistry.getLangMap());
+		Set set = sorted.entrySet();
 		Iterator i = set.iterator();
 		
 		File langFolder = new File(ID.PROJECT_SOURCEFOLDER + "/assets/" + ID.PROJECT_ID + "/lang/");
@@ -59,6 +86,29 @@ public class WyHelper
 			catch(Exception e) {e.getStackTrace();}
 		}
 	}
+	
+/*	LEGACY METHOD TO GENERATE 1.8+ JSON MODELS
+	public void generateIngameModels()
+	{
+		Set set = WyPI.apiInstance.getItemsMap().entrySet();
+		Iterator i = set.iterator();
+		
+		while(i.hasNext())
+		{
+			Map.Entry entry = (Map.Entry)i.next();
+			if(entry.getKey() instanceof Item)
+			{
+				Item item = (Item) entry.getKey();
+				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(WyPI.apiInstance.getParentMod().getParentModID() + ":" + item.getUnlocalizedName().substring(5), "inventory"));
+			}
+			if(entry.getKey() instanceof Block)
+			{
+				Block block = (Block) entry.getKey();
+				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(WyPI.apiInstance.getParentMod().getParentModID() + ":" + block.getUnlocalizedName().substring(5), "inventory"));
+			}
+		}
+	}
+*/	
 	
 	public static Color hexToRGB(String hexColor)
 	{return Color.decode("#"+hexColor);} 
@@ -109,7 +159,7 @@ public class WyHelper
 		return null;
 	}
 	
-	public static MovingObjectPosition rayTrace(Entity e)
+	public static MovingObjectPosition rayTraceBlocks(Entity e)
 	{
 		float f = 1.0F;
 		float f1 = e.prevRotationPitch + (e.rotationPitch - e.prevRotationPitch) * f;
@@ -128,7 +178,7 @@ public class WyHelper
 		
 		Vec3 vec3 = vec3d.addVector((double)f7 * d3, (double)f6 * d3, (double)f9 * d3);
 		MovingObjectPosition ray = e.worldObj.rayTraceBlocks(vec3d, vec3, false);
-
+		
 		return ray;
 	}
 	

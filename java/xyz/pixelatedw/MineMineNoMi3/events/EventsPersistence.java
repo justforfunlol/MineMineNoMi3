@@ -121,42 +121,16 @@ public class EventsPersistence
 					}
 				}
 			}
-			
-			if (!props.getRace().equals(ID.RACE_CYBORG))
-			{
-				extraHP = (int) Math.log((props.getDoriki()) + 1) * 19;
 
-				if (extraHP < 20)
-					player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20);
-				else
-					player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(extraHP);
-			}
+			extraHP = (int) Math.log((props.getDoriki()) + 1) * 19;
+
+			if (extraHP < 20)
+				player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20);
 			else
-			{
-				extraHP = (int) props.getUltraColaConsumed() * 20;
-
-				if (extraHP < 20)
-					player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20);
-				else
-					player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(extraHP);
-			}
+				player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(extraHP);
 			
 			if (heldItem != null)
-			{
-				if (props.getJob().equals(ID.JOB_SWORDSMAN) && !heldItem.getItem().getItemAttributeModifiers().isEmpty()
-						&& ((AttributeModifier) Iterables.get(heldItem.getItem().getItemAttributeModifiers().get(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName()), 0)).getAmount() > 0)
-					player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2, 1, false));
-
-				if (props.getJob().equals(ID.JOB_SNIPER) && heldItem.getItemUseAction() == EnumAction.bow)
-				{
-
-				}
-
-				if (props.getJob().equals(ID.JOB_DOCTOR))
-				{
-
-				}
-				
+			{				
 				if(heldItem.getItem() == ListMisc.Umbrella && player.worldObj.getBlock((int)player.posX, (int)player.posY - 4, (int)player.posZ) == Blocks.air && !player.capabilities.isCreativeMode)
 					player.motionY = -0.05;
 				
@@ -211,6 +185,25 @@ public class EventsPersistence
 				}
 			}
 			
+			if(player.isInsideOfMaterial(Material.lava) && !player.capabilities.isCreativeMode)
+			{
+				if (props.getUsedFruit().equals("magumagu"))
+				{
+					if ((player.motionX >= 5.0D) || (player.motionZ >= 5.0D))
+					{
+						player.motionX /= 1.2D;
+						player.motionZ /= 1.2D;
+					}
+					else
+					{
+						player.motionX *= 1.2D;
+						player.motionZ *= 1.2D;
+					}
+				}
+			}
+			
+			//System.out.println("" + props.hasHakiActive() + "; " + props.getHakiTimer());
+			
 			if(props.hasHakiActive())
 				props.addHakiTimer();
 			else
@@ -238,11 +231,15 @@ public class EventsPersistence
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
 
+			props.setYamiPower(false);
+
 			for(int i = 0; i < 8; i++)
 			{
 				if(props.getAbilityFromSlot(i) != null)
 					props.getAbilityFromSlot(i).reset();
 			}
+			
+			WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
 		}
 
 		if (event.source.getEntity() instanceof EntityPlayer)
@@ -254,47 +251,70 @@ public class EventsPersistence
 			IAttributeInstance attrAtk = target.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.attackDamage);
 			IAttributeInstance attrHP = target.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth);
 
-			if (attrAtk != null && attrHP != null)
+			int rng = player.worldObj.rand.nextInt(3) + 1;
+			int plusDoriki = 0, plusBounty = 0, plusBelly = 0;		
+			
+			if (target instanceof EntityPlayer)
 			{
-				double i = attrAtk.getAttributeValue();
-				double j = attrHP.getAttributeValue();
-				int rng = player.worldObj.rand.nextInt(3) + 1;
-				int haki_rng = player.worldObj.rand.nextInt(199) + 1;
+				ExtendedEntityStats targetprops = ExtendedEntityStats.get(player);
 
-				if (target instanceof EntityPlayer)
-				{
-					ExtendedEntityStats targetprops = ExtendedEntityStats.get(player);
-
-					if (props.getDoriki() < Values.MAX_DORIKI && !props.getRace().equals(ID.RACE_CYBORG))
-						props.alterDoriki((targetprops.getDoriki() / 3) + rng);
-					if (props.getBelly() < Values.MAX_GENERAL)
-						props.alterBelly(targetprops.getBelly());
-					if ((props.getFaction().equals(ID.FACTION_PIRATE) || props.getFaction().equals(ID.FACTION_REVOLUTIONARY))
-							&& (targetprops.getFaction().equals(ID.FACTION_PIRATE) || targetprops.getFaction().equals(ID.FACTION_REVOLUTIONARY)))
-						if (props.getBounty() < Values.MAX_GENERAL)
-							props.alterBounty(targetprops.getBounty() / 2);
+				plusDoriki = (targetprops.getDoriki() / 4) + rng;
+				plusBounty = (targetprops.getBounty() / 2) + rng;
+				plusBelly = targetprops.getBelly();
+			}
+			else
+			{
+				if (props.getFaction().equals(ID.FACTION_MARINE) && target instanceof MarineData)
+					return;
+				
+				if(target instanceof EntityNewMob)
+				{				
+					plusDoriki = ((EntityNewMob) target).getDorikiPower() + rng;
+					plusBounty = (((EntityNewMob) target).getDorikiPower() * 2) + rng;	
+					plusBelly = ((EntityNewMob) target).getBellyInPockets() + rng;
 				}
 				else
 				{
-					if (props.getFaction().equals(ID.FACTION_MARINE) && target instanceof MarineData)
-						return;
+					if (attrAtk != null && attrHP != null)
+					{	
+						double i = attrAtk.getAttributeValue();
+						double j = attrHP.getAttributeValue();		
 
-					if ((int) Math.round(((i + j) / 10) / Math.PI) + rng > 0)
-						if (props.getDoriki() < Values.MAX_DORIKI && !props.getRace().equals(ID.RACE_CYBORG))
-						{
-							props.alterDoriki((int) Math.round(((i + j) / 10) / Math.PI) + rng);
-							DorikiEvent e = new DorikiEvent(player);
-							if (MinecraftForge.EVENT_BUS.post(e))
-								return;
-						}
-					if (props.getFaction().equals(ID.FACTION_PIRATE) || props.getFaction().equals(ID.FACTION_REVOLUTIONARY))
-						if ((int) Math.round((i + j) / 10) + rng > 0)
-							if (props.getBounty() < Values.MAX_GENERAL)
-								props.alterBounty((int) Math.round(((i + j) / 10) / Math.PI));
+						plusDoriki = (int) Math.round(((i + j) / 10) / Math.PI) + rng;
+						plusBounty = (int) Math.round((i + j) / 10) + rng;
+						plusBelly = 1;
+					
+					}
+					else
+					{
+						plusDoriki = 0;
+						plusBounty = 0;
+						plusBelly = 1;
+					}
 				}
-
-				WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
+					
+				if (plusDoriki > 0)
+				{
+					if (props.getDoriki() + plusDoriki < Values.MAX_DORIKI && plusDoriki > props.getDoriki() / 100)
+					{
+						props.alterDoriki(plusDoriki);
+						DorikiEvent e = new DorikiEvent(player);
+						if (MinecraftForge.EVENT_BUS.post(e))
+							return;
+					}
+				}
+					
+				if (props.getFaction().equals(ID.FACTION_PIRATE) || props.getFaction().equals(ID.FACTION_REVOLUTIONARY))
+					if (plusBounty > 0)
+						if (props.getBounty() + plusBounty < Values.MAX_GENERAL)
+							props.alterBounty(plusBounty);
+				
+				if(props.getBelly() + plusBelly < Values.MAX_GENERAL)
+					props.alterBelly(plusBelly);
+			
 			}
+			
+			WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
 		}
 	}
 
@@ -320,7 +340,7 @@ public class EventsPersistence
 			if(heldItem != null)
 			{
 				boolean hasKairosekiWeapon = heldItem.isItemEnchanted() ? EnchantmentHelper.getEnchantmentLevel(ListEffects.kairoseki.effectId, heldItem) > 0 : false;
-				boolean hasHaki = propz.hasHakiActive();
+				boolean hasHaki = propz.hasBusoHakiActive();
 	
 				if (entity instanceof EntityPlayer)
 				{
@@ -394,10 +414,10 @@ public class EventsPersistence
 
 			if (!player.worldObj.isRemote)
 			{
-				if (props.getRace().equals("N/A") && props.getFaction().equals("N/A") && props.getJob().equals("N/A") && !player.inventory.hasItemStack(new ItemStack(ListMisc.CharacterCreator)))
+				if (props.getRace().equals("N/A") && props.getFaction().equals("N/A") && props.getFightStyle().equals("N/A") && !player.inventory.hasItemStack(new ItemStack(ListMisc.CharacterCreator)))
 					player.inventory.addItemStackToInventory(new ItemStack(ListMisc.CharacterCreator, 1));
-				for (int i = 0; i < MinecraftServer.getServer().worldServers.length; i++)
-					WyNetworkHelper.sendToDimension(new PacketSync(props), i);
+				
+				WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
 			}
 		}
 	}
@@ -421,13 +441,18 @@ public class EventsPersistence
 		}
 		else if (event.props.getRace().equals(ID.RACE_FISHMAN))
 		{
-			ability(event.player, 500, FishKarateAbilities.UCHIMIZU);
+			ability(event.player, 800, FishKarateAbilities.UCHIMIZU);
 			ability(event.player, 2000, FishKarateAbilities.SOSHARK);
 			ability(event.player, 2500, FishKarateAbilities.KACHIAGEHAISOKU);
 			ability(event.player, 3000, FishKarateAbilities.SAMEHADASHOTEI);
 			ability(event.player, 4000, HakiAbilities.KENBUNSHOKUHAKI);
 			ability(event.player, 7500, FishKarateAbilities.KARAKUSAGAWARASEIKEN);
 			ability(event.player, 9000, HakiAbilities.BUSOSHOKUHAKI);
+		}
+		else if(event.props.getRace().equals(ID.RACE_CYBORG))
+		{
+			ability(event.player, 5500, HakiAbilities.KENBUNSHOKUHAKI);
+			ability(event.player, 8500, HakiAbilities.BUSOSHOKUHAKI);
 		}
 	}	
 

@@ -20,10 +20,9 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 
 	private boolean isInCombatMode = false;
 	
-	private int doriki, bounty, belly, extol, cola = 100, maxCola = 100, hakiTimer = 0, ultraCola = 0;
-	private byte gear = 1;
-	private String akumaNoMiUsed = "N/A", faction = "N/A", race = "N/A", job = "N/A", crew = "N/A";
-	private boolean isLogia, hasShadow = true, hasHeart = true, firstTime = true, hasHakiActive = false, kilo = false;
+	private int doriki, bounty, belly, extol, cola = 100, maxCola = 100, hakiTimer = 0, ultraCola = 0, gear = 1;
+	private String akumaNoMiUsed = "N/A", faction = "N/A", race = "N/A", fightStyle = "N/A", crew = "N/A", yamiAdditionalFruit = "N/A";
+	private boolean isLogia, hasShadow = true, hasHeart = true, firstTime = true, hasHakiActive = false, hasBusoHakiActive = false, hasKenHakiActive = false, kilo = false, hasYamiPower = false;
 	
 	private String[] hotbarAbilities = new String[8];
 	private String[] devilFruitAbilities = new String[16];
@@ -60,12 +59,14 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 		props.setInteger("Cola", this.cola);
 		props.setInteger("MaxCola", this.maxCola);	
 		props.setInteger("UltraCola", this.ultraCola);
+		props.setInteger("Gear", this.gear);
 		
 		props.setString("AkumaNoMi", this.akumaNoMiUsed);
 		props.setString("Faction", this.faction);
 		props.setString("Race", this.race);
-		props.setString("Job", this.job);
+		props.setString("FightStyle", this.fightStyle);
 		props.setString("Crew", this.crew);
+		props.setString("YamiFruit", this.yamiAdditionalFruit);
 		
 		props.setBoolean("isLogia", this.isLogia);
 		props.setBoolean("hasShadow", this.isLogia);
@@ -73,10 +74,11 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 		props.setBoolean("firstTime", this.firstTime);
 		props.setBoolean("hasKiloActive", this.kilo);
 		props.setBoolean("hasHakiActive", this.hasHakiActive);
+		props.setBoolean("hasBusoHakiActive", this.hasBusoHakiActive);
+		props.setBoolean("hasKenHakiActive", this.hasKenHakiActive);
+		props.setBoolean("hasYamiPower", this.hasYamiPower);
 		
-		props.setBoolean("isInCombatMode", this.isInCombatMode);
-		
-		props.setByte("Gear", this.gear);
+		props.setBoolean("isInCombatMode", this.isInCombatMode);		
 		
 		for(int i = 0; i < hotbarAbilities.length - 1; i++)
 		{
@@ -109,12 +111,14 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 		this.cola = props.getInteger("Cola");
 		this.maxCola = props.getInteger("MaxCola");
 		this.ultraCola = props.getInteger("UltraCola");
+		this.gear = props.getInteger("Gear");
 		
 		this.akumaNoMiUsed = props.getString("AkumaNoMi");
 		this.faction = props.getString("Faction");
 		this.race = props.getString("Race");
-		this.job = props.getString("Job");
+		this.fightStyle = props.getString("FightStyle");
 		this.crew = props.getString("Crew");
+		this.yamiAdditionalFruit = props.getString("YamiFruit");
 		
 		this.isLogia = props.getBoolean("isLogia");
 		this.hasShadow = props.getBoolean("hasShadow");
@@ -122,10 +126,11 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 		this.firstTime = props.getBoolean("firstTime");
 		this.kilo = props.getBoolean("hasKiloActive");
 		this.hasHakiActive = props.getBoolean("hasHakiActive");
+		this.hasBusoHakiActive = props.getBoolean("hasBusoHakiActive");
+		this.hasKenHakiActive = props.getBoolean("hasKenHakiActive");
+		this.hasYamiPower = props.getBoolean("hasYamiPower");
 		
 		this.isInCombatMode = props.getBoolean("isInCombatMode");
-		
-		this.gear = props.getByte("Gear");
 		
 		for(int i = 0; i < hotbarAbilities.length - 1; i++)
 		{
@@ -372,11 +377,11 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 	public boolean hasShadow() {return this.hasShadow;}
 	public void setHasShadow(boolean b) {this.hasShadow = b;}
 	
-	public void setGear(byte i) {this.gear = i;}
-	public byte getGear() {return this.gear;}
+	public void setGear(int i) {this.gear = i;}
+	public int getGear() {return this.gear;}
 	
-	public String getJob() {return this.job;}
-	public void setJob(String i) {this.job = i;}
+	public String getFightStyle() {return this.fightStyle;}
+	public void setFightStyle(String i) {this.fightStyle = i;}
 	
 	public String getRace() {return this.race;}
 	public void setRace(String i) {this.race = i;}
@@ -391,12 +396,22 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 	public void setFirstTime(boolean firstTime) {this.firstTime = firstTime;}
 	public void firstTimePass() {this.firstTime = false;}
 	
+	public boolean hasBusoHakiActive() { return hasBusoHakiActive; }
+	public void triggerBusoHaki(boolean isBusoHakiActive) { this.hasBusoHakiActive = isBusoHakiActive; }
+	public boolean hasKenHakiActive() { return hasKenHakiActive; }
+	public void triggerKenHaki(boolean isKenHakiActive) { this.hasKenHakiActive = isKenHakiActive; }
 	public boolean hasHakiActive() { return hasHakiActive; }
-	public void triggerActiveHaki() { this.hasHakiActive = !hasHakiActive(); }
+	public void triggerActiveHaki(boolean isHakiActive) { this.hasHakiActive = isHakiActive; }
 	public int getHakiTimer() { return hakiTimer; }
 	public void addHakiTimer() { hakiTimer++; }
 	public void resetHakiTimer() { hakiTimer = 0; }
 
 	public void setKilo(boolean kilo) { this.kilo = kilo; }
 	public boolean getKilo() { return kilo; } 
+	
+	public void setYamiPower(boolean bool) { this.hasYamiPower = bool; }
+	public boolean hasYamiPower() { return hasYamiPower; } 
+	
+	public void setYamiFruit(String str) { this.yamiAdditionalFruit = str; }
+	public String getYamiFruit() { return this.yamiAdditionalFruit; }
 }

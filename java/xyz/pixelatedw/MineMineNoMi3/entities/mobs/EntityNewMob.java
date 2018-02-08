@@ -28,6 +28,9 @@ public class EntityNewMob extends EntityMob implements IDynamicRenderer
 	public String getModel() {return model;}
 	protected void setModel(String model) {this.model = model;}
 
+	public int getDorikiPower() { return 1; }
+	public int getBellyInPockets() { return 1; }
+	
 	public void writeEntityToNBT(NBTTagCompound nbt)
 	{
 		super.writeEntityToNBT(nbt);
@@ -43,7 +46,7 @@ public class EntityNewMob extends EntityMob implements IDynamicRenderer
 		setTexture(nbt.getString("Texture"));
 		setModel(nbt.getString("Model"));
 		isHakiUser(nbt.getBoolean("Haki"));
-		setAsLogiaUser(nbt.getBoolean("Logia"));
+		setAsLogiaUser(nbt.getBoolean("Logia"));	
 	}
 	
     protected void addRandomArmor() {}

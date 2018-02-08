@@ -30,9 +30,7 @@ public class MainConfig
 		
 		enableDFtoDrop = config.get(Configuration.CATEGORY_GENERAL, "Allow Devil Fruits to drop from leaves", true).getBoolean();
 		rateDFDrops = config.get(Configuration.CATEGORY_GENERAL, "Rate at which Devil Fruits drop from leaves", 0.1).getDouble(); // / 10000
-					
-		//devilFruitAbilitiesSystem = config.get(Configuration.CATEGORY_GENERAL, "Devil Fruit Abilities System", 0).getInt();
-			
+								
 		config.save();
 	}
 	 

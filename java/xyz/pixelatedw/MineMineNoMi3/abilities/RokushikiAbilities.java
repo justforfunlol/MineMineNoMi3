@@ -50,46 +50,49 @@ public class RokushikiAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			Direction dir = WyHelper.get8Directions(player);
-			
-			double mX = 0;
-			double mY = 0;
-			double mZ = 0;
-			
-			if(player.onGround)
-				mY += 1.7;
-			else
-				mY += 1.86;
-
-			if(dir == WyHelper.Direction.NORTH) mZ -= 1;
-			if(dir == WyHelper.Direction.NORTH_WEST) {mZ -= 1; mX -= 1;}
-			if(dir == WyHelper.Direction.SOUTH) mZ += 1;
-			if(dir == WyHelper.Direction.NORTH_EAST) {mZ -= 1; mX += 1;}
-			if(dir == WyHelper.Direction.WEST) mX -= 1;
-			if(dir == WyHelper.Direction.SOUTH_WEST) {mZ += 1; mX -= 1;}
-			if(dir == WyHelper.Direction.EAST) mX += 1;
-			if(dir == WyHelper.Direction.SOUTH_EAST) {mZ += 1; mX += 1;}
-			
-			motion("=", mX, mY, mZ, player);
-			
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ, 0, 0, 0);
+			if(this.isOnCooldown)
+			{
+				Direction dir = WyHelper.get8Directions(player);
 				
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX + 0.2, (int) player.posY, (int) player.posZ + 0.2, 0, 0, 0);
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX + 0.2, (int) player.posY, (int) player.posZ - 0.2, 0, 0, 0);
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX - 0.2, (int) player.posY, (int) player.posZ - 0.2, 0, 0, 0);
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX - 0.2, (int) player.posY, (int) player.posZ + 0.2, 0, 0, 0);
+				double mX = 0;
+				double mY = 0;
+				double mZ = 0;
 				
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX + 0.5, (int) player.posY, (int) player.posZ, 0, 0, 0);
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX + 0.2, (int) player.posY, (int) player.posZ, 0, 0, 0);
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX - 0.5, (int) player.posY, (int) player.posZ, 0, 0, 0);	
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX - 0.2, (int) player.posY, (int) player.posZ, 0, 0, 0);	
+				if(player.onGround)
+					mY += 1.7;
+				else
+					mY += 1.86;
+	
+				if(dir == WyHelper.Direction.NORTH) mZ -= 1;
+				if(dir == WyHelper.Direction.NORTH_WEST) {mZ -= 1; mX -= 1;}
+				if(dir == WyHelper.Direction.SOUTH) mZ += 1;
+				if(dir == WyHelper.Direction.NORTH_EAST) {mZ -= 1; mX += 1;}
+				if(dir == WyHelper.Direction.WEST) mX -= 1;
+				if(dir == WyHelper.Direction.SOUTH_WEST) {mZ += 1; mX -= 1;}
+				if(dir == WyHelper.Direction.EAST) mX += 1;
+				if(dir == WyHelper.Direction.SOUTH_EAST) {mZ += 1; mX += 1;}
 				
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ + 0.5, 0, 0, 0);
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ + 0.2, 0, 0, 0);
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ - 0.5, 0, 0, 0);
-			player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ - 0.2, 0, 0, 0);
-			
-			super.use(player);
+				motion("=", mX, mY, mZ, player);
+				
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ, 0, 0, 0);
+					
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX + 0.2, (int) player.posY, (int) player.posZ + 0.2, 0, 0, 0);
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX + 0.2, (int) player.posY, (int) player.posZ - 0.2, 0, 0, 0);
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX - 0.2, (int) player.posY, (int) player.posZ - 0.2, 0, 0, 0);
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX - 0.2, (int) player.posY, (int) player.posZ + 0.2, 0, 0, 0);
+					
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX + 0.5, (int) player.posY, (int) player.posZ, 0, 0, 0);
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX + 0.2, (int) player.posY, (int) player.posZ, 0, 0, 0);
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX - 0.5, (int) player.posY, (int) player.posZ, 0, 0, 0);	
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX - 0.2, (int) player.posY, (int) player.posZ, 0, 0, 0);	
+					
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ + 0.5, 0, 0, 0);
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ + 0.2, 0, 0, 0);
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ - 0.5, 0, 0, 0);
+				player.worldObj.spawnParticle(EnumParticleTypes.CLOUD.getParticleName(), (int) player.posX, (int) player.posY, (int) player.posZ - 0.2, 0, 0, 0);
+				
+				super.use(player);
+			}
 		};
 	}
 	

@@ -23,8 +23,8 @@ public class BlockBarrier extends Block
 	public boolean isOpaqueCube() {return false;}
 
     @SideOnly(Side.CLIENT)
-    public int getRenderBlockPass() { return 0; }
-
+    public int getRenderBlockPass() { return 1; }
+    
     public boolean renderAsNormalBlock() { return false; }
 	
     public void randomDisplayTick(World worldIn, int x, int y, int z, Random rand)

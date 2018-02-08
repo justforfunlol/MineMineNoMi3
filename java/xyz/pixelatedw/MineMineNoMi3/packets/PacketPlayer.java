@@ -11,12 +11,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import xyz.pixelatedw.MineMineNoMi3.ID;
 import xyz.pixelatedw.MineMineNoMi3.abilities.CyborgAbilities;
-import xyz.pixelatedw.MineMineNoMi3.abilities.RokushikiAbilities;
 import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
@@ -27,6 +27,7 @@ import xyz.pixelatedw.MineMineNoMi3.lists.ListParticleEffects;
 public class PacketPlayer implements IMessage
 {
 	private String cmd;
+	private boolean ablState = false;
 	private double mX, mY, mZ;
 	
 	public PacketPlayer() {}
@@ -34,6 +35,12 @@ public class PacketPlayer implements IMessage
 	public PacketPlayer(String cmd) 
 	{
 		this.cmd = cmd;
+	}
+	
+	public PacketPlayer(String cmd, boolean bool) 
+	{
+		this.cmd = cmd;
+		this.ablState = bool;
 	}
 	
 	public PacketPlayer(String cmd, double mX, double mY, double mZ) 
@@ -47,6 +54,7 @@ public class PacketPlayer implements IMessage
 	public void fromBytes(ByteBuf buf) 
 	{
 		this.cmd = ByteBufUtils.readUTF8String(buf);
+		this.ablState = buf.readBoolean();
 		this.mX = buf.readDouble();
 		this.mY = buf.readDouble();
 		this.mZ = buf.readDouble();
@@ -55,6 +63,7 @@ public class PacketPlayer implements IMessage
 	public void toBytes(ByteBuf buf) 
 	{
 		ByteBufUtils.writeUTF8String(buf, this.cmd);
+		buf.writeBoolean(this.ablState);
 		buf.writeDouble(this.mX);
 		buf.writeDouble(this.mY);
 		buf.writeDouble(this.mZ);
@@ -67,6 +76,49 @@ public class PacketPlayer implements IMessage
 		{
 			final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
+
+			if(message.cmd.equals("ElThorThunder"))
+			{
+				int i = (int) message.mX;
+				int j = (int) message.mY;
+				int k = (int) message.mZ;
+				
+				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i+1, j, k));
+				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i, j, k+1));
+				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i-1, j, k));
+				player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, i, j, k-1));
+			}
+			
+			for(int i = 0; i < 8; i++)
+			{
+				if(message.cmd.contains("clientUpdateIsPassive"))
+				{
+					String ablName = message.cmd.substring("clientUpdateIsPassive".length(), message.cmd.length());
+					
+					if(props.getAbilityFromSlot(i) != null && ablName.toLowerCase().equals(props.getAbilityFromSlot(i).getAttribute().getAttributeName().toLowerCase())) 
+					{
+						props.getAbilityFromSlot(i).setPassiveActive(message.ablState);						
+					}
+				}				
+				if(message.cmd.contains("clientUpdateIsCooldown"))
+				{
+					String ablName = message.cmd.substring("clientUpdateIsCooldown".length(), message.cmd.length());
+					
+					if(props.getAbilityFromSlot(i) != null && ablName.toLowerCase().equals(props.getAbilityFromSlot(i).getAttribute().getAttributeName().toLowerCase())) 
+					{
+						props.getAbilityFromSlot(i).setCooldownActive(message.ablState);						
+					}
+				}
+				if(message.cmd.contains("clientUpdateIsCharging"))
+				{
+					String ablName = message.cmd.substring("clientUpdateIsCharging".length(), message.cmd.length());
+					
+					if(props.getAbilityFromSlot(i) != null && ablName.toLowerCase().equals(props.getAbilityFromSlot(i).getAttribute().getAttributeName().toLowerCase())) 
+					{
+						props.getAbilityFromSlot(i).setChargeActive(message.ablState);						
+					}
+				}			
+			}
 			
 			if(message.cmd.contains("motion+"))
 			{
@@ -159,7 +211,6 @@ public class PacketPlayer implements IMessage
 					props.addRacialAbility(CyborgAbilities.RADICALBEAM);
 					props.addRacialAbility(CyborgAbilities.STRONGRIGHT);
 					props.addRacialAbility(CyborgAbilities.COUPDEVENT);
-					props.setDoriki(500);
 				}
 				
 				for(ItemStack is : player.inventory.mainInventory)

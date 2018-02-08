@@ -15,6 +15,7 @@ public class ItemCoreWeapon extends Item
 	public ItemCoreWeapon(int damage)
 	{
 		this.damage = damage;
+		this.maxStackSize = 1;
 		this.setFull3D();
 	}
 	
@@ -22,6 +23,7 @@ public class ItemCoreWeapon extends Item
 	{
 		this.damage = damage;
 		this.canUseSpecial = canUseSpecial;
+		this.maxStackSize = 1;
 		this.setFull3D();
 	}
 	

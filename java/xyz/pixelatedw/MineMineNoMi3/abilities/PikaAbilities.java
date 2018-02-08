@@ -55,22 +55,25 @@ public class PikaAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			if(WyHelper.rayTrace(player) != null && !this.isOnCooldown)
+			if(this.isOnCooldown)
 			{
-				MovingObjectPosition mop = WyHelper.rayTrace(player);
-				
-				int x = mop.blockX;
-				int y = mop.blockY;
-				int z = mop.blockZ;
-				if (player.isRiding())
-					player.mountEntity((Entity)null);
-				EnderTeleportEvent event = new EnderTeleportEvent(player, x, y, z, 5.0F);
-                player.setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
-                player.fallDistance = 0.0F;
-				//isOnCooldown = true;
-				//startCooldown();
+				if(WyHelper.rayTraceBlocks(player) != null && !this.isOnCooldown)
+				{
+					MovingObjectPosition mop = WyHelper.rayTraceBlocks(player);
+					
+					int x = mop.blockX;
+					int y = mop.blockY;
+					int z = mop.blockZ;
+					if (player.isRiding())
+						player.mountEntity((Entity)null);
+					EnderTeleportEvent event = new EnderTeleportEvent(player, x, y, z, 5.0F);
+	                player.setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
+	                player.fallDistance = 0.0F;
+					//isOnCooldown = true;
+					//startCooldown();
+				}
+				super.use(player);
 			}
-			super.use(player);
 		} 
 	}
 

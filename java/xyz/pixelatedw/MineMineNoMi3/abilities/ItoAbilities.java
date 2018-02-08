@@ -2,14 +2,17 @@ package xyz.pixelatedw.MineMineNoMi3.abilities;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper.Direction;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
+import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.ItoProjectiles;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.packets.PacketPlayer;
 
 public class ItoAbilities 
 {
@@ -39,24 +42,38 @@ public class ItoAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			Direction dir = WyHelper.get8Directions(player);
-			
-			if(player.onGround)
-				player.motionY += 1.8;
-			else
-				player.motionY += 1.96;
+			if(this.isOnCooldown)
+			{
+				Direction dir = WyHelper.get8Directions(player);
+				
+				double mX = 0;
+				double mY = 0;
+				double mZ = 0;
+				
+				if(player.onGround)
+					mY += 1.8;
+				else
+					mY += 1.96;
 
-			if(dir == WyHelper.Direction.NORTH) player.motionZ -= 1;
-			if(dir == WyHelper.Direction.NORTH_WEST) {player.motionZ -= 1;player.motionX -= 1;}
-			if(dir == WyHelper.Direction.SOUTH) player.motionZ += 1;
-			if(dir == WyHelper.Direction.NORTH_EAST) {player.motionZ -= 1;player.motionX += 1;}
-			if(dir == WyHelper.Direction.WEST) player.motionX -= 1;
-			if(dir == WyHelper.Direction.SOUTH_WEST) {player.motionZ += 1;player.motionX -= 1;}
-			if(dir == WyHelper.Direction.EAST) player.motionX += 1;
-			if(dir == WyHelper.Direction.SOUTH_EAST) {player.motionZ += 1;player.motionX += 1;}
-			
-			super.use(player);
+				if(dir == WyHelper.Direction.NORTH) mZ -= 1;
+				if(dir == WyHelper.Direction.NORTH_WEST) {mZ -= 1; mX -= 1;}
+				if(dir == WyHelper.Direction.SOUTH) mZ += 1;
+				if(dir == WyHelper.Direction.NORTH_EAST) {mZ -= 1; mX += 1;}
+				if(dir == WyHelper.Direction.WEST) mX -= 1;
+				if(dir == WyHelper.Direction.SOUTH_WEST) {mZ += 1; mX -= 1;}
+				if(dir == WyHelper.Direction.EAST) mX += 1;
+				if(dir == WyHelper.Direction.SOUTH_EAST) {mZ += 1; mX += 1;}
+				
+				motion("=", mX, mY, mZ, player);
+				
+				super.use(player);
+			}
 		};	
+	}
+	
+	private static void motion(String c, double x, double y, double z, EntityPlayer p)
+	{
+		WyNetworkHelper.sendTo(new PacketPlayer("motion" + c, x, y, z), (EntityPlayerMP) p);
 	}
 	
 	public static class Parasite extends Ability
@@ -78,8 +95,7 @@ public class ItoAbilities
 						l.addPotionEffect(new PotionEffect(Potion.confusion.id, 1, 200));
 					}
 					
-					isOnCooldown = true;
-					startCooldown();
+					super.use(player);
 				}
 			}
 		};	

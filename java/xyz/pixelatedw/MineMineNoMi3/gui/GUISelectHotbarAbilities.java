@@ -20,6 +20,7 @@ import xyz.pixelatedw.MineMineNoMi3.api.abilities.extra.AbilityManager;
 import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.gui.extra.GUIButtonNoTexture;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
+import xyz.pixelatedw.MineMineNoMi3.packets.PacketPlayer;
 import xyz.pixelatedw.MineMineNoMi3.packets.PacketSync;
 
 public class GUISelectHotbarAbilities extends GuiScreen
@@ -218,6 +219,7 @@ public class GUISelectHotbarAbilities extends GuiScreen
                 
                 if(guibutton.id >= 100 && this.slotSelected != -1)
                 {
+                	//props.getAbilityFromSlot(this.slotSelected).setSlotId(-1);
                 	props.setAbilityInSlot(this.slotSelected, null);
                 }
             }
@@ -242,8 +244,9 @@ public class GUISelectHotbarAbilities extends GuiScreen
 		if(button.id >= 100)
 		{
 			if(this.slotSelected != -1)
-			{
+			{				
 				props.setAbilityInSlot(this.slotSelected, AbilityManager.instance().getAbilityByName(WyHelper.getFancyName(button.displayString)));
+            	//props.getAbilityFromSlot(this.slotSelected).setSlotId(this.slotSelected);
 			}
 			else
 			{

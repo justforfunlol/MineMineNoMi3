@@ -1,21 +1,12 @@
 package xyz.pixelatedw.MineMineNoMi3.abilities;
 
-import java.lang.reflect.Field;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLContext;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.shader.ShaderGroup;
-import net.minecraft.client.util.JsonException;
 import net.minecraft.entity.player.EntityPlayer;
-import xyz.pixelatedw.MineMineNoMi3.ID;
+import net.minecraft.entity.player.EntityPlayerMP;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
+import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.packets.PacketSync;
 
 public class HakiAbilities 
 {		
@@ -31,17 +22,29 @@ public class HakiAbilities
 			super(ListAttributes.KENBUNSHOKUHAKI); 
 		}
 		
-		public void use(EntityPlayer player)
+		public void duringPassive(EntityPlayer player)
 		{
-			super.use(player);
+			ExtendedEntityStats props = ExtendedEntityStats.get(player);
+			
+			props.triggerActiveHaki(true);
+			props.triggerKenHaki(true);
+			
+			WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
+		}
+		
+		public void endPassive(EntityPlayer player)
+		{
+			ExtendedEntityStats props = ExtendedEntityStats.get(player);
+			
+			props.triggerActiveHaki(false);
+			props.triggerKenHaki(false);
+			
+			WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
 		}
 	}
 	
 	public static class BusoshokuHaki extends Ability
 	{
-		/*private ShaderGroup theShaderGroup;
-		private IResourceManager resourceManager;*/
-		
 		public BusoshokuHaki() 
 		{
 			super(ListAttributes.BUSOSHOKUHAKI); 			
@@ -51,38 +54,21 @@ public class HakiAbilities
 		{
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
 			
-			props.triggerActiveHaki();
+			props.triggerActiveHaki(true);
+			props.triggerBusoHaki(true);
+
+			WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
 		}
 		
 		public void endPassive(EntityPlayer player)
 		{
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
 			
-			props.triggerActiveHaki();
+			props.triggerActiveHaki(false);
+			props.triggerBusoHaki(false);
+			
+			WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
 		}
-		
-		/*public void duringPassive(EntityPlayer player)
-		{
-	        if (OpenGlHelper.shadersSupported)
-	        {
-				Field field = null;
-				try 
-				{
-					field = EntityRenderer.class.getDeclaredField("resourceManager");
-					field.setAccessible(true);
-						
-					resourceManager = (IResourceManager) field.get(Minecraft.getMinecraft().entityRenderer);
-					
-					this.theShaderGroup = new ShaderGroup(Minecraft.getMinecraft().getTextureManager(), this.resourceManager, Minecraft.getMinecraft().getFramebuffer(), ID.SHADER_HAKI);
-					this.theShaderGroup.createBindFramebuffers(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-				} 
-				catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | JsonException e) 
-				{
-					e.printStackTrace();
-				}
-	        }
 
-			super.use(player);
-		}*/
 	}
 }
