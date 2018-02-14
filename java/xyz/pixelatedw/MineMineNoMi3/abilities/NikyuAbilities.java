@@ -38,10 +38,10 @@ public class NikyuAbilities
 			super(ListAttributes.URSUSSHOCK); 
 		}
 		
-		public void use(EntityPlayer player)
+		public void endCharging(EntityPlayer player)
 		{		
 			this.projectile = new NikyuProjectiles.UrsusShock(player.worldObj, player, attr);
-			super.use(player);
+			super.endCharging(player);
 		}
 	}
 	

@@ -2,16 +2,23 @@ package xyz.pixelatedw.MineMineNoMi3.abilities;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.MovingObjectPosition;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
+import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.KageProjectiles;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.KageProjectiles.TsunotokagePillar;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.lists.ListExtraAttributes;
+import xyz.pixelatedw.MineMineNoMi3.packets.PacketPlayer;
 
 public class KageAbilities 
 {
 
-	public static Ability[] abilitiesArray = new Ability[] {new BrickBat(), new Doppelman(), new BlackBox(), new Tsunotokage()};
+	public static Ability[] abilitiesArray = new Ability[] {new BrickBat(), new BlackBox(), new Tsunotokage()};
 
 	public static class BrickBat extends Ability
 	{
@@ -64,8 +71,26 @@ public class KageAbilities
 		
 		public void use(EntityPlayer player)
 		{	
-			this.projectile = new KageProjectiles.Tsunotokage(player.worldObj, player, attr);
-			super.use(player);
+			if(!this.isOnCooldown)
+			{
+				MovingObjectPosition mop = WyHelper.rayTraceBlocks(player);	
+				
+				if(mop != null)
+				{
+					double i = mop.blockX;
+					double j = mop.blockY;
+					double k = mop.blockZ;
+
+					TsunotokagePillar pillar = new TsunotokagePillar(player.worldObj, player, ListExtraAttributes.TSUNOTOKAGEPILLAR);
+					pillar.setLocationAndAngles(i, j + 1, k, 0, 0);
+					pillar.motionX = 0;
+					pillar.motionZ = 0;
+					pillar.motionY = 0.7;
+					player.worldObj.spawnEntityInWorld(pillar);					
+				}		
+				
+				super.use(player);
+			}
 		} 
 	}
 }

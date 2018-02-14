@@ -110,6 +110,23 @@ public class WyHelper
 	}
 */	
 	
+	/**
+	 * 0) is burning; 1) is sneaking; 2) is riding something; 3) is sprinting; 4) is eating
+	 */
+    public static void setEntityFlag(Entity player, int id, boolean bool)
+    {
+        byte b0 = player.getDataWatcher().getWatchableObjectByte(0);
+
+        if (bool)
+        {
+        	player.getDataWatcher().updateObject(0, Byte.valueOf((byte)(b0 | 1 << id)));
+        }
+        else
+        {
+        	player.getDataWatcher().updateObject(0, Byte.valueOf((byte)(b0 & ~(1 << id))));
+        }
+    }
+	
 	public static Color hexToRGB(String hexColor)
 	{return Color.decode("#"+hexColor);} 
 	

@@ -68,7 +68,7 @@ public class WyRegistry
 	 
 	public static void registerMob(String name, Class<? extends Entity> entity, int color1, int color2)
 	{
-		EntityRegistry.registerModEntity(entity, name, entityID++, MainMod.getMineMineNoMi(), 64, 3, true);
+		EntityRegistry.registerModEntity(entity, name, entityID++, MainMod.getMineMineNoMi(), 128, 3, true);
 		if(color1 != -1 && color2 != -1)
 			EntityList.addMapping(entity, name, entityID++, color2, color2);
 		registerName("entity." + name + ".name", name);

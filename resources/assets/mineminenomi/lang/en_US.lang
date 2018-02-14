@@ -3,6 +3,7 @@ entity.Marine with Sword.name=Marine with Sword
 entity.Pirate Captain.name=Pirate Captain
 entity.Pirate with Gun.name=Pirate with Gun
 entity.Pirate with Sword.name=Pirate with Sword
+entity.Zoan Bison Power Point.name=Zoan Bison Power Point
 item.100thammer.name=100t Hammer
 item.10thammer.name=10t Hammer
 item.5thammer.name=5t Hammer

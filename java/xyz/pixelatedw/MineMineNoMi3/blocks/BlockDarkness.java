@@ -30,7 +30,7 @@ public class BlockDarkness extends Block
     	{
 	    	ExtendedEntityStats props = ExtendedEntityStats.get((EntityLivingBase) entity);	    	
 
-	    	if(!props.getUsedFruit().equals("yamiyami"))
+	    	if(!props.getUsedFruit().equals("yamiyami") || !props.hasYamiPower())
 	    		entity.setInWeb(); 
     	}
     	else 
@@ -43,7 +43,7 @@ public class BlockDarkness extends Block
     	{
 	    	ExtendedEntityStats props = ExtendedEntityStats.get((EntityLivingBase) entity);	    	
 
-	    	if(props.getUsedFruit().equals("yamiyami"))
+	    	if(props.getUsedFruit().equals("yamiyami") || props.hasYamiPower())
 	    	{
 	    		this.setBlockBounds(0, 0, 0, 1, 1, 1);
 	    		super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);

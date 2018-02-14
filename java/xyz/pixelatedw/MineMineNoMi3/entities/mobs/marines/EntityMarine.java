@@ -14,7 +14,8 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import xyz.pixelatedw.MineMineNoMi3.entities.mobs.Doppelman;
+import xyz.pixelatedw.MineMineNoMi3.ID;
+import xyz.pixelatedw.MineMineNoMi3.entities.mobs.misc.Doppelman;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.pirates.EntityPirate;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.pirates.PirateData;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
@@ -37,7 +38,7 @@ public class EntityMarine extends MarineData
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
 	}
-
+	
     protected void addRandomArmor()
     {
         this.setCurrentItemOrArmor(0, new ItemStack(ListMisc.MarineSword));

@@ -16,9 +16,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.Values;
 import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
-import xyz.pixelatedw.MineMineNoMi3.entities.mobs.Doppelman;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.EntityNewMob;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.marines.MarineData;
+import xyz.pixelatedw.MineMineNoMi3.entities.mobs.misc.Doppelman;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
 
 public class PirateData extends EntityNewMob
@@ -37,51 +37,6 @@ public class PirateData extends EntityNewMob
 		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, MarineData.class, 0, true));
 	}
 
-	public void onEntityUpdate()
-	{
-/*		if(!this.worldObj.isRemote)
-			System.out.println(this.getAttackTarget());*/
-		
-/*		for (EntityLivingBase entity : WyHelper.getEntitiesNear(this, 100))
-		{
-			if (entity instanceof EntityPlayer)
-			{
-				ExtendedEntityStats props = ExtendedEntityStats.get(entity);
-				ExtendedEntityStats propz = ExtendedEntityStats.get(this);
-
-				if (!((EntityPlayer) entity).capabilities.isCreativeMode)
-				{
-					if (!(this instanceof IRangedAttackMob))
-						this.tasks.addTask(1, attackMelee);
-					this.targetTasks.addTask(1, nearestAttableTarget);
-*/
-					/*
-					 * if(!props.getCrew().equals(propz.getCrew()) &&
-					 * (!props.getCrew().equals("N/A") ||
-					 * !propz.getCrew().equals("N/A"))) { if(!(this instanceof
-					 * IRangedAttackMob)) this.tasks.addTask(1, attackMelee);
-					 * this.targetTasks.addTask(1, nearestAttableTarget); } else
-					 * { this.tasks.removeTask(attackMelee);
-					 * this.targetTasks.removeTask(nearestAttableTarget); }
-					 */
-/*				}
-			}
-			else if (entity instanceof MarineData)
-			{
-				if (!(this instanceof IRangedAttackMob))
-					this.tasks.addTask(1, attackMelee);
-				this.targetTasks.addTask(1, nearestAttableTargetMarine);
-			}
-			else if(entity instanceof Doppelman)
-			{
-				if(!(this instanceof IRangedAttackMob))
-					this.tasks.addTask(1, attackMelee);
-				this.targetTasks.addTask(1, nearestAttableTargetDopp);
-			}
-		}*/
-		super.onEntityUpdate();
-	}
-
 	protected boolean isValidLightLevel() { return true; }
 
 	protected boolean canDespawn() { return true; }
@@ -90,4 +45,5 @@ public class PirateData extends EntityNewMob
 
 	public boolean getCanSpawnHere() { return true; }
 
+	public String getCrew() { return "null"; }
 }

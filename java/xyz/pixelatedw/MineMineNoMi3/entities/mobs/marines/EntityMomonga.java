@@ -28,17 +28,14 @@ public class EntityMomonga extends MarineData
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(140.0D);
 	}
-/*
-	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
-	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		
-		this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(ListMisc.MarineSword));
-		
-		return livingdata;
-	}
-	*/
+
+    protected void entityInit() 
+    {
+        super.entityInit();
+        //this.getEntityData().set
+        //this.getDataManager().register(EntityHelper.STATE, 0);
+    }	
+	
 	public void onUpdate() 
 	{
 		Direction dir = WyHelper.get4Directions(this);

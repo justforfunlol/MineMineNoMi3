@@ -96,8 +96,6 @@ public class AkumaNoMi extends ItemFood
 					props.addDevilFruitAbility(a);
 				}
 			}
-			
-			System.out.println(props.getUsedFruit());
 		}
 	}
 	

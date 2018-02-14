@@ -9,10 +9,10 @@ import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityAttribute;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.ModelCube;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.ModelSphere;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.extra.EffectType;
-import xyz.pixelatedw.MineMineNoMi3.entities.models.ModelBird;
-import xyz.pixelatedw.MineMineNoMi3.entities.models.ModelGhost;
-import xyz.pixelatedw.MineMineNoMi3.entities.models.ModelHeart;
-import xyz.pixelatedw.MineMineNoMi3.entities.models.ModelX;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.models.ModelBird;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.models.ModelGhost;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.models.ModelHeart;
+import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.models.ModelX;
 
 public class ListAttributes 
 {
@@ -94,7 +94,7 @@ public class ListAttributes
 	public static AbilityAttribute SABLES = new AbilityAttribute("Sables").setAbilityCooldown(150);//.addTasks(Tasks.sables);
 	public static AbilityAttribute DESERTSPADA = new AbilityAttribute("Desert Spada").setAbilityCooldown(250);
 	
-	public static AbilityAttribute TSUNOTOKAGE = new AbilityAttribute("Tsuno-Tokage").setAbilityCooldown(200).setProjectileDamage(30).setProjectileModel(new ModelCube()).setProjectileColor(Color.black).setProjectileSize(5, 2, 2).setProjectileTicks(3);
+	public static AbilityAttribute TSUNOTOKAGE = new AbilityAttribute("Tsuno-Tokage").setAbilityCooldown(200);
 //	public static AbilityAttribute SHADOWSASGARD = new AbilityAttribute("Shadow's Asgard").setAbilityCooldown(400).addTasks(Tasks.shadowsasgard);
 	public static AbilityAttribute BLACKBOX = new AbilityAttribute("Black Box").setAbilityCooldown(200).setProjectileModel(new ModelCube()).setProjectileColor(Color.black).setProjectileSize(2, 2, 2);
 	public static AbilityAttribute DOPPELMAN = new AbilityAttribute("Doppelman").setAbilityCooldown(10);//.addTasks(Tasks.doppelman);
@@ -107,7 +107,7 @@ public class ListAttributes
 	public static AbilityAttribute KICKBOMB = new AbilityAttribute("Kick Bomb").setAbilityCooldown(150).setAbilityExplosion(7, false);
 	public static AbilityAttribute NOSEFANCYCANNON = new AbilityAttribute("Nose Fancy Cannon").setAbilityCooldown(100).setProjectileModel(new ModelCube()).setProjectileColor("3D2B1F").setProjectileSize(.8, .4, .4).setProjectileDamage(10).setProjectileExplosion(3, false);
 	
-	public static AbilityAttribute URSUSSHOCK = new AbilityAttribute("Ursus Shock").setAbilityCooldown(300).setProjectileModel(new ModelCube()).setProjectileColor("F8F8FF").setProjectileSize(1.5, 1.5, 1.5).setProjectileDamage(50).setProjectileExplosion(2, false, false).setAbilityCharges(40);
+	public static AbilityAttribute URSUSSHOCK = new AbilityAttribute("Ursus Shock").setAbilityCooldown(300).setProjectileModel(new ModelCube()).setProjectileColor("F8F8FF").setProjectileSize(3.5, 3.5, 3.5).setProjectileDamage(50).setProjectileExplosion(2, false, false).setAbilityCharges(40);
 	public static AbilityAttribute PADHO = new AbilityAttribute("Pad Ho").setAbilityCooldown(150);
 	
 	public static AbilityAttribute WHITELAUNCHER = new AbilityAttribute("White Launcher").setAbilityCooldown(150).setAbilityCharges(20);

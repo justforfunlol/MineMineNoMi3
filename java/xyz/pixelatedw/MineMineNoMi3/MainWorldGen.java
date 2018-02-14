@@ -32,10 +32,10 @@ public class MainWorldGen implements IWorldGenerator
 				
 		if(MainConfig.enableShips)
 		{
-			this.addStructureSpawn(WySchematicHelper.load("marineShip"), world, random, i, j, 32, 32, 1.2	);
-			this.addStructureSpawn(WySchematicHelper.load("pyrateShip"), world, random, i, j, 32, 32, 1.5);
-			this.addStructureSpawn(WySchematicHelper.load("pyrateLargeShip"), world, random, i, j, 32, 32, 1.1);
-			this.addStructureSpawn(WySchematicHelper.load("marineLargeShip"), world, random, i, j, 32, 32, 1);
+			this.addStructureSpawn(WySchematicHelper.load("marineShip"), world, random, i, j, 32, 32, 2.0);
+			this.addStructureSpawn(WySchematicHelper.load("pyrateShip"), world, random, i, j, 32, 32, 2.2);
+			this.addStructureSpawn(WySchematicHelper.load("pyrateLargeShip"), world, random, i, j, 32, 32, 1.7);
+			this.addStructureSpawn(WySchematicHelper.load("marineLargeShip"), world, random, i, j, 32, 32, 1.5);
 		}
 	}
 	 

@@ -7,8 +7,6 @@ public class ID
 	
 	public static final ResourceLocation
 	
-	SHADER_HAKI = new ResourceLocation(ID.PROJECT_ID, "shaders/post/haki.json"),
-	
 	ICON_PIRATE = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_pirate.png"),
 	ICON_MARINE = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_marine.png"),
 	ICON_BOUNTYHUNTER = new ResourceLocation(ID.PROJECT_ID, "textures/gui/icons/icon_bountyhunter.png"),
@@ -37,8 +35,14 @@ public class ID
 	PROJECT_ID = "mineminenomi",
 	PROJECT_NAME = "Mine Mine no Mi",
 	PROJECT_VERSION = "0.3.0",
+	PROJECT_MCVERSION = "1.7.10",
 	PROJECT_SOURCEFOLDER = "D:/Programming/Minecraft Modding/Mine Mine no Mi/src/main/resources/",
 
+	CREW_ARLONG = "Arlong Pirates",
+	CREW_BAROQUEWORKS = "Baroque Works",
+	CREW_ALVIDAPIRATES = "Alvida Pirates",
+	CREW_KRIEGPIRATES = "Krieg Pirates",
+	
 	FACTION_PIRATE = "Pirate",
 	FACTION_MARINE = "Marine",
 	FACTION_BOUNTYHUNTER = "Bounty Hunter",
@@ -65,9 +69,15 @@ public class ID
 	
 	public static final int 
 	
+	ENTITY_STATE = 27,
+	
 	GUI_DIALTABLE = 0,
 	GUI_PLAYER = 1,
 	GUI_CHARACTERCREATOR = 2,
 	GUI_ABILITIES = 3;
 
+	
+	public static final boolean
+	
+	DEV_EARLYACCESS = false;
 }

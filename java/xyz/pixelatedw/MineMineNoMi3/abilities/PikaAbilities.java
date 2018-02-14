@@ -55,9 +55,9 @@ public class PikaAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			if(this.isOnCooldown)
+			if(!this.isOnCooldown)
 			{
-				if(WyHelper.rayTraceBlocks(player) != null && !this.isOnCooldown)
+				if(WyHelper.rayTraceBlocks(player) != null)
 				{
 					MovingObjectPosition mop = WyHelper.rayTraceBlocks(player);
 					

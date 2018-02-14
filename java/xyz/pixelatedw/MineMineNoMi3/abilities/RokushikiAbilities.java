@@ -50,7 +50,7 @@ public class RokushikiAbilities
 		
 		public void use(EntityPlayer player)
 		{
-			if(this.isOnCooldown)
+			if(!this.isOnCooldown)
 			{
 				Direction dir = WyHelper.get8Directions(player);
 				

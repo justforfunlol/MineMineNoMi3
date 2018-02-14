@@ -15,7 +15,7 @@ import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
 public class DokuAbilities 
 {
 
-	public static Ability[] abilitiesArray = new Ability[] {new Hydra(), new ChloroBall(), new VenomRoad(), new DokuFugu()};	
+	public static Ability[] abilitiesArray = new Ability[] {new Hydra(), new ChloroBall(), new DokuFugu()};	
 		
 	
 	public static class DokuFugu extends Ability

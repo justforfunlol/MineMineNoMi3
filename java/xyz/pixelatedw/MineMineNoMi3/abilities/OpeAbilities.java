@@ -16,7 +16,7 @@ import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
 public class OpeAbilities
 {
 
-	public static Ability[] abilitiesArray = new Ability[] {new Room(), new CounterShock(), new Mes(), new GammaKnife()};
+	public static Ability[] abilitiesArray = new Ability[] {new Room(), new CounterShock(), new GammaKnife()};
 	
 	public static class GammaKnife extends Ability
 	{

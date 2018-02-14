@@ -61,33 +61,7 @@ public class MainKeys
 			if(Minecraft.getMinecraft().gameSettings.keyBindsHotbar[i].isPressed())
 			{
 	        	if(props.isInCombatMode())
-	        	{
-	    			/*if(props.getAbilityFromSlot(i) != null) 
-	    			{
-	    				boolean flag1 = false, flag2 = false;
-	    				for(int j = 0; j < 8; j++)
-	    				{
-	    					if(props.getAbilityFromSlot(j) != null) 
-	    					{
-	    						if(props.getAbilityFromSlot(j).isCharging())
-	    							flag1 = true;;
-	    						if(props.getAbilityFromSlot(i) != props.getAbilityFromSlot(j) && props.getAbilityFromSlot(j).isPassiveActive() && props.getAbilityFromSlot(i).getAttribute().isPassive())
-	    							flag2 = true;
-	    					}							
-	    				}
-	    						
-	    				if(!flag1 && !flag2)
-	    				{
-		    				if(props.getAbilityFromSlot(i).getAttribute().isPassive())
-		    					props.getAbilityFromSlot(i).passive(player);
-		    				else if(props.getAbilityFromSlot(i).getAttribute().getAbilityCharges() > 0)
-		    					props.getAbilityFromSlot(i).startCharging(player);
-		    				else
-		    					props.getAbilityFromSlot(i).use(player);
-	    				}
-	    			}*/
 	        		WyNetworkHelper.sendToServer(new PacketPlayer("useAbility" + i));
-	        	}
 	        	else
 	        		player.inventory.currentItem = i;
 			}

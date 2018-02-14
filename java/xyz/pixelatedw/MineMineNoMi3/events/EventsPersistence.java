@@ -1,11 +1,17 @@
 package xyz.pixelatedw.MineMineNoMi3.events;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Scanner;
+
 import com.google.common.collect.Iterables;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -23,6 +29,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -37,12 +44,15 @@ import xyz.pixelatedw.MineMineNoMi3.abilities.HakiAbilities.BusoshokuHaki;
 import xyz.pixelatedw.MineMineNoMi3.abilities.HakiAbilities.KenbunshokuHaki;
 import xyz.pixelatedw.MineMineNoMi3.abilities.RokushikiAbilities;
 import xyz.pixelatedw.MineMineNoMi3.api.EnumParticleTypes;
+import xyz.pixelatedw.MineMineNoMi3.api.WyHelper;
 import xyz.pixelatedw.MineMineNoMi3.api.abilities.Ability;
+import xyz.pixelatedw.MineMineNoMi3.api.abilities.extra.AbilityManager;
 import xyz.pixelatedw.MineMineNoMi3.api.network.WyNetworkHelper;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.EntityNewMob;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.marines.MarineData;
 import xyz.pixelatedw.MineMineNoMi3.events.customevents.DorikiEvent;
 import xyz.pixelatedw.MineMineNoMi3.ieep.ExtendedEntityStats;
+import xyz.pixelatedw.MineMineNoMi3.items.AkumaNoMi;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListEffects;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
 import xyz.pixelatedw.MineMineNoMi3.packets.PacketSync;
@@ -78,6 +88,8 @@ public class EventsPersistence
 	 * > Rewards the user with rokushiki/fishman karate based on doriki
 	 */	
 
+	private String[] UUIDs = new String[] {"c142a238-b214-46b0-8820-139df67be10b"};
+	
 	/** XXX onEntityUpdate */
 	@SubscribeEvent
 	public void onEntityUpdate(LivingUpdateEvent event)
@@ -107,12 +119,10 @@ public class EventsPersistence
 		{
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
 			ExtendedEntityStats props = ExtendedEntityStats.get(player);
-			ItemStack heldItem = player.getHeldItem();
-			IAttributeInstance maxHp = player.getEntityAttribute(SharedMonsterAttributes.maxHealth);
-			int extraHP = 0;					
+			ItemStack heldItem = player.getHeldItem();				
 			
 			if(!player.worldObj.isRemote)
-			{
+			{			
 				for(int i = 0; i < props.getAbilitiesInHotbar(); i++)
 				{
 					if(props.getAbilityFromSlot(i) != null && !props.getAbilityFromSlot(i).equals("n/a"))
@@ -120,14 +130,16 @@ public class EventsPersistence
 						props.getAbilityFromSlot(i).update(player);
 					}
 				}
+				
+				if(ID.DEV_EARLYACCESS)
+				{
+					for(String s : UUIDs)
+					{
+						if(!player.getUniqueID().toString().equals(s))
+							((EntityPlayerMP)player).playerNetServerHandler.kickPlayerFromServer(EnumChatFormatting.BOLD + "" + EnumChatFormatting.RED + "WARNING! \n\n " + EnumChatFormatting.RESET + "You don't have access to this version yet!");
+					}	
+				}
 			}
-
-			extraHP = (int) Math.log((props.getDoriki()) + 1) * 19;
-
-			if (extraHP < 20)
-				player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20);
-			else
-				player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(extraHP);
 			
 			if (heldItem != null)
 			{				
@@ -171,10 +183,11 @@ public class EventsPersistence
 				if (props.getRace().equals(ID.RACE_FISHMAN) && props.getUsedFruit().equals("N/A"))
 				{
 					player.setAir(300);
+					player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 300, 1));
 
 					if ((player.motionX >= 5.0D) || (player.motionZ >= 5.0D))
 					{
-						player.motionX /= 1.2D;
+						player.motionX /= 1.2D;	
 						player.motionZ /= 1.2D;
 					}
 					else
@@ -191,13 +204,13 @@ public class EventsPersistence
 				{
 					if ((player.motionX >= 5.0D) || (player.motionZ >= 5.0D))
 					{
-						player.motionX /= 1.2D;
-						player.motionZ /= 1.2D;
+						player.motionX /= 1.9D;
+						player.motionZ /= 1.9D;
 					}
 					else
 					{
-						player.motionX *= 1.2D;
-						player.motionZ *= 1.2D;
+						player.motionX *= 1.9D;
+						player.motionZ *= 1.9D;
 					}
 				}
 			}
@@ -370,7 +383,7 @@ public class EventsPersistence
 			boolean hasHaki;
 
 			if (sourceOfDamage instanceof EntityNewMob)
-				hasHaki = ((EntityNewMob) sourceOfDamage).hasHaki();
+				hasHaki = ((EntityNewMob) sourceOfDamage).hasBusoHaki();
 			else
 				hasHaki = false;
 
@@ -402,7 +415,7 @@ public class EventsPersistence
 			}
 		}
 	}
-
+	
 	/** XXX onEntityJoinWorld */
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinWorldEvent event)
@@ -410,15 +423,75 @@ public class EventsPersistence
 		if (event.entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.entity;
-			ExtendedEntityStats props = ExtendedEntityStats.get(player);
-
+			ExtendedEntityStats props = ExtendedEntityStats.get(player);			
+			
 			if (!player.worldObj.isRemote)
-			{
+			{				
 				if (props.getRace().equals("N/A") && props.getFaction().equals("N/A") && props.getFightStyle().equals("N/A") && !player.inventory.hasItemStack(new ItemStack(ListMisc.CharacterCreator)))
 					player.inventory.addItemStackToInventory(new ItemStack(ListMisc.CharacterCreator, 1));
 				
+				if(props.getUsedFruit() != null && !props.getUsedFruit().equals("N/A"))
+				{
+					String model = "";
+					if(props.getUsedFruit().equals("ushiushibison"))
+						model = "bison";
+					
+					ItemStack yamiFruit = new ItemStack(GameRegistry.findItem(ID.PROJECT_ID, "yamiyaminomi"));
+					ItemStack df = new ItemStack(GameRegistry.findItem(ID.PROJECT_ID, props.getUsedFruit().replace(model, "") + "nomi" + model));
+					
+					props.clearDevilFruitAbilities();
+					
+					if(props.hasYamiPower())
+					{
+						for(Ability a : ((AkumaNoMi)yamiFruit.getItem()).abilities)
+						{
+							props.addDevilFruitAbility(a);
+						}
+					}
+					
+					for(Ability a : ((AkumaNoMi)df.getItem()).abilities)
+					{
+						props.addDevilFruitAbility(a);
+					}
+					
+					for(int i = 0; i < props.getAbilitiesInHotbar(); i++)
+					{
+						if(props.getAbilityFromSlot(i) != null)
+						{
+							if(props.getAbilityFromSlot(i) == null)
+								props.setAbilityInSlot(i, null);
+						}
+					}
+				}
+					
 				WyNetworkHelper.sendTo(new PacketSync(props), (EntityPlayerMP) player);
-			}
+				
+				try 
+				{
+					URL url = new URL("https://dl.dropboxusercontent.com/s/3io0vaqiqaoabnh/version.txt?dl=0");
+					Scanner scanner = new Scanner(url.openStream());
+					
+					while(scanner.hasNextLine())
+					{
+						String[] parts = scanner.nextLine().split("\\-");
+
+						if(ID.PROJECT_MCVERSION.equals(parts[0]))
+						{
+							if(!ID.PROJECT_VERSION.equals(parts[1]))
+							{
+								WyHelper.sendMsgToPlayer(player, EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD + "[UPDATE]" + EnumChatFormatting.RED + " Mine Mine no Mi " + parts[1] + " is now available !");
+							}
+						}
+						
+					}
+					
+					scanner.close();
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+			}		
 		}
 	}
 	
@@ -443,7 +516,7 @@ public class EventsPersistence
 		{
 			ability(event.player, 800, FishKarateAbilities.UCHIMIZU);
 			ability(event.player, 2000, FishKarateAbilities.SOSHARK);
-			ability(event.player, 2500, FishKarateAbilities.KACHIAGEHAISOKU);
+			//ability(event.player, 2500, FishKarateAbilities.KACHIAGEHAISOKU);
 			ability(event.player, 3000, FishKarateAbilities.SAMEHADASHOTEI);
 			ability(event.player, 4000, HakiAbilities.KENBUNSHOKUHAKI);
 			ability(event.player, 7500, FishKarateAbilities.KARAKUSAGAWARASEIKEN);
@@ -453,6 +526,24 @@ public class EventsPersistence
 		{
 			ability(event.player, 5500, HakiAbilities.KENBUNSHOKUHAKI);
 			ability(event.player, 8500, HakiAbilities.BUSOSHOKUHAKI);
+		}
+		
+		if(event.player != null)		
+		{
+			ExtendedEntityStats props = ExtendedEntityStats.get(event.player);
+			IAttributeInstance maxHp = event.player.getEntityAttribute(SharedMonsterAttributes.maxHealth);
+						
+			if(props.getDoriki() < 70)
+			{
+				event.player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20);
+			}
+			else
+			{
+				if(props.getDoriki() % 70 == 0)
+				{
+					event.player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHp.getAttributeValue() + 2);
+				}
+			}
 		}
 	}	
 

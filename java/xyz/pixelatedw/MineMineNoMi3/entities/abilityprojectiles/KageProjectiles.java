@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import xyz.pixelatedw.MineMineNoMi3.abilities.BomuAbilities.KickBomb;
@@ -16,6 +17,7 @@ import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityProjectile;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.GuraProjectiles.Kaishin;
 import xyz.pixelatedw.MineMineNoMi3.entities.abilityprojectiles.GuraProjectiles.ShimaYurashi;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
+import xyz.pixelatedw.MineMineNoMi3.lists.ListExtraAttributes;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListMisc;
 
 public class KageProjectiles 
@@ -25,7 +27,7 @@ public class KageProjectiles
 	
 	static
 	{
-		abilitiesClassesArray.add(new Object[] {Tsunotokage.class, ListAttributes.TSUNOTOKAGE});
+		abilitiesClassesArray.add(new Object[] {TsunotokagePillar.class, ListExtraAttributes.TSUNOTOKAGEPILLAR});
 		abilitiesClassesArray.add(new Object[] {BlackBox.class, ListAttributes.BLACKBOX});
 		abilitiesClassesArray.add(new Object[] {BrickBat.class, ListAttributes.BRICKBAT});
 	}
@@ -63,21 +65,29 @@ public class KageProjectiles
 			{
 				WyHelper.createCube(hit.entityHit, new int[] {4, 3, 4}, ListMisc.Darkness);
 			}
-		};
+		}
 	}	
 	
-	public static class Tsunotokage extends AbilityProjectile
+	public static class TsunotokagePillar extends AbilityProjectile
 	{
-		public Tsunotokage(World world)
+		public TsunotokagePillar(World world)
 		{super(world);}
 		
-		public Tsunotokage(World world, double x, double y, double z)
+		public TsunotokagePillar(World world, double x, double y, double z)
 		{super(world, x, y, z);}
 		
-		public Tsunotokage(World world, EntityLivingBase player, AbilityAttribute attr) 
+		public TsunotokagePillar(World world, EntityLivingBase player, AbilityAttribute attr) 
 		{		
 			super(world, player, attr);		
+			this.setSize(10, 4);
 		}
-
+		
+		public void onEntityUpdate()
+		{
+			for(EntityLivingBase e : WyHelper.getEntitiesNear(this, 2))
+				e.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) this.getThrower()), 30);
+			super.onEntityUpdate();
+		}
 	}
+
 }

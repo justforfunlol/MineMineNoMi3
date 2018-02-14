@@ -21,7 +21,7 @@ public class FishKarateAbilities
 	public static Ability SAMEHADASHOTEI = new SamehadaShotei();
 	public static Ability KARAKUSAGAWARASEIKEN = new KarakusagawaraSeiken();
 	
-	public static Ability[] abilitiesArray = new Ability[] {UCHIMIZU, SOSHARK, KACHIAGEHAISOKU, SAMEHADASHOTEI, KARAKUSAGAWARASEIKEN};
+	public static Ability[] abilitiesArray = new Ability[] {UCHIMIZU, SOSHARK, SAMEHADASHOTEI, KARAKUSAGAWARASEIKEN};
 	
 	public static class Uchimizu extends Ability
 	{

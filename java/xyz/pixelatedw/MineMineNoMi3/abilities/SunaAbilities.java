@@ -13,7 +13,7 @@ import xyz.pixelatedw.MineMineNoMi3.lists.ListAttributes;
 public class SunaAbilities 
 {
 
-	public static Ability[] abilitiesArray = new Ability[] {new Barjan(), new Sables(), new GroundDeath(), new DesertSpada()};
+	public static Ability[] abilitiesArray = new Ability[] {new Barjan(), new GroundDeath(), new DesertSpada()};
 
 	public static class Barjan extends Ability
 	{

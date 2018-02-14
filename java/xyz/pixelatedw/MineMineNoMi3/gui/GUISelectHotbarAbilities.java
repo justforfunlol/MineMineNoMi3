@@ -66,26 +66,29 @@ public class GUISelectHotbarAbilities extends GuiScreen
 		{
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             if(props.getAbilityFromSlot(i) != null)
-            	WyRenderHelper.drawAbilityIcon(WyHelper.getFancyName(props.getAbilityFromSlot(i).getAttribute().getAttributeName()), (posX - 192 + (i * 50)) / 2, posY - 29, 16, 16);         
+            	WyRenderHelper.drawAbilityIcon(WyHelper.getFancyName(props.getAbilityFromSlot(i).getAttribute().getAttributeName()), (posX - 192 + (i * 50)) / 2, posY - 29, 16, 16);
         }
 		this.mc.getTextureManager().bindTexture(ID.TEXTURE_COMBATMODE);	
 		
 		if(props.getUsedFruit() != null && !props.getUsedFruit().toLowerCase().equals("n/a"))
 		{
-			this.drawTexturedModalRect((posX - 280) / 2, posY - 220, 0, 23, 27, 26);
-			WyRenderHelper.drawAbilityIcon(props.getUsedFruit() + "nomi", (posX - 268) / 2, posY - 214, 16, 16);
+			this.drawTexturedModalRect((posX - 280) / 2, (posY - 200) / 2, 0, 23, 27, 26);
+			if(props.hasYamiPower())
+				WyRenderHelper.drawAbilityIcon("yamiyaminomi", (posX - 268) / 2, (posY - 187) / 2, 16, 16);
+			else
+				WyRenderHelper.drawAbilityIcon(props.getUsedFruit() + "nomi", (posX - 268) / 2, (posY - 187) / 2, 16, 16);
 			this.mc.getTextureManager().bindTexture(ID.TEXTURE_COMBATMODE);	
 		}
 		if(props.getRacialAbilities()[0] != null && !props.getRacialAbilities()[0].equals("n/a"))
 		{
-			this.drawTexturedModalRect((posX - 280) / 2, posY - 190, 0, 23, 27, 26);
-			WyRenderHelper.drawAbilityIcon(props.getRacialAbilities()[0], (posX - 268) / 2, posY - 184, 16, 16);	
+			this.drawTexturedModalRect((posX - 280) / 2, (posY - 140) / 2, 0, 23, 27, 26);
+			WyRenderHelper.drawAbilityIcon(props.getRacialAbilities()[0], (posX - 268) / 2, (posY - 127) / 2, 16, 16);	
 			this.mc.getTextureManager().bindTexture(ID.TEXTURE_COMBATMODE);	
 		}
 		if(props.getHakiAbilities()[0] != null && !props.getHakiAbilities()[0].equals("n/a"))
 		{
-			this.drawTexturedModalRect((posX - 280) / 2, posY - 160, 0, 23, 27, 26);
-			WyRenderHelper.drawAbilityIcon(props.getHakiAbilities()[0], (posX - 268) / 2, posY - 154, 16, 16);	
+			this.drawTexturedModalRect((posX - 280) / 2, (posY - 80) / 2, 0, 23, 27, 26);
+			WyRenderHelper.drawAbilityIcon(props.getHakiAbilities()[0], (posX - 268) / 2, (posY - 67) / 2, 16, 16);	
 			this.mc.getTextureManager().bindTexture(ID.TEXTURE_COMBATMODE);	
 		}
 		
@@ -105,11 +108,11 @@ public class GUISelectHotbarAbilities extends GuiScreen
 		//	this.buttonList.add(new GuiButton(-1, (posX + 250) / 2, posY - 220, 80, 20, "Edit Abilities"));
 		
 		if(props.getUsedFruit() != null && !props.getUsedFruit().toLowerCase().equals("n/a"))
-			this.buttonList.add(new GUIButtonNoTexture(10, (posX - 280) / 2, posY - 220, 27, 25, ""));
+			this.buttonList.add(new GUIButtonNoTexture(10, (posX - 280) / 2, (posY - 200) / 2, 27, 25, ""));
 		if(props.getRacialAbilities()[0] != null && !props.getRacialAbilities()[0].equals("n/a"))
-			this.buttonList.add(new GUIButtonNoTexture(11, (posX - 280) / 2, posY - 190, 27, 25, ""));
+			this.buttonList.add(new GUIButtonNoTexture(11, (posX - 280) / 2, (posY - 140) / 2, 27, 25, ""));
 		if(props.getHakiAbilities()[0] != null && !props.getHakiAbilities()[0].equals("n/a"))
-			this.buttonList.add(new GUIButtonNoTexture(12, (posX - 280) / 2, posY - 160, 27, 25, ""));
+			this.buttonList.add(new GUIButtonNoTexture(12, (posX - 280) / 2, (posY - 80) / 2, 27, 25, ""));
 		
 		for(int i = 0; i < 8; i++)
 		{
@@ -122,9 +125,9 @@ public class GUISelectHotbarAbilities extends GuiScreen
 			if(AbilityManager.instance().getAbilityByName(props.getDevilFruitAbilities()[i]) != null)
 			{
 				if( i % 2 == 0)
-					this.buttonList.add(new GuiButton(100 + i, posX - 325, (posY - 180 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getDevilFruitAbilities()[i]).getAttribute().getAttributeName() ));
+					this.buttonList.add(new GuiButton(100 + i, (posX - 220) / 2, (posY - 180 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getDevilFruitAbilities()[i]).getAttribute().getAttributeName() ));
 				else
-					this.buttonList.add(new GuiButton(100 + i, posX - 210, (posY - 215 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getDevilFruitAbilities()[i]).getAttribute().getAttributeName() ));
+					this.buttonList.add(new GuiButton(100 + i, (posX + 10) / 2, (posY - 215 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getDevilFruitAbilities()[i]).getAttribute().getAttributeName() ));
 			}
 		}
 		
@@ -133,9 +136,9 @@ public class GUISelectHotbarAbilities extends GuiScreen
 			if(AbilityManager.instance().getAbilityByName(props.getRacialAbilities()[i]) != null)
 			{	
 				if( i % 2 == 0)
-					this.buttonList.add(new GuiButton(150 + i, posX - 325, (posY - 180 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getRacialAbilities()[i]).getAttribute().getAttributeName() ));
+					this.buttonList.add(new GuiButton(150 + i, (posX - 220) / 2, (posY - 180 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getRacialAbilities()[i]).getAttribute().getAttributeName() ));
 				else
-					this.buttonList.add(new GuiButton(150 + i, posX - 210, (posY - 215 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getRacialAbilities()[i]).getAttribute().getAttributeName() ));
+					this.buttonList.add(new GuiButton(150 + i, (posX + 10) / 2, (posY - 215 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getRacialAbilities()[i]).getAttribute().getAttributeName() ));
 			}
 		}
 		
@@ -144,10 +147,26 @@ public class GUISelectHotbarAbilities extends GuiScreen
 			if(AbilityManager.instance().getAbilityByName(props.getHakiAbilities()[i]) != null)
 			{
 				if( i % 2 == 0)
-					this.buttonList.add(new GuiButton(190 + i, posX - 325, (posY - 180 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getHakiAbilities()[i]).getAttribute().getAttributeName() ));
+					this.buttonList.add(new GuiButton(190 + i, (posX - 220) / 2, (posY - 180 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getHakiAbilities()[i]).getAttribute().getAttributeName() ));
 				else
-					this.buttonList.add(new GuiButton(190 + i, posX - 210, (posY - 215 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getHakiAbilities()[i]).getAttribute().getAttributeName() ));
+					this.buttonList.add(new GuiButton(190 + i, (posX + 10) / 2, (posY - 215 + (i * 35)) / 2, 100, 20, AbilityManager.instance().getAbilityByName(props.getHakiAbilities()[i]).getAttribute().getAttributeName() ));
 			}
+		}
+		
+		for(int i = 0; i < props.getAbilitiesInHotbar(); i++)
+		{
+            for (int l = 0; l < this.buttonList.size(); ++l)
+            {
+                GuiButton guibutton = (GuiButton)this.buttonList.get(l);
+            	
+                if(guibutton.id >= 100 && props.getAbilityFromSlot(i) != null)
+                {
+					if( props.getAbilityFromSlot(i) == AbilityManager.instance().getAbilityByName(WyHelper.getFancyName(guibutton.displayString)) )
+					{
+						guibutton.enabled = false;
+					}
+                }
+            }
 		}
 		
 		updateScreen();
@@ -219,8 +238,11 @@ public class GUISelectHotbarAbilities extends GuiScreen
                 
                 if(guibutton.id >= 100 && this.slotSelected != -1)
                 {
-                	//props.getAbilityFromSlot(this.slotSelected).setSlotId(-1);
-                	props.setAbilityInSlot(this.slotSelected, null);
+                	if( props.getAbilityFromSlot(this.slotSelected) != null && props.getAbilityFromSlot(this.slotSelected) == AbilityManager.instance().getAbilityByName(WyHelper.getFancyName(guibutton.displayString)) )
+                	{
+                		guibutton.enabled = true;
+                		props.setAbilityInSlot(this.slotSelected, null);
+                	}
                 }
             }
     	}
@@ -244,9 +266,20 @@ public class GUISelectHotbarAbilities extends GuiScreen
 		if(button.id >= 100)
 		{
 			if(this.slotSelected != -1)
-			{				
-				props.setAbilityInSlot(this.slotSelected, AbilityManager.instance().getAbilityByName(WyHelper.getFancyName(button.displayString)));
-            	//props.getAbilityFromSlot(this.slotSelected).setSlotId(this.slotSelected);
+			{		
+				boolean flag = true;
+				for(int i = 0; i < props.getAbilitiesInHotbar(); i++)
+				{
+					if( i != this.slotSelected && props.getAbilityFromSlot(i) != null && props.getAbilityFromSlot(i) == AbilityManager.instance().getAbilityByName(WyHelper.getFancyName(button.displayString)) )
+					{
+						flag = false;
+					}
+				}
+				if(flag)
+				{
+					props.setAbilityInSlot(this.slotSelected, AbilityManager.instance().getAbilityByName(WyHelper.getFancyName(button.displayString)));
+					button.enabled = false;
+				}
 			}
 			else
 			{

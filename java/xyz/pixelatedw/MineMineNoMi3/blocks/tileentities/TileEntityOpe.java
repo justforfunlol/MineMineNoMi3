@@ -47,7 +47,7 @@ public class TileEntityOpe extends TileEntity
 						{
 							if(abl.toLowerCase().equals("room"))
 							{
-								((Room)AbilityManager.instance().getAbilityByName(abl)).alterSpawnFlag(false);
+								((Room)AbilityManager.instance().getAbilityByName(abl)).alterSpawnFlag(true);
 							}
 						}
 					}		

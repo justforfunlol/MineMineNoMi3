@@ -11,12 +11,14 @@ import xyz.pixelatedw.MineMineNoMi3.api.abilities.AbilityRenderer;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.MobRenderer;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.marines.EntityMarine;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.marines.EntityMarineWithGun;
-import xyz.pixelatedw.MineMineNoMi3.entities.mobs.models.ModelMarine;
-import xyz.pixelatedw.MineMineNoMi3.entities.mobs.models.ModelMarineWithGun;
+import xyz.pixelatedw.MineMineNoMi3.entities.mobs.marines.models.ModelMarine;
+import xyz.pixelatedw.MineMineNoMi3.entities.mobs.marines.models.ModelMarineWithGun;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.pirates.EntityPirate;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.pirates.EntityPirateCaptain;
 import xyz.pixelatedw.MineMineNoMi3.entities.mobs.pirates.EntityPirateWithGun;
 import xyz.pixelatedw.MineMineNoMi3.entities.particles.EntityParticleFXTest;
+import xyz.pixelatedw.MineMineNoMi3.entities.zoan.EntityZoanBisonPower;
+import xyz.pixelatedw.MineMineNoMi3.entities.zoan.RenderZoanBisonPower;
 import xyz.pixelatedw.MineMineNoMi3.lists.ListDevilFruits;
 
 public class ClientProxy extends CommonProxy
@@ -44,7 +46,10 @@ public class ClientProxy extends CommonProxy
 		//Pirates
 		RenderingRegistry.registerEntityRenderingHandler(EntityPirate.class, new MobRenderer(new ModelMarine()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityPirateWithGun.class, new MobRenderer(new ModelMarineWithGun()));		
-		RenderingRegistry.registerEntityRenderingHandler(EntityPirateCaptain.class, new MobRenderer(new ModelMarine()));		
+		RenderingRegistry.registerEntityRenderingHandler(EntityPirateCaptain.class, new MobRenderer(new ModelMarine()));
+		
+		//Zoan
+		RenderingRegistry.registerEntityRenderingHandler(EntityZoanBisonPower.class, new RenderZoanBisonPower());
 	}
 	
 	public void generateTestParticles(Entity theEntity)

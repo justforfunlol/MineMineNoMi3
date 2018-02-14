@@ -65,8 +65,8 @@ public class MainMod
 		
 		proxy.init();
 		
-		if(WyDebug.isDebug())
-			WyHelper.generateLangFiles();
+		//if(WyDebug.isDebug())
+		//	WyHelper.generateLangFiles();
 	}
 	
 	@EventHandler
@@ -75,8 +75,8 @@ public class MainMod
 	@EventHandler
 	public void serverInit(FMLServerStartingEvent event)
 	{
-		if(WyDebug.isDebug())
-			event.registerServerCommand(new CommandAbility());
+		//if(WyDebug.isDebug())
+		//	event.registerServerCommand(new CommandAbility());
 		event.registerServerCommand(new CommandDoriki());
 		event.registerServerCommand(new CommandBelly());
 		event.registerServerCommand(new CommandBounty());

@@ -80,19 +80,19 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 		
 		props.setBoolean("isInCombatMode", this.isInCombatMode);		
 		
-		for(int i = 0; i < hotbarAbilities.length - 1; i++)
+		for(int i = 0; i < hotbarAbilities.length; i++)
 		{
 			props.setString("ability" + i, hotbarAbilities[i]);
 		}
-		for(int i = 0; i < devilFruitAbilities.length - 1; i++)
+		for(int i = 0; i < devilFruitAbilities.length; i++)
 		{
 			props.setString("available_DevilFruitAbilities" + i, devilFruitAbilities[i]);
 		}
-		for(int i = 0; i < racialAbilities.length - 1; i++)
+		for(int i = 0; i < racialAbilities.length; i++)
 		{
 			props.setString("available_RacialAbilities" + i, racialAbilities[i]);
 		}
-		for(int i = 0; i < hakiAbilities.length - 1; i++)
+		for(int i = 0; i < hakiAbilities.length; i++)
 		{
 			props.setString("available_HakiAbilities" + i, hakiAbilities[i]);
 		}
@@ -132,19 +132,19 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 		
 		this.isInCombatMode = props.getBoolean("isInCombatMode");
 		
-		for(int i = 0; i < hotbarAbilities.length - 1; i++)
+		for(int i = 0; i < hotbarAbilities.length; i++)
 		{
 			this.hotbarAbilities[i] = props.getString("ability" + i);
 		}
-		for(int i = 0; i < devilFruitAbilities.length - 1; i++)
+		for(int i = 0; i < devilFruitAbilities.length; i++)
 		{
 			devilFruitAbilities[i] = props.getString("available_DevilFruitAbilities" + i);
 		}
-		for(int i = 0; i < racialAbilities.length - 1; i++)
+		for(int i = 0; i < racialAbilities.length; i++)
 		{
 			racialAbilities[i] = props.getString("available_RacialAbilities" + i);
 		}
-		for(int i = 0; i < hakiAbilities.length - 1; i++)
+		for(int i = 0; i < hakiAbilities.length; i++)
 		{
 			this.hakiAbilities[i] = props.getString("available_HakiAbilities" + i);
 		}
@@ -195,7 +195,7 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 	}
 	public void clearDevilFruitAbilities()
 	{
-		for(int j = 0; j < this.devilFruitAbilities.length - 1; j++)
+		for(int j = 0; j < this.devilFruitAbilities.length; j++)
 			this.devilFruitAbilities[j] = "n/a";
 	}
 	//	#END REGION
@@ -246,7 +246,7 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 	
 	public void clearRacialAbilities()
 	{
-		for(int j = 0; j < this.racialAbilities.length - 1; j++)
+		for(int j = 0; j < this.racialAbilities.length; j++)
 			this.racialAbilities[j] = "n/a";
 	}
 	//	#END REGION
@@ -293,7 +293,7 @@ public class ExtendedEntityStats implements IExtendedEntityProperties
 	}
 	public void clearHakiAbilities()
 	{
-		for(int j = 0; j < this.hakiAbilities.length - 1; j++)
+		for(int j = 0; j < this.hakiAbilities.length; j++)
 			this.hakiAbilities[j] = "n/a";
 	}
 	//	#END REGION
