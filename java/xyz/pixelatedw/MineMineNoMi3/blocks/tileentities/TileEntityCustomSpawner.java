@@ -29,7 +29,7 @@ public class TileEntityCustomSpawner extends TileEntity
     	if(!WyHelper.getEntitiesNear(this, 30, EntityPlayer.class).isEmpty())
 		{			
 			EntityLivingBase elb = WyHelper.getEntitiesNear(this, 30, EntityPlayer.class).get(0);
-			//EntityList.createEntityByName(entityName, worldIn)
+
 			if(elb instanceof EntityPlayer)
 			{ 
 				EntityPlayer player = (EntityPlayer) elb;
@@ -37,7 +37,7 @@ public class TileEntityCustomSpawner extends TileEntity
 				if((this.spawnedEntities.size() < this.spawnLimit) && !this.worldObj.isRemote)
 				{						
 					EntityLivingBase newSpawn = (EntityLivingBase) EntityList.createEntityByName(this.entityToSpawn, this.worldObj);//new EntityPig(this.worldObj);
-					newSpawn.setLocationAndAngles(this.xCoord, this.yCoord, this.zCoord, 0, 0);
+					newSpawn.setLocationAndAngles(this.xCoord, this.yCoord, this.zCoord, 0, 0);	
 					this.worldObj.spawnEntityInWorld(newSpawn);
 					this.spawnedEntities.add(newSpawn);
 				}
