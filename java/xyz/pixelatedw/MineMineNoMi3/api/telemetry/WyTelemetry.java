@@ -60,7 +60,7 @@ public class WyTelemetry
 
 	private static void sendData(String data)
 	{
-		if(Minecraft.getMinecraft().isSnooperEnabled() && !data.isEmpty() && data != null)
+		if(!data.isEmpty() && data != null)
 		{
 			try 
 			{
