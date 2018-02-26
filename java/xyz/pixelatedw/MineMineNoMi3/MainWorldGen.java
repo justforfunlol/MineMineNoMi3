@@ -71,7 +71,7 @@ public class MainWorldGen implements IWorldGenerator
 			
 			if( (biome.biomeName.equals("Ocean") || biome.biomeName.equals("Deep Ocean") ) && checkForShipSpawn(s, world, posX, posY, posZ))
 			{
-				System.out.println("[MainWorldGen-73] " + s.getName() + " spawned at /tp @p " + posX + " " + posY + " " + posZ);
+				System.out.println("" + s.getName() + " spawned at /tp @p " + posX + " " + posY + " " + posZ);
 				if(s.getName().equals("marineShip") || s.getName().equals("pyrateShip"))		
 				{
 					WySchematicHelper.build(s, world, posX, posY, posZ);
@@ -94,7 +94,7 @@ public class MainWorldGen implements IWorldGenerator
 		{			
 			if(world.getBlock(posX + i, posY + j, posZ + k) == Blocks.air) //|| world.getBlock(posX, posY, posZ) == Blocks.water || world.getBlock(posX + i, posY + j, posZ + k) == Blocks.flowing_water)
 			{
-				if( world.getBlock(posX, posY - 2, posZ) == Blocks.water || world.getBlock(posX, posY - 2, posZ) == Blocks.flowing_water )
+				if( world.getBlock(posX, posY - 1, posZ) == Blocks.water || world.getBlock(posX, posY - 1, posZ) == Blocks.flowing_water )
 				{
 					if( world.getBlock(posX, posY + 2, posZ) == Blocks.air)
 						return true;

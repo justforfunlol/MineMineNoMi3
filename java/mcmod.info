@@ -4,5 +4,6 @@
   "version": "0.3.0",
   "mcversion": "1.7.10",
   "url": "http://pixelatedw.xyz/",
-  "authorList": ["Wynd", "FGpisces", "DragonLuch", "Kenryuu"]
+  "authorList": ["Wynd"],
+  "credits": "FGpisces, DragonLuch, Kenryuu, Abelatox"
 }]
